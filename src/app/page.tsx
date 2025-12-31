@@ -1,4 +1,4 @@
-import { HeroSection, OriginStorySection } from '@/components/sections'
+import { HeroSection, OriginStorySection, IdentityRevealSection } from '@/components/sections'
 
 export default function Home() {
   return (
@@ -9,11 +9,14 @@ export default function Home() {
       {/* Section 2: Origin Story - The Why */}
       <OriginStorySection />
 
+      {/* Section 3: Identity Reveal - What is EKATVA */}
+      <IdentityRevealSection />
+
       {/* Upcoming sections for Sprint 2:
-          - Identity Reveal (Section 3)
           - Proof of Life (Section 4)
           - Expansion Vision (Section 5)
       */}
     </main>
   )
 }
+
