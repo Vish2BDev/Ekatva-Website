@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Poppins, Instrument_Serif } from 'next/font/google'
+import { Navbar } from '@/components/layout'
 import './globals.css'
 
 const poppins = Poppins({
@@ -46,10 +47,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${instrumentSerif.variable}`}>
+    <html lang="en" className={`${poppins.variable} ${instrumentSerif.variable} scroll-smooth`}>
       <body className="font-sans">
+        <Navbar />
         {children}
       </body>
     </html>
   )
 }
+

@@ -1,20 +1,20 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { motion, useInView } from 'framer-motion'
+import CountUp from 'react-countup'
 import { cn } from '@/lib/utils'
 import { fadeInUp } from '@/lib/animations'
 import type { StatCardProps } from '@/types'
 
 /**
- * StatCard - Award-Winning Design (Phase 1)
- * Based on Expert Design Critique
+ * StatCard - Award-Winning Design (Phase 2)
  * 
- * Improvements:
- * - MASSIVE numbers (64px on desktop)
- * - Instrument Serif for numbers (font-serif)
+ * Features:
+ * - Animated counting numbers on scroll-in
+ * - Responsive serif font
  * - Glass background with gradient
- * - Hover lift effect
- * - Color-coded glow effects
+ * - Hover lift effect with glow
  */
 export default function StatCard({
     value,
@@ -22,6 +22,30 @@ export default function StatCard({
     color = 'teal',
     className
 }: StatCardProps) {
+    const ref = useRef(null)
+    const isInView = useInView(ref, { once: true, amount: 0.5 })
+    const [hasAnimated, setHasAnimated] = useState(false)
+
+    // Parse the value to extract number and suffix
+    const parseValue = (val: string): { number: number; suffix: string; prefix: string } => {
+        const match = val.match(/^([^\d]*)(\d[\d,]*)(.*)$/)
+        if (match) {
+            const prefix = match[1] || ''
+            const numStr = match[2].replace(/,/g, '')
+            const suffix = match[3] || ''
+            return { number: parseInt(numStr, 10), suffix, prefix }
+        }
+        return { number: 0, suffix: '', prefix: '' }
+    }
+
+    const { number, suffix, prefix } = parseValue(String(value))
+
+    useEffect(() => {
+        if (isInView && !hasAnimated) {
+            setHasAnimated(true)
+        }
+    }, [isInView, hasAnimated])
+
     const colorClasses = {
         teal: 'text-ekatva-teal',
         gold: 'text-unity-gold',
@@ -42,6 +66,7 @@ export default function StatCard({
 
     return (
         <motion.div
+            ref={ref}
             variants={fadeInUp}
             initial="initial"
             whileInView="animate"
@@ -52,7 +77,7 @@ export default function StatCard({
             }}
             viewport={{ once: true, amount: 0.5 }}
             className={cn(
-                'text-center p-6 md:p-8',
+                'text-center p-5 md:p-6',
                 'rounded-2xl md:rounded-3xl',
                 'border border-divider-gray/40',
                 borderHoverClasses[color],
@@ -68,19 +93,34 @@ export default function StatCard({
                 backdropFilter: 'blur(10px)',
             }}
         >
-            {/* Number - Responsive to prevent overflow */}
+            {/* Animated Number */}
             <p
                 className={cn(
-                    'font-serif text-3xl sm:text-4xl md:text-5xl font-bold mb-3 whitespace-nowrap',
+                    'font-serif text-3xl sm:text-4xl md:text-5xl font-bold mb-2 whitespace-nowrap',
                     colorClasses[color]
                 )}
                 style={glowStyles[color]}
             >
-                {value}
+                {prefix}
+                {hasAnimated ? (
+                    <CountUp
+                        end={number}
+                        duration={2.5}
+                        separator=","
+                        useEasing={true}
+                        easingFn={(t, b, c, d) => {
+                            // Custom easing: ease out cubic
+                            return c * (1 - Math.pow(1 - t / d, 3)) + b
+                        }}
+                    />
+                ) : (
+                    '0'
+                )}
+                {suffix}
             </p>
 
-            {/* Label - More contrast */}
-            <p className="text-xs md:text-sm text-light-gray uppercase tracking-[0.15em] font-semibold">
+            {/* Label */}
+            <p className="text-[10px] md:text-xs text-light-gray uppercase tracking-[0.12em] font-semibold">
                 {label}
             </p>
         </motion.div>
