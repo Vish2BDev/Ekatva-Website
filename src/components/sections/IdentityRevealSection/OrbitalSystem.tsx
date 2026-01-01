@@ -65,8 +65,12 @@ export default function OrbitalSystem() {
         <>
             <div
                 ref={containerRef}
-                className="relative w-full h-[600px] md:h-[700px] lg:h-[800px] overflow-hidden"
-                style={{ minHeight: '500px' }}
+                className="relative w-full overflow-hidden"
+                style={{
+                    height: 'clamp(450px, 55vh, 650px)',
+                    minHeight: '400px',
+                    maxHeight: '700px'
+                }}
             >
                 {/* Particle Field Background */}
                 <ParticleField count={60} />

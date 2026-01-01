@@ -3,6 +3,9 @@
 import { motion } from 'framer-motion'
 import { useOrbitalStore, PlanetState } from '@/store/orbitalStore'
 
+// Constant to prevent array recreation every frame
+const DASH_ANIMATION = [0, 16]
+
 /**
  * OrbitTrails - Elliptical orbit paths for planets
  * 
@@ -45,7 +48,7 @@ export default function OrbitTrails({ planets, centerX, centerY, scale }: OrbitT
                         initial={{ opacity: 0 }}
                         animate={{
                             opacity: 1,
-                            strokeDashoffset: isHovered ? 0 : [0, 16],
+                            strokeDashoffset: isHovered ? 0 : DASH_ANIMATION,
                         }}
                         transition={{
                             opacity: { duration: 0.5 },
