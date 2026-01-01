@@ -105,11 +105,23 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                         justifyContent: 'center',
                     }}
                 >
-                    <Icon
-                        size={size / 3}
-                        color={planet.appearance.baseColor}
-                        strokeWidth={1.5}
-                    />
+                    {Icon ? (
+                        <Icon
+                            size={size / 3}
+                            color={planet.appearance.baseColor}
+                            strokeWidth={1.5}
+                        />
+                    ) : (
+                        // Fallback if icon fails
+                        <div
+                            style={{
+                                width: size / 3,
+                                height: size / 3,
+                                backgroundColor: planet.appearance.baseColor,
+                                borderRadius: '50%'
+                            }}
+                        />
+                    )}
                 </div>
             </foreignObject>
 

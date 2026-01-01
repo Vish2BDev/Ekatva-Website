@@ -48,8 +48,8 @@ export default function OrbitalSystem() {
             if (containerRef.current) {
                 const rect = containerRef.current.getBoundingClientRect()
                 setContainerHeight(rect.height)
-                // Center vertically but leave space for legend at bottom
-                const centerY = Math.min(rect.height * 0.42, rect.height - 120)
+                // Simply use middle for centered positioning
+                const centerY = rect.height / 2
                 setCenterPosition(rect.width / 2, centerY)
             }
         }
