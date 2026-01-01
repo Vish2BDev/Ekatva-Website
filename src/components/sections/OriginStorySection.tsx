@@ -44,7 +44,7 @@ const memoryWallImages: MemoryWallImage[] = [
 const stats: Stat[] = [
     { value: '34,000+', label: 'Students Nationwide', color: 'teal' },
     { value: '10+', label: 'Cities Planned', color: 'gold' },
-    { value: '230', label: 'Hyderabad Attendees', color: 'white' },
+    { value: '600+', label: 'BS Students Reached', color: 'white' },
 ]
 
 /**
