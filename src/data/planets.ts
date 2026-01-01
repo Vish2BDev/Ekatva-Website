@@ -35,10 +35,10 @@ export const PLANET_CONFIGS: PlanetConfig[] = [
         name: 'Socio-Cultural',
         devanagari: 'सामाजिक-सांस्कृतिक',
         orbital: {
-            radius: 280,
+            radius: 200, // Reduced from 280 for better viewport fit
             angle: 0,
             speed: 0.15,
-            eccentricity: 0.2,
+            eccentricity: 0.15, // Reduced from 0.2
         },
         appearance: {
             baseColor: '#5CE6C9',
@@ -64,10 +64,10 @@ export const PLANET_CONFIGS: PlanetConfig[] = [
         name: 'Techno-Cultural',
         devanagari: 'तकनीकी-सांस्कृतिक',
         orbital: {
-            radius: 260, // Reduced from 320 to fit viewport
+            radius: 220, // Different from Sports for visual variety
             angle: (2 * Math.PI) / 3, // 120 degrees
             speed: 0.12,
-            eccentricity: 0.2, // Reduced for more circular orbit
+            eccentricity: 0.15, // Reduced for more circular orbit
         },
         appearance: {
             baseColor: '#FFCF96',
@@ -93,10 +93,10 @@ export const PLANET_CONFIGS: PlanetConfig[] = [
         name: 'Sports',
         devanagari: 'खेल',
         orbital: {
-            radius: 260,
+            radius: 200, // Reduced from 260
             angle: (4 * Math.PI) / 3, // 240 degrees
             speed: 0.18,
-            eccentricity: 0.15,
+            eccentricity: 0.1, // Reduced from 0.15
         },
         appearance: {
             baseColor: '#FF6B6B',
