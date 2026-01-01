@@ -115,23 +115,23 @@ export default function HeroSection() {
 
                 {/* 3-LAYER OVERLAY SYSTEM FOR TEXT READABILITY */}
                 <div className="absolute inset-0 z-10">
-                    {/* Layer 1: Base darkening (40% opacity) */}
+                    {/* Layer 1: Base darkening (30% opacity - lightened) */}
                     <div
                         className="absolute inset-0"
                         style={{
-                            background: 'rgba(5, 5, 5, 0.4)'
+                            background: 'rgba(5, 5, 5, 0.3)'
                         }}
                     />
 
-                    {/* Layer 2: Radial gradient spotlight (30-85% opacity) */}
+                    {/* Layer 2: Radial gradient spotlight (20-75% opacity - lightened) */}
                     <div
                         className="absolute inset-0"
                         style={{
                             background: `radial-gradient(
                                 ellipse 60% 60% at 50% 45%,
-                                rgba(31, 79, 89, 0.3) 0%,
-                                rgba(14, 47, 54, 0.6) 40%,
-                                rgba(5, 5, 5, 0.85) 100%
+                                rgba(31, 79, 89, 0.2) 0%,
+                                rgba(14, 47, 54, 0.5) 40%,
+                                rgba(5, 5, 5, 0.75) 100%
                             )`
                         }}
                     />
@@ -162,10 +162,10 @@ export default function HeroSection() {
                     variants={fadeIn}
                     initial="initial"
                     animate="animate"
-                    className="inline-block mb-10 px-6 py-3 rounded-full border border-unity-gold/50 bg-unity-gold/20 backdrop-blur-md"
+                    className="inline-block mb-8 px-6 py-2.5 rounded-full border border-ekatva-teal/40 bg-ekatva-teal/15 backdrop-blur-md"
                 >
-                    <span className="text-sm md:text-base text-unity-gold tracking-[0.3em] uppercase font-bold">
-                        The Legend Begins
+                    <span className="text-xs md:text-sm text-ekatva-teal tracking-[0.25em] uppercase font-bold">
+                        India&apos;s First Regional Fest Movement
                     </span>
                 </motion.div>
 
@@ -174,7 +174,7 @@ export default function HeroSection() {
                     variants={scaleIn}
                     initial="initial"
                     animate="animate"
-                    className="font-serif text-7xl sm:text-8xl md:text-9xl lg:text-[11rem] xl:text-[13rem] text-white leading-[1.05] mb-12"
+                    className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] xl:text-[10rem] text-white leading-[1.1] mb-10"
                 >
                     <motion.span
                         className="block"
@@ -197,19 +197,22 @@ export default function HeroSection() {
                     </motion.span>
                 </motion.h1>
 
-                {/* Subtitle - Larger & More Readable */}
+                {/* Subtitle - Forward-Looking & Movement-Focused */}
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
-                    className="text-white text-2xl md:text-3xl lg:text-4xl max-w-4xl mx-auto mb-16 font-light leading-relaxed"
+                    className="text-white text-xl md:text-2xl lg:text-3xl max-w-4xl mx-auto mb-16 font-light leading-relaxed"
                     style={{
                         textShadow: '0 2px 20px rgba(0, 0, 0, 0.8)'
                     }}
                 >
-                    The aftermovie is coming. Until then, explore the journey behind{' '}
+                    Uniting{' '}
+                    <span className="text-ekatva-teal font-semibold">34,000+ IITM BS students</span>{' '}
+                    across India.{' '}
                     <br className="hidden lg:block" />
-                    IITM BS&apos;s first-ever regional fest.
+                    Bringing the campus experience to{' '}
+                    <span className="text-unity-gold font-medium">your city</span>.{' '}
                 </motion.p>
 
                 {/* CTA Buttons - Larger & More Prominent */}
@@ -231,16 +234,18 @@ export default function HeroSection() {
                         <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:translate-x-full transition-transform duration-700 ease-out -translate-x-full" />
 
                         <span className="relative text-oneness-black font-bold tracking-widest uppercase text-base md:text-lg">
-                            Read The Story
+                            Discover EKATVA
                         </span>
                     </a>
 
-                    {/* Secondary CTA - Larger */}
+                    {/* Secondary CTA - Join Movement */}
                     <a
-                        href="#moments"
+                        href="https://www.instagram.com/ekatva_iitm/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="px-12 py-6 rounded-full border-2 border-white/40 text-white hover:bg-white/15 hover:border-white/60 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] transition-all text-base md:text-lg font-bold tracking-widest uppercase backdrop-blur-sm"
                     >
-                        View Gallery
+                        Join The Movement
                     </a>
                 </motion.div>
             </motion.div>
