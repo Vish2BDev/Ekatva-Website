@@ -13,20 +13,20 @@ import MotionTrail from './MotionTrail'
 import ParticleField from './ParticleField'
 
 /**
- * OrbitalSystem - Main container for the stellar orbit visualization
+ * OrbitalSystem - PRODUCTION VERSION
  * 
- * ENHANCEMENTS (10/10):
- * ✅ ARIA live regions for screen readers
- * ✅ Loading skeleton on first render
- * ✅ Mobile-optimized touch zones
- * ✅ Performance monitoring
- * ✅ Responsive center positioning
+ * Clean, polished orbital visualization
+ * - Proper SVG viewBox for visibility
+ * - No debug markers
+ * - ARIA accessible
+ * - Mobile optimized
  */
 export default function OrbitalSystem() {
     const containerRef = useRef<HTMLDivElement>(null)
     const [containerHeight, setContainerHeight] = useState(500)
     const [isLoading, setIsLoading] = useState(true)
     const [isMobile, setIsMobile] = useState(false)
+    const [svgDimensions, setSvgDimensions] = useState({ width: 1000, height: 700 })
 
     const {
         planets,
@@ -54,16 +54,22 @@ export default function OrbitalSystem() {
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
-    // Update center position on mount and resize
+    // Update center position and SVG dimensions
     useEffect(() => {
         const updateCenter = () => {
             if (containerRef.current) {
                 const rect = containerRef.current.getBoundingClientRect()
-                setContainerHeight(rect.height)
+                const height = rect.height
+                const width = rect.width
 
-                // FIXED: Use exact center instead of 42% offset
-                const centerY = rect.height / 2
-                setCenterPosition(rect.width / 2, centerY)
+                setContainerHeight(height)
+                setSvgDimensions({ width, height })
+
+                // Center position - EXACTLY in middle
+                const centerX = width / 2
+                const centerY = height / 2
+
+                setCenterPosition(centerX, centerY)
             }
         }
 
@@ -90,7 +96,7 @@ export default function OrbitalSystem() {
 
     return (
         <>
-            {/* ARIA LIVE REGION - Screen reader announcements */}
+            {/* ARIA LIVE REGION */}
             <div
                 role="status"
                 aria-live="polite"
@@ -111,7 +117,7 @@ export default function OrbitalSystem() {
                 style={{
                     height: 'clamp(450px, 60vh, 700px)',
                     minHeight: '400px',
-                    maxHeight: '750px'
+                    maxHeight: '750px',
                 }}
                 role="application"
                 aria-label="Interactive orbital system showing EKATVA's three expressions"
@@ -126,7 +132,6 @@ export default function OrbitalSystem() {
                             className="absolute inset-0 flex items-center justify-center bg-oneness-black/50 backdrop-blur-sm z-50"
                         >
                             <div className="flex flex-col items-center gap-4">
-                                {/* Pulsing center circle */}
                                 <motion.div
                                     animate={{
                                         scale: [1, 1.2, 1],
@@ -150,9 +155,13 @@ export default function OrbitalSystem() {
 
                 {/* Main SVG Viewport */}
                 <svg
-                    className="absolute inset-0 w-full h-full"
-                    style={{ willChange: 'transform' }}
-                    aria-label="EKATVA orbital system showing three pillars: Socio-Cultural, Techno-Cultural, and Sports"
+                    className="absolute inset-0"
+                    width={svgDimensions.width}
+                    height={svgDimensions.height}
+                    viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
+                    style={{ overflow: 'visible' }}
+                    preserveAspectRatio="xMidYMid meet"
+                    aria-label="EKATVA orbital system showing three pillars"
                     role="img"
                 >
                     {/* Orbit Trails */}
@@ -192,7 +201,7 @@ export default function OrbitalSystem() {
                     ))}
                 </svg>
 
-                {/* Instruction hint - positioned above legend */}
+                {/* Instruction hint */}
                 <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: isLoading ? 0 : 1 }}
@@ -206,7 +215,7 @@ export default function OrbitalSystem() {
                     }
                 </motion.p>
 
-                {/* Legend - at very bottom with better mobile spacing */}
+                {/* Legend */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: isLoading ? 0 : 1, y: 0 }}
@@ -238,18 +247,9 @@ export default function OrbitalSystem() {
                         </div>
                     ))}
                 </motion.div>
-
-                {/* Performance Monitor (Development Only) */}
-                {process.env.NODE_ENV === 'development' && (
-                    <div className="absolute top-2 left-2 text-[10px] text-mid-gray font-mono bg-oneness-black/80 px-2 py-1 rounded">
-                        <div>Scale: {orbitScale.toFixed(2)}</div>
-                        <div>Center: {centerPosition.x.toFixed(0)}, {centerPosition.y.toFixed(0)}</div>
-                        <div>Planets: {planets.length}</div>
-                    </div>
-                )}
             </div>
 
-            {/* Content Panel (outside SVG for proper z-index) */}
+            {/* Content Panel */}
             <ContentPanel />
         </>
     )
