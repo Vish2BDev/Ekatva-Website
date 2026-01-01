@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useOrbitalStore } from '@/store/orbitalStore'
 import { useOrbitalAnimation } from '@/hooks/useOrbitalAnimation'
@@ -25,6 +25,7 @@ import ParticleField from './ParticleField'
  */
 export default function OrbitalSystem() {
     const containerRef = useRef<HTMLDivElement>(null)
+    const [containerHeight, setContainerHeight] = useState(500)
 
     const {
         planets,
@@ -46,7 +47,10 @@ export default function OrbitalSystem() {
         const updateCenter = () => {
             if (containerRef.current) {
                 const rect = containerRef.current.getBoundingClientRect()
-                setCenterPosition(rect.width / 2, Math.min(rect.height / 2, 400))
+                setContainerHeight(rect.height)
+                // Center vertically but leave space for legend at bottom
+                const centerY = Math.min(rect.height * 0.42, rect.height - 120)
+                setCenterPosition(rect.width / 2, centerY)
             }
         }
 
@@ -67,9 +71,9 @@ export default function OrbitalSystem() {
                 ref={containerRef}
                 className="relative w-full overflow-hidden"
                 style={{
-                    height: 'clamp(450px, 55vh, 650px)',
-                    minHeight: '400px',
-                    maxHeight: '700px'
+                    height: 'clamp(500px, 60vh, 700px)',
+                    minHeight: '450px',
+                    maxHeight: '750px'
                 }}
             >
                 {/* Particle Field Background */}
@@ -119,12 +123,24 @@ export default function OrbitalSystem() {
                     ))}
                 </svg>
 
-                {/* Legend */}
+                {/* Instruction hint - positioned above legend */}
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5 }}
+                    className="absolute left-1/2 -translate-x-1/2 text-xs text-mid-gray text-center z-10 whitespace-nowrap"
+                    style={{ bottom: '56px' }}
+                >
+                    Click a planet to explore • Arrow keys to navigate • Press P to pause
+                </motion.p>
+
+                {/* Legend - at very bottom */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1, duration: 0.5 }}
-                    className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-6 md:gap-8"
+                    className="absolute left-1/2 -translate-x-1/2 flex gap-4 md:gap-6 z-10 bg-oneness-black/80 px-4 py-2 rounded-full backdrop-blur-sm"
+                    style={{ bottom: '16px' }}
                 >
                     {planets.map((planet, index) => (
                         <div
@@ -132,10 +148,10 @@ export default function OrbitalSystem() {
                             className="flex items-center gap-2 text-xs md:text-sm"
                         >
                             <div
-                                className="w-3 h-3 rounded-full"
+                                className="w-2.5 h-2.5 rounded-full"
                                 style={{ backgroundColor: planet.appearance.baseColor }}
                             />
-                            <span className="text-light-gray hidden sm:inline">
+                            <span className="text-light-gray hidden sm:inline text-xs">
                                 {planet.name}
                             </span>
                             <span className="text-mid-gray text-[10px] hidden md:inline">
@@ -144,16 +160,6 @@ export default function OrbitalSystem() {
                         </div>
                     ))}
                 </motion.div>
-
-                {/* Instruction hint */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.5 }}
-                    className="absolute bottom-20 left-1/2 -translate-x-1/2 text-xs text-mid-gray text-center"
-                >
-                    Click a planet to explore • Arrow keys to navigate • Press P to pause
-                </motion.p>
             </div>
 
             {/* Content Panel (outside SVG for proper z-index) */}
