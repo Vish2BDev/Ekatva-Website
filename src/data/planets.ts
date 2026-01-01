@@ -64,10 +64,10 @@ export const PLANET_CONFIGS: PlanetConfig[] = [
         name: 'Techno-Cultural',
         devanagari: 'तकनीकी-सांस्कृतिक',
         orbital: {
-            radius: 320,
+            radius: 260, // Reduced from 320 to fit viewport
             angle: (2 * Math.PI) / 3, // 120 degrees
             speed: 0.12,
-            eccentricity: 0.25,
+            eccentricity: 0.2, // Reduced for more circular orbit
         },
         appearance: {
             baseColor: '#FFCF96',
