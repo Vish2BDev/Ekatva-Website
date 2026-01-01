@@ -96,7 +96,7 @@ export default function StatCard({
             {/* Animated Number */}
             <p
                 className={cn(
-                    'font-serif text-3xl sm:text-4xl md:text-5xl font-bold mb-2 whitespace-nowrap',
+                    'font-serif text-3xl sm:text-4xl md:text-5xl font-bold mb-2',
                     colorClasses[color]
                 )}
                 style={glowStyles[color]}
