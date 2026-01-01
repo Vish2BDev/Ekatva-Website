@@ -4,25 +4,31 @@ import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useOrbitalStore } from '@/store/orbitalStore'
 import { useOrbitalAnimation } from '@/hooks/useOrbitalAnimation'
+import { useOrbitalInteraction } from '@/hooks/useOrbitalInteraction'
 import CenterCore from './CenterCore'
 import Planet from './Planet'
 import OrbitTrails from './OrbitTrails'
 import ContentPanel from './ContentPanel'
+import MotionTrail from './MotionTrail'
+import ParticleField from './ParticleField'
 
 /**
  * OrbitalSystem - Main container for the stellar orbit visualization
  * 
  * Features:
- * - SVG viewport with star background
+ * - SVG viewport with star/particle background
+ * - Motion trails behind planets
  * - Orbit trails, center core, planets
  * - Responsive sizing
  * - Content panel for details
+ * - Keyboard navigation
  */
 export default function OrbitalSystem() {
     const containerRef = useRef<HTMLDivElement>(null)
 
     const {
         planets,
+        hoveredPlanetId,
         orbitScale,
         planetSize,
         centerPosition,
@@ -31,6 +37,9 @@ export default function OrbitalSystem() {
 
     // Initialize animation
     useOrbitalAnimation()
+
+    // Initialize keyboard navigation
+    useOrbitalInteraction()
 
     // Update center position on mount and resize
     useEffect(() => {
@@ -59,42 +68,8 @@ export default function OrbitalSystem() {
                 className="relative w-full h-[600px] md:h-[700px] lg:h-[800px] overflow-hidden"
                 style={{ minHeight: '500px' }}
             >
-                {/* Star Background */}
-                <div className="absolute inset-0 overflow-hidden">
-                    {/* Static stars via CSS */}
-                    <div
-                        className="absolute inset-0"
-                        style={{
-                            background: `radial-gradient(
-                                circle at 50% 50%,
-                                rgba(92, 230, 201, 0.03) 0%,
-                                transparent 50%
-                            )`,
-                        }}
-                    />
-
-                    {/* Animated stars */}
-                    {Array.from({ length: 50 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute rounded-full bg-white"
-                            style={{
-                                width: Math.random() * 2 + 1,
-                                height: Math.random() * 2 + 1,
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                            }}
-                            animate={{
-                                opacity: [0.2, 0.8, 0.2],
-                            }}
-                            transition={{
-                                duration: Math.random() * 3 + 2,
-                                repeat: Infinity,
-                                delay: Math.random() * 2,
-                            }}
-                        />
-                    ))}
-                </div>
+                {/* Particle Field Background */}
+                <ParticleField count={60} />
 
                 {/* Main SVG Viewport */}
                 <svg
@@ -110,6 +85,17 @@ export default function OrbitalSystem() {
                         centerY={centerPosition.y}
                         scale={orbitScale}
                     />
+
+                    {/* Motion Trails (behind planets) */}
+                    {planets.map((planet) => (
+                        <MotionTrail
+                            key={`trail-${planet.id}`}
+                            planet={planet}
+                            centerX={centerPosition.x}
+                            centerY={centerPosition.y}
+                            isHovered={hoveredPlanetId === planet.id}
+                        />
+                    ))}
 
                     {/* Center Core */}
                     <CenterCore
@@ -136,7 +122,7 @@ export default function OrbitalSystem() {
                     transition={{ delay: 1, duration: 0.5 }}
                     className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-6 md:gap-8"
                 >
-                    {planets.map((planet) => (
+                    {planets.map((planet, index) => (
                         <div
                             key={planet.id}
                             className="flex items-center gap-2 text-xs md:text-sm"
@@ -147,6 +133,9 @@ export default function OrbitalSystem() {
                             />
                             <span className="text-light-gray hidden sm:inline">
                                 {planet.name}
+                            </span>
+                            <span className="text-mid-gray text-[10px] hidden md:inline">
+                                ({index + 1})
                             </span>
                         </div>
                     ))}
@@ -159,7 +148,7 @@ export default function OrbitalSystem() {
                     transition={{ delay: 1.5 }}
                     className="absolute bottom-20 left-1/2 -translate-x-1/2 text-xs text-mid-gray text-center"
                 >
-                    Click on a planet to explore
+                    Click a planet to explore • Arrow keys to navigate • Press P to pause
                 </motion.p>
             </div>
 

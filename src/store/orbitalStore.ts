@@ -2,12 +2,15 @@ import { create } from 'zustand'
 import { PLANET_CONFIGS, PlanetConfig } from '@/data/planets'
 import { calculateOrbitalPosition, OrbitalPosition } from '@/lib/orbital-math'
 
+const MAX_TRAIL_LENGTH = 20
+
 /**
- * Planet runtime state (extends config with position)
+ * Planet runtime state (extends config with position and history)
  */
 export interface PlanetState extends PlanetConfig {
     position: OrbitalPosition
     currentAngle: number
+    positionHistory: OrbitalPosition[]
 }
 
 /**
@@ -26,6 +29,7 @@ interface OrbitalState {
     viewMode: ViewMode
     activePlanetId: string | null
     hoveredPlanetId: string | null
+    focusedPlanetIndex: number
     isAnimating: boolean
 
     // Responsive
@@ -39,10 +43,15 @@ interface OrbitalState {
     updatePlanetAngle: (id: string, angle: number) => void
     updatePlanetPosition: (id: string, position: OrbitalPosition) => void
     setIsAnimating: (isAnimating: boolean) => void
+    toggleAnimation: () => void
     setOrbitScale: (scale: number) => void
     setPlanetSize: (size: number) => void
     setCenterPosition: (x: number, y: number) => void
     closePanel: () => void
+    focusNextPlanet: () => void
+    focusPrevPlanet: () => void
+    focusPlanetByIndex: (index: number) => void
+    activateFocusedPlanet: () => void
 }
 
 // Initialize planets with starting positions
@@ -57,6 +66,7 @@ const initializePlanets = (): PlanetState[] => {
             ...config,
             position,
             currentAngle: config.orbital.angle,
+            positionHistory: [position],
         }
     })
 }
@@ -64,12 +74,13 @@ const initializePlanets = (): PlanetState[] => {
 /**
  * Zustand store for orbital system state
  */
-export const useOrbitalStore = create<OrbitalState>((set) => ({
+export const useOrbitalStore = create<OrbitalState>((set, get) => ({
     // Initial state
     planets: initializePlanets(),
     viewMode: 'orbit',
     activePlanetId: null,
     hoveredPlanetId: null,
+    focusedPlanetIndex: 0,
     isAnimating: true,
     orbitScale: 1,
     planetSize: 100,
@@ -83,7 +94,6 @@ export const useOrbitalStore = create<OrbitalState>((set) => ({
         set({
             activePlanetId: id,
             viewMode: id ? 'planet-expanded' : 'orbit',
-            // Pause animation when panel is open
             isAnimating: !id,
         }),
 
@@ -97,12 +107,24 @@ export const useOrbitalStore = create<OrbitalState>((set) => ({
     updatePlanetPosition: (id, position) =>
         set((state) => ({
             planets: state.planets.map((p) =>
-                p.id === id ? { ...p, position } : p
+                p.id === id
+                    ? {
+                        ...p,
+                        position,
+                        positionHistory: [
+                            position,
+                            ...p.positionHistory.slice(0, MAX_TRAIL_LENGTH - 1),
+                        ],
+                    }
+                    : p
             ),
         })),
 
     setIsAnimating: (isAnimating) =>
         set({ isAnimating }),
+
+    toggleAnimation: () =>
+        set((state) => ({ isAnimating: !state.isAnimating })),
 
     setOrbitScale: (scale) =>
         set({ orbitScale: scale }),
@@ -119,4 +141,40 @@ export const useOrbitalStore = create<OrbitalState>((set) => ({
             viewMode: 'orbit',
             isAnimating: true,
         }),
+
+    focusNextPlanet: () =>
+        set((state) => ({
+            focusedPlanetIndex: (state.focusedPlanetIndex + 1) % state.planets.length,
+            hoveredPlanetId: state.planets[(state.focusedPlanetIndex + 1) % state.planets.length].id,
+        })),
+
+    focusPrevPlanet: () =>
+        set((state) => ({
+            focusedPlanetIndex:
+                state.focusedPlanetIndex === 0
+                    ? state.planets.length - 1
+                    : state.focusedPlanetIndex - 1,
+            hoveredPlanetId:
+                state.planets[
+                    state.focusedPlanetIndex === 0
+                        ? state.planets.length - 1
+                        : state.focusedPlanetIndex - 1
+                ].id,
+        })),
+
+    focusPlanetByIndex: (index) => {
+        const planets = get().planets
+        if (index >= 0 && index < planets.length) {
+            set({
+                focusedPlanetIndex: index,
+                hoveredPlanetId: planets[index].id,
+            })
+        }
+    },
+
+    activateFocusedPlanet: () => {
+        const { planets, focusedPlanetIndex, setActivePlanet } = get()
+        setActivePlanet(planets[focusedPlanetIndex].id)
+    },
 }))
+

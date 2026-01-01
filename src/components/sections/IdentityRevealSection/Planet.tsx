@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useOrbitalStore, PlanetState } from '@/store/orbitalStore'
+import { useTouchHandlers } from '@/hooks/useOrbitalInteraction'
 
 /**
  * Planet Component - Interactive orbital planet
@@ -21,6 +22,7 @@ interface PlanetProps {
 
 export default function Planet({ planet, centerX, centerY, size }: PlanetProps) {
     const { hoveredPlanetId, setHoveredPlanet, setActivePlanet } = useOrbitalStore()
+    const touchHandlers = useTouchHandlers(planet.id)
 
     const isHovered = hoveredPlanetId === planet.id
     const Icon = planet.appearance.icon
@@ -50,6 +52,7 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
             onMouseLeave={() => setHoveredPlanet(null)}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
+            {...touchHandlers}
             tabIndex={0}
             role="button"
             aria-label={`${planet.name} - ${planet.content.headline}. Click to learn more.`}
