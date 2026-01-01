@@ -3,6 +3,12 @@ import { Music, Cpu, Trophy, LucideIcon } from 'lucide-react'
 /**
  * Planet configuration for the orbital system
  * Each planet represents a pillar of EKATVA
+ * 
+ * OPTIMIZED RADII:
+ * - Reduced from 260-280px to 180-220px
+ * - Ensures all planets fit within 700px viewport
+ * - Different radii create visual variety
+ * - Eccentricity reduced for better control
  */
 export interface PlanetConfig {
     id: string
@@ -35,10 +41,10 @@ export const PLANET_CONFIGS: PlanetConfig[] = [
         name: 'Socio-Cultural',
         devanagari: 'सामाजिक-सांस्कृतिक',
         orbital: {
-            radius: 200, // Reduced from 280 for better viewport fit
+            radius: 180, // Reduced from 280 - inner orbit
             angle: 0,
             speed: 0.15,
-            eccentricity: 0.15, // Reduced from 0.2
+            eccentricity: 0.12, // Reduced from 0.2 - more circular
         },
         appearance: {
             baseColor: '#5CE6C9',
@@ -64,10 +70,10 @@ export const PLANET_CONFIGS: PlanetConfig[] = [
         name: 'Techno-Cultural',
         devanagari: 'तकनीकी-सांस्कृतिक',
         orbital: {
-            radius: 220, // Different from Sports for visual variety
+            radius: 220, // Outer orbit - different from others
             angle: (2 * Math.PI) / 3, // 120 degrees
             speed: 0.12,
-            eccentricity: 0.15, // Reduced for more circular orbit
+            eccentricity: 0.12, // Reduced from 0.25 - more circular
         },
         appearance: {
             baseColor: '#FFCF96',
@@ -93,10 +99,10 @@ export const PLANET_CONFIGS: PlanetConfig[] = [
         name: 'Sports',
         devanagari: 'खेल',
         orbital: {
-            radius: 200, // Reduced from 260
+            radius: 180, // Reduced from 260 - inner orbit (same as Socio)
             angle: (4 * Math.PI) / 3, // 240 degrees
             speed: 0.18,
-            eccentricity: 0.1, // Reduced from 0.15
+            eccentricity: 0.08, // Minimal eccentricity - nearly circular
         },
         appearance: {
             baseColor: '#FF6B6B',
