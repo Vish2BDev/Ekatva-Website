@@ -7,12 +7,10 @@ import { useOrbitalStore, PlanetState } from '@/store/orbitalStore'
 const DASH_ANIMATION = [0, 16]
 
 /**
- * OrbitTrails - Elliptical orbit paths for planets
+ * OrbitTrails - PRODUCTION VERSION
  * 
- * Features:
- * - Dashed stroke when not hovered
- * - Solid + colored when planet is hovered
- * - Animated dash offset for subtle movement
+ * Clean, polished orbital paths with maximum visibility
+ * No debug clutter, just beautiful orbits
  */
 interface OrbitTrailsProps {
     planets: PlanetState[]
@@ -35,35 +33,67 @@ export default function OrbitTrails({ planets, centerX, centerY, scale }: OrbitT
                 const ry = scaledRadius * (1 - planet.orbital.eccentricity * 0.3)
 
                 return (
-                    <motion.ellipse
-                        key={planet.id}
-                        cx={centerX}
-                        cy={centerY}
-                        rx={rx}
-                        ry={ry}
-                        fill="none"
-                        stroke={isHovered ? planet.appearance.baseColor : 'rgba(255, 255, 255, 0.1)'}
-                        strokeWidth={isHovered ? 2 : 1}
-                        strokeDasharray={isHovered ? '0' : '8 8'}
-                        initial={{ opacity: 0 }}
-                        animate={{
-                            opacity: 1,
-                            strokeDashoffset: isHovered ? 0 : DASH_ANIMATION,
-                        }}
-                        transition={{
-                            opacity: { duration: 0.5 },
-                            strokeDashoffset: {
-                                duration: 20,
-                                repeat: Infinity,
-                                ease: 'linear',
-                            },
-                        }}
-                        style={{
-                            filter: isHovered
-                                ? `drop-shadow(0 0 8px ${planet.appearance.glowColor})`
-                                : 'none',
-                        }}
-                    />
+                    <g key={planet.id}>
+                        {/* Outer glow layer - subtle atmosphere */}
+                        <motion.ellipse
+                            cx={centerX}
+                            cy={centerY}
+                            rx={rx + 6}
+                            ry={ry + 6}
+                            fill="none"
+                            stroke={planet.appearance.baseColor}
+                            strokeWidth={6}
+                            opacity={isHovered ? 0.2 : 0.08}
+                            style={{
+                                filter: 'blur(8px)',
+                                pointerEvents: 'none',
+                            }}
+                        />
+
+                        {/* Main orbit trail - BRIGHT and CLEAR */}
+                        <motion.ellipse
+                            cx={centerX}
+                            cy={centerY}
+                            rx={rx}
+                            ry={ry}
+                            fill="none"
+                            stroke={isHovered ? planet.appearance.baseColor : 'rgba(255, 255, 255, 0.6)'}
+                            strokeWidth={isHovered ? 4 : 3}
+                            strokeDasharray={isHovered ? '0' : '10 5'}
+                            initial={{ opacity: 0 }}
+                            animate={{
+                                opacity: 1,
+                                strokeDashoffset: isHovered ? 0 : DASH_ANIMATION,
+                            }}
+                            transition={{
+                                opacity: { duration: 0.5 },
+                                strokeDashoffset: {
+                                    duration: 20,
+                                    repeat: Infinity,
+                                    ease: 'linear',
+                                },
+                            }}
+                            style={{
+                                filter: isHovered
+                                    ? `drop-shadow(0 0 10px ${planet.appearance.glowColor})`
+                                    : 'drop-shadow(0 0 3px rgba(255, 255, 255, 0.3))',
+                                pointerEvents: 'none',
+                            }}
+                        />
+
+                        {/* Inner highlight - adds depth */}
+                        <motion.ellipse
+                            cx={centerX}
+                            cy={centerY}
+                            rx={rx - 1.5}
+                            ry={ry - 1.5}
+                            fill="none"
+                            stroke="rgba(255, 255, 255, 0.15)"
+                            strokeWidth={1}
+                            opacity={isHovered ? 0.5 : 0.2}
+                            style={{ pointerEvents: 'none' }}
+                        />
+                    </g>
                 )
             })}
         </g>

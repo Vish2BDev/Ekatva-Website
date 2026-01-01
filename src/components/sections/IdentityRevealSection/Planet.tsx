@@ -6,14 +6,13 @@ import { useTouchHandlers } from '@/hooks/useOrbitalInteraction'
 import { useState, useEffect } from 'react'
 
 /**
- * Planet Component - Interactive orbital planet
+ * Planet Component - PRODUCTION VERSION
  * 
- * ENHANCEMENTS (10/10):
- * ✅ Larger touch zones for mobile (44px minimum)
- * ✅ Haptic feedback on touch
- * ✅ Better ARIA labels
- * ✅ Focus management
- * ✅ Reduced animation on mobile for performance
+ * Clean, polished interactive planets
+ * - Larger touch zones for mobile
+ * - Haptic feedback
+ * - Beautiful glow effects
+ * - No debug markers
  */
 interface PlanetProps {
     planet: PlanetState
@@ -83,14 +82,14 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                 style={{ pointerEvents: 'all' }}
             />
 
-            {/* Outer glow - visible on hover */}
+            {/* Outer glow - always slightly visible, brighter on hover */}
             <motion.circle
                 cx={x}
                 cy={y}
                 r={size / 2 + planet.appearance.glowRadius}
                 fill={`url(#planetGlow-${planet.id})`}
                 initial={{ opacity: 0 }}
-                animate={{ opacity: isHovered ? 0.8 : 0.3 }}
+                animate={{ opacity: isHovered ? 0.8 : 0.4 }}
                 transition={{ duration: isMobile ? 0.2 : 0.3 }}
                 style={{ pointerEvents: 'none' }}
             />
@@ -100,9 +99,9 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                 cx={x}
                 cy={y}
                 r={size / 2}
-                fill="rgba(5, 5, 5, 0.8)"
+                fill="rgba(5, 5, 5, 0.9)"
                 stroke={planet.appearance.baseColor}
-                strokeWidth={isHovered ? 3 : 2}
+                strokeWidth={isHovered ? 4 : 3}
                 animate={{
                     scale: isHovered ? 1.1 : 1,
                 }}
@@ -110,8 +109,8 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                 style={{
                     transformOrigin: `${x}px ${y}px`,
                     filter: isHovered
-                        ? `drop-shadow(0 0 ${isMobile ? 12 : 20}px ${planet.appearance.glowColor})`
-                        : 'none',
+                        ? `drop-shadow(0 0 ${isMobile ? 15 : 25}px ${planet.appearance.glowColor})`
+                        : `drop-shadow(0 0 8px ${planet.appearance.glowColor})`,
                     pointerEvents: 'none',
                 }}
             />
@@ -137,7 +136,7 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                         <Icon
                             size={size / 3}
                             color={planet.appearance.baseColor}
-                            strokeWidth={1.5}
+                            strokeWidth={2}
                         />
                     ) : (
                         // Fallback if icon fails to load
@@ -153,7 +152,7 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                 </div>
             </foreignObject>
 
-            {/* Label - visible on hover (desktop) or always (mobile if space permits) */}
+            {/* Label - visible on hover or always on mobile */}
             <motion.g
                 initial={{ opacity: 0, y: 10 }}
                 animate={{
@@ -200,7 +199,7 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                     <stop
                         offset="0%"
                         stopColor={planet.appearance.baseColor}
-                        stopOpacity="0.4"
+                        stopOpacity="0.6"
                     />
                     <stop
                         offset="100%"
