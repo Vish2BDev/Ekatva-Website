@@ -1,4 +1,4 @@
-import { ElementType, HTMLAttributes, ReactNode } from 'react'
+import { ElementType, HTMLAttributes, ReactNode, createElement } from 'react'
 import { cn } from '@/lib/utils'
 
 interface TypographyProps extends HTMLAttributes<HTMLElement> {
@@ -14,12 +14,12 @@ export default function Typography({
     children,
     ...props
 }: TypographyProps) {
-    const Component = component ||
+    const tag = component ||
         (variant.startsWith('h1') ? 'h1' :
             variant === 'h2' ? 'h2' :
                 variant === 'h3' ? 'h3' : 'p')
 
-    const styles = {
+    const styles: Record<string, string> = {
         'h1-hero': 'text-5xl md:text-6xl font-bold leading-tight',
         'h1-section': 'text-4xl md:text-5xl font-bold leading-tight',
         'h2': 'text-2xl md:text-3xl font-semibold leading-snug',
@@ -29,12 +29,10 @@ export default function Typography({
         'cta': 'text-sm font-bold uppercase tracking-wide',
     }
 
-    return (
-        <Component
-            className={cn(styles[variant], className)}
-            {...props}
-        >
-            {children}
-        </Component>
+    return createElement(
+        tag,
+        { className: cn(styles[variant], className), ...props },
+        children
     )
 }
+

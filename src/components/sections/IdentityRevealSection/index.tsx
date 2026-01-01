@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import OrbitalSystem from './OrbitalSystem'
+import OrbitalSystemSelector from './OrbitalSystemSelector'
 
 /**
  * IdentityRevealSection - Main section wrapper
@@ -9,6 +9,8 @@ import OrbitalSystem from './OrbitalSystem'
  * Replaced static 3-card grid with orbital system
  * Shows Socio-Cultural, Techno-Cultural, and Sports
  * as planets orbiting central EKATVA core
+ * 
+ * Tier 4: Auto-detects WebGL support and renders 3D or 2D version
  */
 export default function IdentityRevealSection() {
     return (
@@ -52,8 +54,8 @@ export default function IdentityRevealSection() {
                 </motion.p>
             </div>
 
-            {/* Orbital System */}
-            <OrbitalSystem />
+            {/* Orbital System - Auto WebGL/SVG */}
+            <OrbitalSystemSelector />
 
             {/* Bottom gradient fade */}
             <div
