@@ -9,7 +9,7 @@ import OrbitalSystem from './OrbitalSystem'
 const WebGLOrbit = dynamic(() => import('./WebGLOrbit'), {
     ssr: false,
     loading: () => (
-        <div className="w-full h-[600px] md:h-[700px] lg:h-[800px] bg-oneness-black flex items-center justify-center">
+        <div className="w-full bg-oneness-black flex items-center justify-center" style={{ height: 'clamp(500px, 60vh, 700px)' }}>
             <div className="text-mid-gray text-sm">Loading 3D Experience...</div>
         </div>
     ),
@@ -20,35 +20,44 @@ const WebGLOrbit = dynamic(() => import('./WebGLOrbit'), {
  * 
  * Features:
  * - Auto-detects WebGL/GPU capabilities
- * - Falls back to SVG on unsupported devices
+ * - Defaults to SVG for stability (WebGL is enhancement)
  * - Shows renderer info in dev mode
  * - User can toggle between renderers
  */
 export default function OrbitalSystemSelector() {
-    const [renderer, setRenderer] = useState<'loading' | 'webgl' | 'svg'>('loading')
+    // Default to SVG for initial render to avoid blank page
+    const [renderer, setRenderer] = useState<'webgl' | 'svg'>('svg')
     const [capabilities, setCapabilities] = useState<WebGLCapabilities | null>(null)
     const [forceRenderer, setForceRenderer] = useState<'auto' | 'webgl' | 'svg'>('auto')
+    const [mounted, setMounted] = useState(false)
 
-    // Detect WebGL support on mount
+    // Detect WebGL support after initial mount (to avoid hydration issues)
     useEffect(() => {
-        const caps = detectWebGLSupport()
-        setCapabilities(caps)
+        setMounted(true)
 
-        // Determine which renderer to use
-        if (forceRenderer !== 'auto') {
-            setRenderer(forceRenderer)
-        } else {
-            setRenderer(shouldUseWebGL(caps) ? 'webgl' : 'svg')
-        }
+        // Small delay to ensure smooth initial render
+        const timer = setTimeout(() => {
+            const caps = detectWebGLSupport()
+            setCapabilities(caps)
+
+            // Only switch to WebGL if explicitly forced or auto-detected AND high performance
+            if (forceRenderer === 'webgl') {
+                setRenderer('webgl')
+            } else if (forceRenderer === 'svg') {
+                setRenderer('svg')
+            } else if (forceRenderer === 'auto' && shouldUseWebGL(caps) && caps.performanceScore === 'high') {
+                // Only auto-enable WebGL for high-performance GPUs
+                setRenderer('webgl')
+            }
+            // Otherwise keep SVG (default)
+        }, 100)
+
+        return () => clearTimeout(timer)
     }, [forceRenderer])
 
-    // Loading state
-    if (renderer === 'loading') {
-        return (
-            <div className="w-full h-[600px] md:h-[700px] lg:h-[800px] bg-oneness-black flex items-center justify-center">
-                <div className="text-mid-gray text-sm">Detecting capabilities...</div>
-            </div>
-        )
+    // Show SVG immediately on mount to prevent blank page
+    if (!mounted) {
+        return <OrbitalSystem />
     }
 
     return (
@@ -69,8 +78,8 @@ export default function OrbitalSystemSelector() {
                         <button
                             onClick={() => setForceRenderer('svg')}
                             className={`px-2 py-1 rounded text-[10px] ${renderer === 'svg'
-                                    ? 'bg-ekatva-teal text-oneness-black'
-                                    : 'bg-divider-gray/30 text-light-gray'
+                                ? 'bg-ekatva-teal text-oneness-black'
+                                : 'bg-divider-gray/30 text-light-gray'
                                 }`}
                         >
                             SVG
@@ -78,8 +87,8 @@ export default function OrbitalSystemSelector() {
                         <button
                             onClick={() => setForceRenderer('webgl')}
                             className={`px-2 py-1 rounded text-[10px] ${renderer === 'webgl'
-                                    ? 'bg-ekatva-teal text-oneness-black'
-                                    : 'bg-divider-gray/30 text-light-gray'
+                                ? 'bg-ekatva-teal text-oneness-black'
+                                : 'bg-divider-gray/30 text-light-gray'
                                 }`}
                         >
                             WebGL
@@ -87,8 +96,8 @@ export default function OrbitalSystemSelector() {
                         <button
                             onClick={() => setForceRenderer('auto')}
                             className={`px-2 py-1 rounded text-[10px] ${forceRenderer === 'auto'
-                                    ? 'bg-unity-gold text-oneness-black'
-                                    : 'bg-divider-gray/30 text-light-gray'
+                                ? 'bg-unity-gold text-oneness-black'
+                                : 'bg-divider-gray/30 text-light-gray'
                                 }`}
                         >
                             Auto
