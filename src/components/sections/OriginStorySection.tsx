@@ -95,7 +95,7 @@ export default function OriginStorySection() {
                                         src={image.src}
                                         alt={image.alt}
                                         fill
-                                        className="object-cover brightness-110 saturate-110 group-hover:scale-110 transition-transform duration-500"
+                                        className="object-cover brightness-125 saturate-[1.15] contrast-105 group-hover:scale-110 transition-transform duration-500"
                                         sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                                     />
 

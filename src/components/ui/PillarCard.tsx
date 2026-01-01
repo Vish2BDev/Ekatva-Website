@@ -31,24 +31,24 @@ export default function PillarCard({ icon: Icon, title, description, index }: Pi
             whileHover={{ y: -12, transition: { duration: 0.3, ease: 'easeOut' } }}
             className="group text-center cursor-default"
         >
-            {/* Icon Container */}
-            <div className="relative mx-auto w-20 h-20 md:w-24 md:h-24 mb-6">
+            {/* Icon Container - LARGER for impact */}
+            <div className="relative mx-auto w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 mb-8">
                 {/* Background glow */}
                 <div className="absolute inset-0 bg-ekatva-teal/20 rounded-full blur-2xl group-hover:bg-ekatva-teal/40 transition-all duration-500" />
 
                 {/* Icon circle */}
                 <div className="relative w-full h-full rounded-full bg-gradient-to-br from-ekatva-teal/10 to-accent-turquoise/10 border border-ekatva-teal/30 flex items-center justify-center group-hover:border-ekatva-teal group-hover:scale-110 transition-all duration-300">
-                    <Icon className="w-10 h-10 md:w-12 md:h-12 text-ekatva-teal" strokeWidth={1.5} />
+                    <Icon className="w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 text-ekatva-teal" strokeWidth={1.5} />
                 </div>
             </div>
 
-            {/* Title */}
-            <h3 className="text-xl md:text-2xl font-bold text-near-black mb-4 group-hover:text-ekatva-teal transition-colors duration-300">
+            {/* Title - LARGER */}
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-near-black mb-4 group-hover:text-ekatva-teal transition-colors duration-300">
                 {title}
             </h3>
 
-            {/* Description */}
-            <p className="text-base md:text-lg text-mid-gray leading-relaxed max-w-sm mx-auto">
+            {/* Description - LARGER */}
+            <p className="text-lg md:text-xl text-mid-gray leading-relaxed max-w-sm mx-auto">
                 {description}
             </p>
 
