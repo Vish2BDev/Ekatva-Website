@@ -16,13 +16,11 @@ import ParticleField from './ParticleField'
  * OrbitalSystem - PRODUCTION VERSION
  * 
  * Clean, polished orbital visualization
- * - Proper SVG viewBox for visibility
- * - No debug markers
- * - ARIA accessible
- * - Mobile optimized
+ * All fixes applied, no debug clutter
  */
 export default function OrbitalSystem() {
     const containerRef = useRef<HTMLDivElement>(null)
+    const svgRef = useRef<SVGSVGElement>(null)
     const [containerHeight, setContainerHeight] = useState(500)
     const [isLoading, setIsLoading] = useState(true)
     const [isMobile, setIsMobile] = useState(false)
@@ -65,7 +63,7 @@ export default function OrbitalSystem() {
                 setContainerHeight(height)
                 setSvgDimensions({ width, height })
 
-                // Center position - EXACTLY in middle
+                // Center position - exactly in middle
                 const centerX = width / 2
                 const centerY = height / 2
 
@@ -117,7 +115,7 @@ export default function OrbitalSystem() {
                 style={{
                     height: 'clamp(450px, 60vh, 700px)',
                     minHeight: '400px',
-                    maxHeight: '750px',
+                    maxHeight: '750px'
                 }}
                 role="application"
                 aria-label="Interactive orbital system showing EKATVA's three expressions"
@@ -153,18 +151,17 @@ export default function OrbitalSystem() {
                 {/* Particle Field Background */}
                 <ParticleField count={isMobile ? 30 : 60} />
 
-                {/* Main SVG Viewport */}
+                {/* Main SVG Viewport - CLEAN PRODUCTION */}
                 <svg
-                    className="absolute inset-0"
-                    width={svgDimensions.width}
-                    height={svgDimensions.height}
+                    ref={svgRef}
+                    className="absolute inset-0 w-full h-full"
                     viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
-                    style={{ overflow: 'visible' }}
                     preserveAspectRatio="xMidYMid meet"
+                    style={{ overflow: 'visible' }}
                     aria-label="EKATVA orbital system showing three pillars"
                     role="img"
                 >
-                    {/* Orbit Trails */}
+                    {/* Orbit Trails - CLEAN VERSION */}
                     <OrbitTrails
                         planets={planets}
                         centerX={centerPosition.x}
