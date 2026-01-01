@@ -46,13 +46,21 @@ export default function HeroSection() {
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
 
-    // Ensure video plays on mount
+    // Ensure video plays on mount with fallback
     useEffect(() => {
         if (videoRef.current && !isMobile) {
-            // Attempt to play video
-            videoRef.current.play().catch(err => {
-                console.log('Video autoplay prevented:', err)
-            })
+            const playVideo = async () => {
+                try {
+                    await videoRef.current?.play()
+                } catch (err) {
+                    console.log('Video autoplay prevented:', err)
+                    // Fallback: Play on user interaction
+                    document.addEventListener('click', () => {
+                        videoRef.current?.play()
+                    }, { once: true })
+                }
+            }
+            playVideo()
         }
     }, [isMobile])
 
@@ -86,14 +94,17 @@ export default function HeroSection() {
                         sizes="100vw"
                     />
                 ) : (
-                    /* Desktop: Optimized video */
+                    /* Desktop: Optimized video with subtle zoom animation */
                     <video
                         ref={videoRef}
                         autoPlay
                         muted
                         loop
                         playsInline
-                        className="absolute inset-0 w-full h-full object-cover"
+                        className="absolute inset-0 w-full h-full object-cover animate-video-zoom"
+                        style={{
+                            filter: 'brightness(1.1) contrast(1.05) saturate(1.1)'
+                        }}
                         poster="https://res.cloudinary.com/davgdsnyd/video/upload/so_0,f_jpg,q_auto:best/v1767244223/Last_Part_Edit_-_Highlights_720p_qcarfn.jpg"
                     >
                         {/* WebM for Chrome/Firefox (better compression) */}
