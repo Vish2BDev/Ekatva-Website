@@ -1,253 +1,200 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useState, useCallback, useEffect, Component, ReactNode } from 'react'
+import dynamic from 'next/dynamic'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useOrbitalStore } from '@/store/orbitalStore'
-import { useOrbitalAnimation } from '@/hooks/useOrbitalAnimation'
-import { useOrbitalInteraction } from '@/hooks/useOrbitalInteraction'
-import CenterCore from './CenterCore'
-import Planet from './Planet'
-import OrbitTrails from './OrbitTrails'
 import ContentPanel from './ContentPanel'
-import MotionTrail from './MotionTrail'
-import ParticleField from './ParticleField'
 
 /**
- * OrbitalSystem - PRODUCTION VERSION
+ * OrbitalSystem - WebGL-Only with Static Fallback
  * 
- * Clean, polished orbital visualization
- * All fixes applied, no debug clutter
+ * Architecture:
+ * ✅ Static fallback image as INITIAL state (no black flash)
+ * ✅ WebGL Canvas fades in when ready (onCreated)
+ * ✅ ErrorBoundary catches context loss / crashes
+ * ✅ DPR clamped to [1, 2] for mobile performance
+ * ✅ Graceful degradation: fallback stays visible on error
  */
-export default function OrbitalSystem() {
-    const containerRef = useRef<HTMLDivElement>(null)
-    const svgRef = useRef<SVGSVGElement>(null)
-    const [containerHeight, setContainerHeight] = useState(500)
-    const [isLoading, setIsLoading] = useState(true)
-    const [isMobile, setIsMobile] = useState(false)
-    const [svgDimensions, setSvgDimensions] = useState({ width: 1000, height: 700 })
 
-    const {
-        planets,
-        hoveredPlanetId,
-        activePlanetId,
-        orbitScale,
-        planetSize,
-        centerPosition,
-        setCenterPosition,
-    } = useOrbitalStore()
+// Dynamically import WebGLOrbitScene (client-side only, no SSR)
+const WebGLOrbitScene = dynamic(
+    () => import('./WebGLOrbitScene'),
+    {
+        ssr: false,
+        loading: () => null // Don't show loading, static image is visible
+    }
+)
 
-    // Initialize animation
-    useOrbitalAnimation()
+// ===========================================
+// INLINE ERROR BOUNDARY (No external dep)
+// ===========================================
+interface ErrorBoundaryState {
+    hasError: boolean
+}
 
-    // Initialize keyboard navigation
-    useOrbitalInteraction()
+interface ErrorBoundaryProps {
+    children: ReactNode
+    onError?: () => void
+    fallback?: ReactNode
+}
 
-    // Detect mobile
-    useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768)
+class WebGLErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+    constructor(props: ErrorBoundaryProps) {
+        super(props)
+        this.state = { hasError: false }
+    }
+
+    static getDerivedStateFromError(): ErrorBoundaryState {
+        return { hasError: true }
+    }
+
+    componentDidCatch(error: Error) {
+        console.warn('WebGL Error caught:', error.message)
+        this.props.onError?.()
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return this.props.fallback || null
         }
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-        return () => window.removeEventListener('resize', checkMobile)
+        return this.props.children
+    }
+}
+
+// ===========================================
+// WEBGL SUPPORT DETECTION
+// ===========================================
+const checkWebGLSupport = (): boolean => {
+    if (typeof window === 'undefined') return true // Optimistic SSR
+    try {
+        const canvas = document.createElement('canvas')
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
+        return !!gl
+    } catch {
+        return false
+    }
+}
+
+// ===========================================
+// MAIN COMPONENT
+// ===========================================
+export default function OrbitalSystem() {
+    const [isWebGLReady, setIsWebGLReady] = useState(false)
+    const [hasError, setHasError] = useState(false)
+    const [webGLSupported, setWebGLSupported] = useState(true) // Optimistic
+    const [mounted, setMounted] = useState(false)
+
+    // Check WebGL support on mount
+    useEffect(() => {
+        setMounted(true)
+        const supported = checkWebGLSupport()
+        setWebGLSupported(supported)
+        if (!supported) {
+            console.warn('WebGL not supported, showing static fallback')
+        }
     }, [])
 
-    // Update center position and SVG dimensions
-    useEffect(() => {
-        const updateCenter = () => {
-            if (containerRef.current) {
-                const rect = containerRef.current.getBoundingClientRect()
-                const height = rect.height
-                const width = rect.width
+    // Called when Canvas is ready
+    const handleWebGLReady = useCallback(() => {
+        setIsWebGLReady(true)
+    }, [])
 
-                setContainerHeight(height)
-                setSvgDimensions({ width, height })
+    // Called when ErrorBoundary catches
+    const handleError = useCallback(() => {
+        setHasError(true)
+    }, [])
 
-                // Center position - exactly in middle
-                const centerX = width / 2
-                const centerY = height / 2
+    // Should we attempt WebGL?
+    const shouldRenderWebGL = mounted && webGLSupported && !hasError
 
-                setCenterPosition(centerX, centerY)
-            }
-        }
-
-        updateCenter()
-
-        // Observe container size changes
-        const observer = new ResizeObserver(updateCenter)
-        if (containerRef.current) {
-            observer.observe(containerRef.current)
-        }
-
-        // Mark as loaded after first paint
-        const timer = setTimeout(() => setIsLoading(false), 100)
-
-        return () => {
-            observer.disconnect()
-            clearTimeout(timer)
-        }
-    }, [setCenterPosition])
-
-    // Get active planet for ARIA announcements
-    const activePlanet = planets.find(p => p.id === activePlanetId)
-    const hoveredPlanet = planets.find(p => p.id === hoveredPlanetId)
+    // Is fallback visible?
+    const showFallback = !isWebGLReady || hasError || !webGLSupported
 
     return (
-        <>
-            {/* ARIA LIVE REGION */}
-            <div
-                role="status"
-                aria-live="polite"
-                aria-atomic="true"
-                className="sr-only"
-            >
-                {hoveredPlanet && !activePlanetId && (
-                    `Hovering over ${hoveredPlanet.name}: ${hoveredPlanet.content.headline}`
-                )}
-                {activePlanet && (
-                    `Viewing ${activePlanet.name}. Press Escape to return to orbit view.`
-                )}
-            </div>
-
-            <div
-                ref={containerRef}
-                className="relative w-full overflow-hidden"
-                style={{
-                    height: 'clamp(450px, 60vh, 700px)',
-                    minHeight: '400px',
-                    maxHeight: '750px'
+        <div className="relative w-full h-full min-h-[450px] md:min-h-[500px] lg:min-h-[580px] overflow-hidden">
+            {/* LAYER 1: Static Fallback Image - Always rendered first */}
+            <motion.div
+                initial={{ opacity: 1 }}
+                animate={{
+                    opacity: showFallback ? 1 : 0,
+                    scale: showFallback ? 1 : 1.02
                 }}
-                role="application"
-                aria-label="Interactive orbital system showing EKATVA's three expressions"
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute inset-0 flex items-center justify-center"
+                style={{
+                    background: 'radial-gradient(ellipse at center, rgba(92, 230, 201, 0.05) 0%, transparent 70%)'
+                }}
             >
-                {/* Loading Skeleton */}
-                <AnimatePresence>
-                    {isLoading && (
-                        <motion.div
-                            initial={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="absolute inset-0 flex items-center justify-center bg-oneness-black/50 backdrop-blur-sm z-50"
-                        >
-                            <div className="flex flex-col items-center gap-4">
-                                <motion.div
-                                    animate={{
-                                        scale: [1, 1.2, 1],
-                                        opacity: [0.5, 1, 0.5],
-                                    }}
-                                    transition={{
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        ease: 'easeInOut',
-                                    }}
-                                    className="w-20 h-20 rounded-full border-2 border-ekatva-teal"
-                                />
-                                <p className="text-sm text-mid-gray">Initializing orbital system...</p>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                <motion.img
+                    src="/assets/images/orbit-fallback.png"
+                    alt="EKATVA Orbital System - Pillars of Unity, Imagination, and Glory"
+                    className="w-full h-full object-contain"
+                    animate={{
+                        scale: [1, 1.02, 1],
+                    }}
+                    transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                    }}
+                    style={{
+                        filter: 'brightness(0.9) saturate(1.1)',
+                    }}
+                />
 
-                {/* Particle Field Background */}
-                <ParticleField count={isMobile ? 30 : 60} />
+                {/* Fallback Legend */}
+                <div className="absolute bottom-6 right-6 flex flex-col gap-2 text-xs">
+                    <div className="flex items-center justify-end gap-2">
+                        <span className="text-light-gray text-[11px] uppercase tracking-wider">SOCIO</span>
+                        <div className="w-2.5 h-2.5 rounded-full bg-ekatva-teal" />
+                    </div>
+                    <div className="flex items-center justify-end gap-2">
+                        <span className="text-light-gray text-[11px] uppercase tracking-wider">TECHNO</span>
+                        <div className="w-2.5 h-2.5 rounded-full bg-unity-gold" />
+                    </div>
+                    <div className="flex items-center justify-end gap-2">
+                        <span className="text-light-gray text-[11px] uppercase tracking-wider">SPORTS</span>
+                        <div className="w-2.5 h-2.5 rounded-full bg-glory-coral" />
+                    </div>
+                </div>
+            </motion.div>
 
-                {/* Main SVG Viewport - CLEAN PRODUCTION */}
-                <svg
-                    ref={svgRef}
-                    className="absolute inset-0 w-full h-full"
-                    viewBox={`0 0 ${svgDimensions.width} ${svgDimensions.height}`}
-                    preserveAspectRatio="xMidYMid meet"
-                    style={{ overflow: 'visible' }}
-                    aria-label="EKATVA orbital system showing three pillars"
-                    role="img"
-                >
-                    {/* Orbit Trails - CLEAN VERSION */}
-                    <OrbitTrails
-                        planets={planets}
-                        centerX={centerPosition.x}
-                        centerY={centerPosition.y}
-                        scale={orbitScale}
-                    />
+            {/* LAYER 2: WebGL Canvas - Fades in when ready */}
+            <AnimatePresence>
+                {shouldRenderWebGL && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: isWebGLReady ? 1 : 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute inset-0"
+                    >
+                        <WebGLErrorBoundary onError={handleError} fallback={null}>
+                            <Suspense fallback={null}>
+                                <WebGLOrbitScene onReady={handleWebGLReady} />
+                            </Suspense>
+                        </WebGLErrorBoundary>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-                    {/* Motion Trails (behind planets) */}
-                    {!isMobile && planets.map((planet) => (
-                        <MotionTrail
-                            key={`trail-${planet.id}`}
-                            planet={planet}
-                            centerX={centerPosition.x}
-                            centerY={centerPosition.y}
-                            isHovered={hoveredPlanetId === planet.id}
-                        />
-                    ))}
+            {/* Loading indicator - only show if WebGL is loading */}
+            <AnimatePresence>
+                {mounted && shouldRenderWebGL && !isWebGLReady && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ delay: 2, duration: 0.3 }}
+                        className="absolute bottom-6 left-6 text-xs text-mid-gray"
+                    >
+                        Loading 3D experience...
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-                    {/* Center Core */}
-                    <CenterCore
-                        cx={centerPosition.x}
-                        cy={centerPosition.y}
-                    />
-
-                    {/* Planets */}
-                    {planets.map((planet) => (
-                        <Planet
-                            key={planet.id}
-                            planet={planet}
-                            centerX={centerPosition.x}
-                            centerY={centerPosition.y}
-                            size={planetSize}
-                        />
-                    ))}
-                </svg>
-
-                {/* Instruction hint */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: isLoading ? 0 : 1 }}
-                    transition={{ delay: 1.5 }}
-                    className="absolute left-1/2 -translate-x-1/2 text-xs text-mid-gray text-center z-10 px-4"
-                    style={{ bottom: isMobile ? '48px' : '56px' }}
-                >
-                    {isMobile
-                        ? 'Tap a planet to explore'
-                        : 'Click a planet to explore • Arrow keys to navigate • Press P to pause'
-                    }
-                </motion.p>
-
-                {/* Legend */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: isLoading ? 0 : 1, y: 0 }}
-                    transition={{ delay: 1, duration: 0.5 }}
-                    className="absolute left-1/2 -translate-x-1/2 flex gap-3 md:gap-6 z-10 bg-oneness-black/80 px-3 md:px-4 py-1.5 md:py-2 rounded-full backdrop-blur-sm"
-                    style={{ bottom: '12px' }}
-                    role="list"
-                    aria-label="Planet legend"
-                >
-                    {planets.map((planet, index) => (
-                        <div
-                            key={planet.id}
-                            className="flex items-center gap-1.5 md:gap-2 text-xs"
-                            role="listitem"
-                        >
-                            <div
-                                className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full flex-shrink-0"
-                                style={{ backgroundColor: planet.appearance.baseColor }}
-                                aria-hidden="true"
-                            />
-                            <span className="text-light-gray text-[10px] md:text-xs whitespace-nowrap">
-                                {isMobile ? planet.name.split('-')[0] : planet.name}
-                            </span>
-                            {!isMobile && (
-                                <span className="text-mid-gray text-[9px] md:text-[10px] hidden md:inline">
-                                    ({index + 1})
-                                </span>
-                            )}
-                        </div>
-                    ))}
-                </motion.div>
-            </div>
-
-            {/* Content Panel */}
+            {/* Content Panel for planet details (pops up on click) */}
             <ContentPanel />
-        </>
+        </div>
     )
 }

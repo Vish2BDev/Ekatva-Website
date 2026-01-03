@@ -14,6 +14,7 @@ import { useState, useEffect } from 'react'
  * ✅ Better ARIA labels
  * ✅ Enhanced visibility
  * ✅ NO debug clutter
+ * ✅ Fixed hydration: uses hasMounted to prevent SSR mismatch
  */
 interface PlanetProps {
     planet: PlanetState
@@ -25,6 +26,9 @@ interface PlanetProps {
 export default function Planet({ planet, centerX, centerY, size }: PlanetProps) {
     const { hoveredPlanetId, setHoveredPlanet, setActivePlanet } = useOrbitalStore()
     const touchHandlers = useTouchHandlers(planet.id)
+
+    // Hydration-safe state: always false during SSR and first render
+    const [hasMounted, setHasMounted] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
 
     const isHovered = hoveredPlanetId === planet.id
@@ -34,9 +38,16 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
     const x = centerX + planet.position.x
     const y = centerY + planet.position.y
 
-    // Detect mobile
+    // Mark as mounted after hydration, then detect mobile
     useEffect(() => {
+        setHasMounted(true)
         setIsMobile(window.innerWidth < 768)
+
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768)
+        }
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
     }, [])
 
     const handleClick = () => {
@@ -55,8 +66,11 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
         }
     }
 
+    // Use safe mobile flag that only activates after hydration
+    const effectiveIsMobile = hasMounted && isMobile
+
     // Touch zone size - larger on mobile (44px minimum for accessibility)
-    const touchZoneSize = isMobile ? Math.max(size * 1.5, 44) : size
+    const touchZoneSize = effectiveIsMobile ? Math.max(size * 1.5, 44) : size
 
     return (
         <motion.g
@@ -64,8 +78,8 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             style={{ cursor: 'pointer' }}
-            onMouseEnter={() => !isMobile && setHoveredPlanet(planet.id)}
-            onMouseLeave={() => !isMobile && setHoveredPlanet(null)}
+            onMouseEnter={() => !effectiveIsMobile && setHoveredPlanet(planet.id)}
+            onMouseLeave={() => !effectiveIsMobile && setHoveredPlanet(null)}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
             {...touchHandlers}
@@ -91,7 +105,7 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                 fill={`url(#planetGlow-${planet.id})`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: isHovered ? 0.8 : 0.3 }}
-                transition={{ duration: isMobile ? 0.2 : 0.3 }}
+                transition={{ duration: effectiveIsMobile ? 0.2 : 0.3 }}
                 style={{ pointerEvents: 'none' }}
             />
 
@@ -106,11 +120,11 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                 animate={{
                     scale: isHovered ? 1.1 : 1,
                 }}
-                transition={{ duration: isMobile ? 0.15 : 0.2 }}
+                transition={{ duration: effectiveIsMobile ? 0.15 : 0.2 }}
                 style={{
                     transformOrigin: `${x}px ${y}px`,
                     filter: isHovered
-                        ? `drop-shadow(0 0 ${isMobile ? 12 : 20}px ${planet.appearance.glowColor})`
+                        ? `drop-shadow(0 0 ${effectiveIsMobile ? 12 : 20}px ${planet.appearance.glowColor})`
                         : 'none',
                     pointerEvents: 'none',
                 }}
@@ -157,8 +171,8 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
             <motion.g
                 initial={{ opacity: 0, y: 10 }}
                 animate={{
-                    opacity: isHovered || isMobile ? 1 : 0,
-                    y: isHovered || isMobile ? 0 : 10,
+                    opacity: isHovered || effectiveIsMobile ? 1 : 0,
+                    y: isHovered || effectiveIsMobile ? 0 : 10,
                 }}
                 transition={{ duration: 0.2 }}
                 style={{ pointerEvents: 'none' }}
@@ -166,10 +180,10 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                 {/* Label background */}
                 <rect
                     x={x - 60}
-                    y={y + size / 2 + (isMobile ? 8 : 10)}
+                    y={y + size / 2 + (effectiveIsMobile ? 8 : 10)}
                     width={120}
-                    height={isMobile ? 24 : 28}
-                    rx={isMobile ? 12 : 14}
+                    height={effectiveIsMobile ? 24 : 28}
+                    rx={effectiveIsMobile ? 12 : 14}
                     fill="rgba(5, 5, 5, 0.95)"
                     stroke={planet.appearance.baseColor}
                     strokeWidth={1}
@@ -178,10 +192,10 @@ export default function Planet({ planet, centerX, centerY, size }: PlanetProps) 
                 {/* Label text */}
                 <text
                     x={x}
-                    y={y + size / 2 + (isMobile ? 22 : 28)}
+                    y={y + size / 2 + (effectiveIsMobile ? 22 : 28)}
                     textAnchor="middle"
                     fill={planet.appearance.baseColor}
-                    fontSize={isMobile ? '10' : '12'}
+                    fontSize={effectiveIsMobile ? '10' : '12'}
                     fontWeight="600"
                     letterSpacing="0.05em"
                 >
