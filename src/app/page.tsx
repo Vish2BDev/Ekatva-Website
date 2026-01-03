@@ -1,4 +1,4 @@
-import { HeroSection, OriginStorySection, IdentityRevealSection } from '@/components/sections'
+import { HeroSection, OriginStorySection, IdentityRevealSection, RippleSection } from '@/components/sections'
 
 export default function Home() {
   return (
@@ -12,11 +12,12 @@ export default function Home() {
       {/* Section 3: Identity Reveal - What is EKATVA */}
       <IdentityRevealSection />
 
+      {/* Section 4: The Ripple - Movement Expansion */}
+      <RippleSection />
+
       {/* Upcoming sections for Sprint 2:
-          - Proof of Life (Section 4)
-          - Expansion Vision (Section 5)
+          - Join Movement (Section 5)
       */}
     </main>
   )
 }
-
