@@ -88,6 +88,7 @@ export default function WebGLOrbitScene({ onReady }: WebGLOrbitSceneProps) {
                 background: 'transparent',
                 width: '100%',
                 height: '100%',
+                cursor: 'grab',
             }}
         >
             {/* Camera */}
