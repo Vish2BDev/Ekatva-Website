@@ -15,6 +15,14 @@ import {
 } from 'lucide-react'
 import './buildWithUs.css'
 
+// Import real form components
+import {
+    PartnerInterestForm,
+    TeamApplicationForm,
+    CityProposalForm,
+    CityInterestForm
+} from './forms'
+
 // ============================================================================
 // SECTION 5: BUILD WITH US - Premium Conversion Section
 // ============================================================================
@@ -263,7 +271,10 @@ export default function BuildWithUsSection() {
             <AnimatePresence>
                 {activeModal && (
                     <Modal onClose={closeModal}>
-                        <FormContent formType={activeModal} onClose={closeModal} />
+                        {activeModal === 'partner-interest' && <PartnerInterestForm onClose={closeModal} />}
+                        {activeModal === 'team-application' && <TeamApplicationForm onClose={closeModal} />}
+                        {activeModal === 'city-proposal' && <CityProposalForm onClose={closeModal} />}
+                        {activeModal === 'city-interest' && <CityInterestForm onClose={closeModal} />}
                     </Modal>
                 )}
             </AnimatePresence>
@@ -495,87 +506,9 @@ function Modal({ children, onClose }: ModalProps) {
                 onClick={(e) => e.stopPropagation()}
                 className="modal-content"
             >
-                {/* Close button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 p-2 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-white/5"
-                    aria-label="Close modal"
-                >
-                    <X size={24} />
-                </button>
                 {children}
             </motion.div>
         </motion.div>
     )
 }
 
-// ============================================================================
-// FORM CONTENT (Placeholder - Full forms in Phase 2)
-// ============================================================================
-
-interface FormContentProps {
-    formType: string
-    onClose: () => void
-}
-
-function FormContent({ formType, onClose }: FormContentProps) {
-    const formConfig: Record<string, { title: string; description: string; color: string }> = {
-        'partner-interest': {
-            title: 'Express Partnership Interest',
-            description: 'Quick form to let us know you\'re interested. We\'ll follow up with the full partnership pitch within 48 hours.',
-            color: '#FFCF96'
-        },
-        'team-application': {
-            title: 'Apply to Join Core Team',
-            description: 'Tell us about yourself, your skills, and which of our 7 departments excites you. This is a long-term commitment.',
-            color: '#5CE6C9'
-        },
-        'city-proposal': {
-            title: 'Propose Your City Edition',
-            description: 'GB members only. Submit your city proposal for review. We\'ll schedule a call within 48 hours.',
-            color: '#FFCF96'
-        },
-        'city-interest': {
-            title: 'Bring EKATVA to Your City',
-            description: 'Let us know your city needs EKATVA. We\'ll track interest and reach out when we have enough demand.',
-            color: '#5CE6C9'
-        }
-    }
-
-    const config = formConfig[formType] || formConfig['partner-interest']
-
-    return (
-        <div className="pt-4">
-            <div
-                className="w-12 h-1 rounded-full mb-6"
-                style={{ backgroundColor: config.color }}
-            />
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                {config.title}
-            </h3>
-            <p className="text-mid-gray mb-8 leading-relaxed">
-                {config.description}
-            </p>
-
-            {/* Placeholder for actual form */}
-            <div className="bg-white/5 border border-white/10 rounded-xl p-8 text-center">
-                <div className="w-16 h-16 rounded-full bg-ekatva-teal/20 flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle size={32} className="text-ekatva-teal" />
-                </div>
-                <p className="text-white/70 mb-2">
-                    Form coming soon!
-                </p>
-                <p className="text-sm text-white/50">
-                    This form will be fully functional in the next update.
-                </p>
-            </div>
-
-            <button
-                onClick={onClose}
-                className="w-full mt-6 py-3 text-white/60 hover:text-white transition-colors text-sm"
-            >
-                Close
-            </button>
-        </div>
-    )
-}
