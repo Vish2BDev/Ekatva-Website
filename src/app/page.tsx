@@ -1,4 +1,4 @@
-import { HeroSection, OriginStorySection, IdentityRevealSection, RippleSection } from '@/components/sections'
+import { HeroSection, OriginStorySection, IdentityRevealSection, RippleSection, BuildWithUsSection } from '@/components/sections'
 
 export default function Home() {
   return (
@@ -15,9 +15,9 @@ export default function Home() {
       {/* Section 4: The Ripple - Movement Expansion */}
       <RippleSection />
 
-      {/* Upcoming sections for Sprint 2:
-          - Join Movement (Section 5)
-      */}
+      {/* Section 5: Build With Us - Conversion */}
+      <BuildWithUsSection />
     </main>
   )
 }
+

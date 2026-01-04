@@ -8,8 +8,8 @@ import Image from 'next/image'
 const navLinks = [
     { href: '#origin-story', label: 'Our Story' },
     { href: '#identity-reveal', label: 'What is EKATVA' },
-    { href: '#moments', label: 'Gallery' },
-    { href: '#community', label: 'Community' },
+    { href: '#ripple', label: 'The Ripple' },
+    { href: '#build-with-us', label: 'Join Us' },
 ]
 
 /**
@@ -39,7 +39,7 @@ export default function Navbar() {
 
     // Track active section based on scroll position
     useEffect(() => {
-        const sections = ['hero', 'origin-story', 'identity-reveal', 'moments', 'community']
+        const sections = ['hero', 'origin-story', 'identity-reveal', 'ripple', 'build-with-us']
 
         const handleScroll = () => {
             const scrollPosition = window.scrollY + window.innerHeight / 3
