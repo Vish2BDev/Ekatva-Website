@@ -25,6 +25,7 @@ import {
     Rocket,
     PartyPopper
 } from 'lucide-react'
+import { HeroMarquee, CircularScroll } from './AboutHeroComponents'
 import './about.css'
 
 // ============================================================================
@@ -443,64 +444,22 @@ export default function AboutPageContent() {
                     </motion.p>
                 </div>
 
-                {/* Language Marquee */}
-                <motion.div
-                    className="language-marquee"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 1.5 }}
-                    aria-label="One word, many voices"
-                >
-                    <div className="marquee-track">
-                        <div className="marquee-content">
-                            {MARQUEE_SCRIPTS.map((lang, i) => (
-                                <span key={i} className="marquee-item" lang={lang.langCode}>
-                                    <span className="marquee-script">{lang.script}</span>
-                                    <span className="marquee-dot">•</span>
-                                </span>
-                            ))}
-                            {/* Duplicate for seamless loop */}
-                            {MARQUEE_SCRIPTS.map((lang, i) => (
-                                <span key={`dup-${i}`} className="marquee-item" lang={lang.langCode}>
-                                    <span className="marquee-script">{lang.script}</span>
-                                    <span className="marquee-dot">•</span>
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                </motion.div>
+                {/* Language Marquee - Anchored to Bottom via HeroMarquee */}
+                <HeroMarquee baseVelocity={-0.5} className="bottom-0 z-10 py-6 opacity-30 mix-blend-overlay pointer-events-none">
+                    {MARQUEE_SCRIPTS.map((lang, i) => (
+                        <span key={i} className="inline-flex items-center text-5xl md:text-7xl font-light tracking-wide text-white/40 px-8">
+                            <span className="font-serif italic">{lang.script}</span>
+                            <span className="ml-8 text-ekatva-teal/40">•</span>
+                        </span>
+                    ))}
+                </HeroMarquee>
 
-                {/* Scroll Indicator - Positioned cleanly below marquee */}
-                <motion.div
-                    className="scroll-indicator"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 2.5 }}
-                >
-                    <motion.div
-                        className="scroll-icon"
-                        animate={{ y: [0, 8, 0] }}
-                        transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: 'easeInOut',
-                        }}
-                    >
-                        <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <path d="M12 5v14M5 12l7 7 7-7" />
-                        </svg>
-                    </motion.div>
-                    <p className="scroll-text">Scroll to explore</p>
-                </motion.div>
+                {/* Scroll Indicator - Magnetic & Circular */}
+                <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-20 hidden md:block">
+                    <CircularScroll onClick={() => document.getElementById('belief')?.scrollIntoView({ behavior: 'smooth' })} />
+                </div>
+
+
             </section>
 
             {/* ================================================================

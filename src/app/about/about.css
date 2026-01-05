@@ -150,6 +150,8 @@
     line-height: 1.1;
     margin: 0 0 24px 0;
     text-shadow: 0 4px 20px rgba(255, 207, 150, 0.3);
+    mix-blend-mode: overlay;
+    /* Allows video colors to bleed through text */
 }
 
 /* Divider */
