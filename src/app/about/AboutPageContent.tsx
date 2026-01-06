@@ -26,6 +26,8 @@ import {
     PartyPopper
 } from 'lucide-react'
 import { HeroMarquee, CircularScroll } from './AboutHeroComponents'
+import { Section6A } from './Section6A'
+import { Section6B } from './Section6B'
 import './about.css'
 
 // ============================================================================
@@ -444,16 +446,6 @@ export default function AboutPageContent() {
                     </motion.p>
                 </div>
 
-                {/* Language Marquee - Anchored to Bottom via HeroMarquee */}
-                <HeroMarquee baseVelocity={-0.5} className="bottom-0 z-10 py-6 opacity-30 mix-blend-overlay pointer-events-none">
-                    {MARQUEE_SCRIPTS.map((lang, i) => (
-                        <span key={i} className="inline-flex items-center text-5xl md:text-7xl font-light tracking-wide text-white/40 px-8">
-                            <span className="font-serif italic">{lang.script}</span>
-                            <span className="ml-8 text-ekatva-teal/40">•</span>
-                        </span>
-                    ))}
-                </HeroMarquee>
-
                 {/* Scroll Indicator - Magnetic & Circular */}
                 <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-20 hidden md:block">
                     <CircularScroll onClick={() => document.getElementById('belief')?.scrollIntoView({ behavior: 'smooth' })} />
@@ -700,275 +692,16 @@ export default function AboutPageContent() {
                 </div>
             </section>
 
-            {/* ================================================================
-                SECTION 5: THE PROOF
-            ================================================================ */}
-            <section className="about-proof">
-                <div className="about-container">
-                    <motion.header
-                        className="about-section-header"
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: '-100px' }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h2 className="about-section-title">Hyderabad: When We Knew It Worked</h2>
-                        <p className="about-section-subtitle">
-                            Numbers tell you scale. Moments tell you truth.
-                        </p>
-                    </motion.header>
-
-                    {/* 3 Defining Moments */}
-                    <motion.h3
-                        className="story-subsection-title"
-                        style={{ textAlign: 'center', marginBottom: '2rem' }}
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                    >
-                        3 Defining Moments
-                    </motion.h3>
-
-                    <motion.div
-                        className="moments-grid"
-                        initial="initial"
-                        whileInView="animate"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
-                    >
-                        {MOMENTS.map((moment) => (
-                            <motion.div
-                                key={moment.number}
-                                className="moment-card"
-                                variants={fadeInUp}
-                                transition={{ duration: 0.5 }}
-                            >
-                                <div className="moment-image">
-                                    <div className="moment-number">{moment.number}</div>
-                                </div>
-                                <div className="moment-content">
-                                    <h4 className="moment-title">{moment.title}</h4>
-                                    <p className="moment-description">{moment.description}</p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-
-                    {/* Stats */}
-                    <motion.div
-                        className="stats-section"
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h3 className="stats-title">By The Numbers</h3>
-                        <div className="stats-grid">
-                            {STATS.map((stat, index) => (
-                                <motion.div
-                                    key={index}
-                                    className="stat-card"
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                                    whileHover={{ scale: 1.05 }}
-                                >
-                                    <span className="stat-number">{stat.number}</span>
-                                    <span className="stat-label">{stat.label}</span>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </motion.div>
-
-                    {/* Testimonials */}
-                    <motion.div
-                        className="testimonials-section"
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h3 className="testimonials-title">What Students Said</h3>
-                        <div className="testimonials-carousel">
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    key={testimonialIndex}
-                                    className="testimonial-card"
-                                    initial={{ opacity: 0, x: 50 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -50 }}
-                                    transition={{ duration: 0.4 }}
-                                >
-                                    <p className="testimonial-quote">
-                                        {TESTIMONIALS[testimonialIndex].quote}
-                                    </p>
-                                    <p className="testimonial-author">
-                                        {TESTIMONIALS[testimonialIndex].author}
-                                    </p>
-                                </motion.div>
-                            </AnimatePresence>
-
-                            <div className="carousel-nav">
-                                <button
-                                    className="carousel-btn"
-                                    onClick={prevTestimonial}
-                                    aria-label="Previous testimonial"
-                                >
-                                    <ChevronLeft size={20} />
-                                </button>
-
-                                <div className="carousel-dots">
-                                    {TESTIMONIALS.map((_, idx) => (
-                                        <button
-                                            key={idx}
-                                            className={`carousel-dot ${idx === testimonialIndex ? 'active' : ''}`}
-                                            onClick={() => setTestimonialIndex(idx)}
-                                            aria-label={`Go to testimonial ${idx + 1}`}
-                                        />
-                                    ))}
-                                </div>
-
-                                <button
-                                    className="carousel-btn"
-                                    onClick={nextTestimonial}
-                                    aria-label="Next testimonial"
-                                >
-                                    <ChevronRight size={20} />
-                                </button>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
 
             {/* ================================================================
-                SECTION 6: THE SYSTEM & VISION
+                SECTION 6: HOW EKATVA WORKS (REDESIGNED)
             ================================================================ */}
-            <section className="about-system">
-                <div className="about-container">
-                    <motion.header
-                        className="about-section-header"
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: '-100px' }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h2 className="about-section-title">How EKATVA Works & Where We're Going</h2>
-                        <p className="about-section-subtitle">
-                            A movement built to scale — from one city to ten.
-                        </p>
-                    </motion.header>
+            <Section6A />
 
-                    {/* Process */}
-                    <motion.div
-                        className="process-section"
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h3 className="process-title">How EKATVA Happens</h3>
-                        <p className="process-subtitle">An event ran by the community, for the community.</p>
-
-                        <div className="process-steps">
-                            {PROCESS_STEPS.map((step, index) => {
-                                const StepIcon = step.icon
-                                return (
-                                    <>
-                                        <motion.div
-                                            key={step.number}
-                                            className="process-step"
-                                            whileHover={{ y: -4 }}
-                                            transition={{ duration: 0.2 }}
-                                        >
-                                            <div className="process-icon">
-                                                <StepIcon size={24} />
-                                            </div>
-                                            <div className="process-step-number">{step.number}</div>
-                                            <h4>{step.title}</h4>
-                                            <p>{step.desc}</p>
-                                        </motion.div>
-                                        {index < PROCESS_STEPS.length - 1 && (
-                                            <div className="process-arrow">
-                                                <ChevronRight size={24} />
-                                            </div>
-                                        )}
-                                    </>
-                                )
-                            })}
-                        </div>
-                    </motion.div>
-
-                    {/* Cities */}
-                    <motion.div
-                        className="cities-section"
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h3 className="cities-title">Bringing EKATVA to 10 Cities</h3>
-
-                        <div className="cities-legend">
-                            <div className="legend-item">
-                                <CheckCircle size={16} style={{ color: '#5CE6C9' }} />
-                                <span>Completed</span>
-                            </div>
-                            <div className="legend-item">
-                                <Calendar size={16} style={{ color: '#FFCF96' }} />
-                                <span>Planned 2025</span>
-                            </div>
-                            <div className="legend-item">
-                                <MapPin size={16} style={{ color: 'rgba(255,255,255,0.4)' }} />
-                                <span>Future</span>
-                            </div>
-                        </div>
-
-                        <div className="cities-grid">
-                            {CITIES.map((city) => (
-                                <motion.div
-                                    key={city.name}
-                                    className={`city-card ${city.status}`}
-                                    whileHover={{ scale: 1.02 }}
-                                    transition={{ duration: 0.2 }}
-                                >
-                                    <div className="city-header">
-                                        {city.status === 'completed' && <CheckCircle size={18} style={{ color: '#5CE6C9' }} />}
-                                        {city.status === 'planned' && <Calendar size={18} style={{ color: '#FFCF96' }} />}
-                                        {city.status === 'future' && <MapPin size={18} style={{ color: 'rgba(255,255,255,0.4)' }} />}
-                                        <h4 className="city-name">{city.name}</h4>
-                                    </div>
-                                    <div className="city-meta">
-                                        {city.year}
-                                        {city.count && ` • ${city.count} students`}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </motion.div>
-
-                    {/* 2030 Dream */}
-                    <motion.div
-                        className="dream-section"
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <p className="dream-label">The 2030 Dream</p>
-                        <blockquote className="dream-quote">
-                            "If I strip everything down to one sentence:
-                            <span className="dream-highlight">
-                                I want EKATVA to be a reason someone chooses IIT Madras BS.
-                            </span>
-                            By 2030, every new BS student should know EKATVA before their first term —
-                            not as an add-on, but as a defining part of the student experience."
-                        </blockquote>
-                        <cite className="dream-attribution">— SVCAN, Co-Founder</cite>
-                    </motion.div>
-                </div>
-            </section>
+            {/* ================================================================
+                SECTION 6B: THE VISION (WHERE WE'RE GOING)
+            ================================================================ */}
+            <Section6B />
 
             {/* ================================================================
                 SECTION 7: JOIN THE MOVEMENT

@@ -1,0 +1,1069 @@
+/**
+ * SECTION 6A: HOW EKATVA WORKS - STYLESHEET
+ * 
+ * Components:
+ * - 5-Step Process (Horizontal row)
+ * - Flat Hierarchy Bento Grid
+ * - 7 Department Cards
+ */
+
+/* ============================================
+   SECTION BASE
+   ============================================ */
+
+.section-6a {
+    padding: 120px 0;
+    background: #050505;
+    position: relative;
+    overflow: hidden;
+}
+
+.section-6a .section-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 100px;
+    padding: 0 20px;
+}
+
+.section-6a .section-title {
+    font-size: 56px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.section-6a .section-subtitle {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ============================================
+   PART A: 5-STEP PROCESS
+   ============================================ */
+
+.process-section {
+    max-width: 1400px;
+    margin: 0 auto 140px;
+    padding: 0 20px;
+}
+
+.process-headline {
+    font-size: 40px;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+.process-subheadline {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 60px;
+    line-height: 1.6;
+}
+
+.process-steps {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(92, 230, 201, 0.3) transparent;
+}
+
+.process-steps::-webkit-scrollbar {
+    height: 8px;
+}
+
+.process-steps::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.process-steps::-webkit-scrollbar-thumb {
+    background: rgba(92, 230, 201, 0.3);
+    border-radius: 4px;
+}
+
+.process-step {
+    position: relative;
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 32px 24px;
+    transition: all 0.4s ease;
+}
+
+.process-step:hover {
+    transform: translateY(-8px);
+    border-color: var(--step-color);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.process-step.expanded {
+    flex: 0 0 400px;
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--step-color);
+}
+
+/* Step Number Badge */
+.step-number {
+    position: absolute;
+    top: -12px;
+    left: 24px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--step-color);
+    color: #050505;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Step Icon */
+.step-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+}
+
+.step-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Step Headline */
+.step-headline {
+    font-size: 20px;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+/* Short Description */
+.step-short-desc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Expand Button */
+.step-expand-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    color: var(--step-color);
+    font-size: 24px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.step-expand-btn:hover {
+    background: var(--step-color);
+    color: #050505;
+    transform: scale(1.1);
+    border-color: var(--step-color);
+}
+
+/* Expanded Content */
+.step-expanded-content {
+    overflow: hidden;
+    margin-top: 24px;
+}
+
+.expanded-inner {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.expanded-paragraph {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.7;
+    margin-bottom: 16px;
+    text-align: left;
+    white-space: pre-wrap;
+}
+
+.expanded-paragraph:last-child {
+    margin-bottom: 0;
+}
+
+/* Arrow Between Steps */
+.step-arrow {
+    position: absolute;
+    right: -28px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    color: var(--step-color);
+    opacity: 0.6;
+    animation: arrowPulse 2s ease-in-out infinite;
+}
+
+@keyframes arrowPulse {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        transform: translateY(-50%) translateX(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-50%) translateX(4px);
+    }
+}
+
+/* ============================================
+   PART B: ANIMATED NETWORK VISUALIZATION
+   ============================================ */
+
+.hierarchy-section {
+    max-width: 1400px;
+    margin: 0 auto 140px;
+    padding: 0 20px;
+}
+
+.hierarchy-headline {
+    font-size: 40px;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+.hierarchy-subheadline {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 60px;
+    line-height: 1.6;
+}
+
+/* Network Visualization Container */
+.network-visualization {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    margin-bottom: 40px;
+}
+
+/* SVG Canvas for connections */
+.network-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Connection Paths */
+.connection-path {
+    animation: dashFlow 2s linear infinite;
+}
+
+@keyframes dashFlow {
+    from {
+        stroke-dashoffset: 0;
+    }
+
+    to {
+        stroke-dashoffset: -24;
+    }
+}
+
+/* Particles */
+.particle {
+    filter: drop-shadow(0 0 6px currentColor);
+}
+
+/* Network Nodes Base */
+.network-node {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.network-node:hover {
+    transform: scale(1.1);
+}
+
+.network-node.active {
+    transform: scale(1.15);
+}
+
+/* Node Glow Effect */
+.node-glow {
+    position: absolute;
+    width: 140%;
+    height: 140%;
+    top: -20%;
+    left: -20%;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: nodeBreathing 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes nodeBreathing {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.5;
+    }
+}
+
+.node-glow-multi {
+    background: conic-gradient(from 0deg,
+            #FF6B9D,
+            #FF8C42,
+            #4A90E2,
+            #7ED321,
+            #9013FE,
+            #FFCF96,
+            #50E3C2,
+            #FF6B9D);
+    filter: blur(20px);
+}
+
+/* Node Circle */
+.node-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.node-circle-large {
+    width: 120px;
+    height: 120px;
+}
+
+/* Node Icons */
+.node-icon {
+    width: 40px;
+    height: 40px;
+}
+
+/* Node Label */
+.node-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Governing Body Node */
+.node-gb {
+    left: 15%;
+    top: 20%;
+    transform: translateX(-50%);
+}
+
+.node-gb .node-glow {
+    background: radial-gradient(circle, #5CE6C9 0%, transparent 70%);
+}
+
+.node-gb .node-circle {
+    background: rgba(92, 230, 201, 0.15);
+    border-color: #5CE6C9;
+    color: #5CE6C9;
+}
+
+.node-gb:hover .node-circle,
+.node-gb.active .node-circle {
+    background: rgba(92, 230, 201, 0.25);
+    box-shadow: 0 0 30px rgba(92, 230, 201, 0.5);
+}
+
+/* City Chapters Node */
+.node-city {
+    right: 15%;
+    top: 20%;
+    transform: translateX(50%);
+}
+
+.node-city .node-glow {
+    background: radial-gradient(circle, #FFCF96 0%, transparent 70%);
+}
+
+.node-city .node-circle {
+    background: rgba(255, 207, 150, 0.15);
+    border-color: #FFCF96;
+    color: #FFCF96;
+}
+
+.node-city:hover .node-circle,
+.node-city.active .node-circle {
+    background: rgba(255, 207, 150, 0.25);
+    box-shadow: 0 0 30px rgba(255, 207, 150, 0.5);
+}
+
+/* Departments Node */
+.node-departments {
+    left: 50%;
+    bottom: 10%;
+    transform: translateX(-50%);
+}
+
+.node-departments .node-circle {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.node-departments:hover .node-circle,
+.node-departments.active .node-circle {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.dept-count {
+    font-size: 32px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1;
+}
+
+.dept-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Flow Labels */
+.flow-label {
+    position: absolute;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.flow-label-peer {
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.flow-label-support {
+    bottom: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Summary Row - Flip Cards */
+.network-summary-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Flip Card Container */
+.flip-card {
+    height: 280px;
+    perspective: 1000px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.flip-card:hover {
+    transform: scale(1.02);
+}
+
+.flip-card.highlighted .flip-card-inner {
+    transform: scale(1.02);
+}
+
+/* Flip Card Inner (holds both faces) */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-style: preserve-3d;
+}
+
+/* Premium flip with scale effect - zoom out during flip, then back in */
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg) scale(0.95);
+    animation: flipWithScale 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes flipWithScale {
+    0% {
+        transform: rotateY(0deg) scale(1);
+    }
+
+    50% {
+        transform: rotateY(90deg) scale(0.92);
+    }
+
+    100% {
+        transform: rotateY(180deg) scale(1);
+    }
+}
+
+/* Both Faces Base */
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 16px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Front Face */
+.flip-card-front {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.flip-card:hover .flip-card-front {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+.flip-icon {
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 8px var(--flip-accent));
+}
+
+.flip-card-front h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+}
+
+.flip-card-front p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.flip-hint {
+    font-size: 12px;
+    color: var(--flip-accent);
+    font-weight: 500;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Back Face */
+.flip-card-back {
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid var(--flip-accent);
+    transform: rotateY(180deg);
+    justify-content: flex-start;
+    box-shadow: 0 0 30px color-mix(in srgb, var(--flip-accent) 20%, transparent);
+}
+
+.flip-card-back h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.flip-card-back ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+
+.flip-card-back li {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    padding: 8px 0;
+    padding-left: 16px;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.flip-card-back li:last-child {
+    border-bottom: none;
+}
+
+.flip-card-back li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--flip-accent);
+    font-weight: 700;
+}
+
+
+
+/* ============================================
+   PART C: 7 DEPARTMENTS
+   ============================================ */
+
+.departments-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.departments-headline {
+    font-size: 40px;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 60px;
+    line-height: 1.3;
+}
+
+.departments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+
+.department-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 4px solid var(--dept-accent-color);
+    border-radius: 16px;
+    padding: 32px 24px;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.department-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--dept-accent-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dept-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dept-icon svg {
+    width: 48px;
+    height: 48px;
+}
+
+.dept-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-align: center;
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+.dept-skills {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dept-skills li {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.7;
+    margin-bottom: 8px;
+    padding-left: 18px;
+    position: relative;
+}
+
+.dept-skills li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--dept-accent-color);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.dept-skills li:last-child {
+    margin-bottom: 0;
+}
+
+/* ============================================
+   RESPONSIVE: TABLET
+   ============================================ */
+
+@media (max-width: 1023px) {
+    .section-6a {
+        padding: 80px 0;
+    }
+
+    .section-6a .section-title {
+        font-size: 40px;
+    }
+
+    .section-6a .section-subtitle {
+        font-size: 18px;
+    }
+
+    .process-headline,
+    .hierarchy-headline,
+    .departments-headline {
+        font-size: 32px;
+    }
+
+    .process-subheadline,
+    .hierarchy-subheadline {
+        font-size: 16px;
+    }
+
+    .process-steps {
+        gap: 20px;
+    }
+
+    .process-step {
+        flex: 0 0 260px;
+    }
+
+    .process-step.expanded {
+        flex: 0 0 360px;
+    }
+
+    /* Network: Tablet adjustments */
+    .network-visualization {
+        height: 380px;
+    }
+
+    .node-gb {
+        left: 10%;
+    }
+
+    .node-city {
+        right: 10%;
+    }
+
+    .node-circle {
+        width: 80px;
+        height: 80px;
+    }
+
+    .node-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .node-label {
+        font-size: 12px;
+    }
+
+    .network-summary-row {
+        gap: 16px;
+    }
+
+    .departments-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+    }
+}
+
+/* ============================================
+   RESPONSIVE: MOBILE
+   ============================================ */
+
+@media (max-width: 767px) {
+    .section-6a {
+        padding: 60px 0;
+    }
+
+    .section-6a .section-header {
+        margin-bottom: 60px;
+    }
+
+    .section-6a .section-title {
+        font-size: 32px;
+    }
+
+    .section-6a .section-subtitle {
+        font-size: 16px;
+    }
+
+    .process-section,
+    .hierarchy-section,
+    .departments-section {
+        margin-bottom: 80px;
+    }
+
+    .process-headline,
+    .hierarchy-headline,
+    .departments-headline {
+        font-size: 28px;
+        margin-bottom: 40px;
+    }
+
+    .process-subheadline,
+    .hierarchy-subheadline {
+        font-size: 15px;
+        margin-bottom: 40px;
+    }
+
+    /* Process Steps: Mobile Carousel */
+    .process-steps {
+        gap: 16px;
+        padding: 0 20px 20px;
+        margin: 0 -20px;
+    }
+
+    .process-step {
+        flex: 0 0 280px;
+        padding: 28px 20px;
+    }
+
+    .process-step.expanded {
+        flex: 0 0 320px;
+    }
+
+    .step-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .step-headline {
+        font-size: 18px;
+    }
+
+    .step-short-desc {
+        font-size: 13px;
+    }
+
+    .step-arrow {
+        display: none;
+    }
+
+    /* Network Visualization: Mobile Layout */
+    .network-visualization {
+        height: auto;
+        min-height: 350px;
+        padding: 20px 0;
+    }
+
+    .network-svg {
+        display: none;
+    }
+
+    .network-node {
+        position: relative;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        margin: 0 auto 24px;
+    }
+
+    .node-circle {
+        width: 80px;
+        height: 80px;
+    }
+
+    .node-circle-large {
+        width: 100px;
+        height: 100px;
+    }
+
+    .dept-count {
+        font-size: 28px;
+    }
+
+    .flow-label {
+        display: none;
+    }
+
+    /* Flip Cards: Mobile */
+    .network-summary-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .flip-card {
+        height: 240px;
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+        padding: 20px;
+    }
+
+    .flip-card-front h4 {
+        font-size: 16px;
+    }
+
+    .flip-card-front p {
+        font-size: 13px;
+    }
+
+    .flip-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    .flip-card-back h4 {
+        font-size: 14px;
+    }
+
+    .flip-card-back li {
+        font-size: 12px;
+        padding: 6px 0;
+        padding-left: 14px;
+    }
+
+    /* Departments: Single Column */
+    .departments-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .department-card {
+        padding: 24px 20px;
+    }
+
+    .dept-name {
+        font-size: 18px;
+    }
+
+    .dept-skills li {
+        font-size: 13px;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY: REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .section-6a *,
+    .section-6a *::before,
+    .section-6a *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .step-arrow {
+        animation: none;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY: HIGH CONTRAST
+   ============================================ */
+
+@media (prefers-contrast: high) {
+
+    .process-step,
+    .bento-card,
+    .department-card {
+        border-width: 2px;
+        border-color: #FFFFFF;
+    }
+
+    .step-headline,
+    .card-title,
+    .dept-name {
+        color: #FFFFFF;
+    }
+
+    .step-short-desc,
+    .card-default-text,
+    .dept-skills li {
+        color: #FFFFFF;
+    }
+}
