@@ -349,7 +349,7 @@ export function Section6A({ className = '' }: Section6AProps) {
                     >
                         {/* SVG Canvas for connections */}
                         {/* SVG Canvas for connections */}
-                        <svg className="network-svg" viewBox="0 0 800 360" preserveAspectRatio="xMidYMid meet">
+                        <svg className="network-svg" viewBox="0 0 800 420" preserveAspectRatio="xMidYMid meet">
                             {/* MAIN ORBITAL ELLIPSE - Continuous loop that touches 7 Teams Node center */}
                             {/* Center: (400, 165), Ry: 125 => Bottom Y = 290 */}
                             <ellipse
