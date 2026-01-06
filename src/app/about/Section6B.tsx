@@ -163,32 +163,32 @@ const BLUEPRINT_PRINCIPLES = [
 // Evolution Areas
 const EVOLUTION_AREAS = [
     {
-        icon: '📚',
+        icon: <img src="/assets/icons/academic.png" alt="Academic Support" />,
         headline: 'Academic Support & Growth',
         text: 'Study groups, peer learning, knowledge sharing'
     },
     {
-        icon: '💼',
+        icon: <img src="/assets/icons/career.png" alt="Career Mentorship" />,
         headline: 'Career Exploration & Mentorship',
         text: 'Industry connections, guidance, opportunities'
     },
     {
-        icon: '🎭',
+        icon: <img src="/assets/icons/culture.png" alt="Cultural Platforms" />,
         headline: 'Cultural Expression Platforms',
         text: 'Showcasing talent across cities, building reach'
     },
     {
-        icon: '🤝',
+        icon: <img src="/assets/icons/belonging.png" alt="Emotional Belonging" />,
         headline: 'Emotional Belonging & Community',
         text: 'No student feels alone in their BS journey'
     },
     {
-        icon: '🚂',
+        icon: <img src="/assets/icons/travel.png" alt="Travel Coordination" />,
         headline: 'Travel Coordination (EKATVA Express)',
         text: '80 seats booked together — no one goes alone'
     },
     {
-        icon: '🌐',
+        icon: <img src="/assets/icons/connect.png" alt="Collaborative Projects" />,
         headline: 'Collaborative Projects Across Cities',
         text: 'Inter-city initiatives, shared learning, unity'
     }
@@ -350,80 +350,80 @@ export function Section6B({ className = '' }: Section6BProps) {
                 </div>
             </div>
 
-            {/* PART C: BEYOND FESTS */}
-            <div className="evolution-section">
-                <motion.h3
-                    className="evolution-headline"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+            {/* PART C+D: EVOLUTION + 2030 DREAM (UNIFIED) */}
+            <section className="evolution-and-dream-unified">
+                {/* LEFT: Evolution Areas */}
+                <motion.div
+                    className="evolution-column"
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                 >
-                    EKATVA Is Becoming More
-                </motion.h3>
-                <motion.p
-                    className="evolution-subheadline"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                >
-                    Not just regional fests. A broader student unity movement.
-                </motion.p>
+                    <h3 className="evolution-title-compact">EKATVA Is Becoming More</h3>
+                    <p className="evolution-intro-compact">
+                        Not just regional fests. A broader student unity movement.
+                    </p>
 
-                <div className="evolution-areas">
-                    {EVOLUTION_AREAS.map((area, index) => (
-                        <motion.div
-                            key={index}
-                            className="evolution-card"
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.05 }}
-                        >
-                            <span className="evolution-icon">{area.icon}</span>
-                            <h4 className="evolution-title">{area.headline}</h4>
-                            <p className="evolution-text">{area.text}</p>
-                        </motion.div>
-                    ))}
+                    <div className="evolution-grid-duo">
+                        {EVOLUTION_AREAS.map((area, index) => (
+                            <motion.div
+                                key={index}
+                                className="evolution-item-compact"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: index * 0.05 }}
+                            >
+                                <span className="evo-icon-mini">{area.icon}</span>
+                                <div className="evo-content">
+                                    <h4>{area.headline}</h4>
+                                    <p>{area.text}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
+
+                {/* RIGHT: 2030 Dream (Sticky) */}
+                <div className="dream-column">
+                    <motion.div
+                        className="dream-card-elevated"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <span className="dream-label-mini">The 2030 Dream</span>
+
+                        <blockquote className="dream-quote-compact">
+                            "I want EKATVA to be a reason someone
+                            <strong>chooses IIT Madras BS.</strong>"
+                        </blockquote>
+
+                        <cite className="dream-attribution-mini">— SVCAN, Co-Founder</cite>
+
+                        {/* Visual Accent */}
+                        <div className="dream-visual-accent" aria-hidden="true">
+                            <svg width="80" height="80" viewBox="0 0 80 80">
+                                <path
+                                    d="M40 0L42 38L80 40L42 42L40 80L38 42L0 40L38 38L40 0Z"
+                                    fill="#5CE6C9"
+                                    opacity="0.2"
+                                />
+                                <circle
+                                    cx="40"
+                                    cy="40"
+                                    r="12"
+                                    stroke="#5CE6C9"
+                                    strokeWidth="2"
+                                    fill="none"
+                                />
+                            </svg>
+                        </div>
+                    </motion.div>
                 </div>
-
-                <motion.p
-                    className="evolution-conclusion"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                >
-                    EKATVA is the reason students feel they belong.
-                </motion.p>
-            </div>
-
-            {/* PART D: THE 2030 DREAM */}
-            <motion.div
-                className="dream-2030-section"
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-            >
-                <div className="dream-content">
-                    <h3 className="dream-label">The 2030 Dream</h3>
-
-                    <blockquote className="dream-quote">
-                        "If I strip everything down to one sentence:
-                        <br />
-                        <br />
-                        <strong>I want EKATVA to be a reason someone chooses IIT Madras BS.</strong>
-                        <br />
-                        <br />
-                        By 2030, every new student should know EKATVA before their first term — not as an
-                        add-on, but as a defining part of the student experience."
-                    </blockquote>
-
-                    <cite className="dream-attribution">— SVCAN, Co-Founder</cite>
-                </div>
-            </motion.div>
+            </section>
         </section>
     );
 }

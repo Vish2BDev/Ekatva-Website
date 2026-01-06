@@ -1,10 +1,10 @@
 /**
- * SECTION 6A: HOW EKATVA WORKS - STYLESHEET
+ * SECTION 6A: HOW EKATVA WORKS - COMPACT LAYOUT
  * 
  * Components:
- * - 5-Step Process (Horizontal row)
- * - Flat Hierarchy Bento Grid
- * - 7 Department Cards
+ * - 5-Step Process (Vertical Accordion)
+ * - Flat Hierarchy Network + Flip Cards (Right Column)
+ * - 7 Department Cards (Compact Grid)
  */
 
 /* ============================================
@@ -12,7 +12,7 @@
    ============================================ */
 
 .section-6a {
-    padding: 60px 0;
+    padding: 60px 0 80px;
     background: #050505;
     position: relative;
     overflow: hidden;
@@ -21,20 +21,20 @@
 .section-6a .section-header {
     text-align: center;
     max-width: 900px;
-    margin: 0 auto 80px;
+    margin: 0 auto 48px;
     padding: 0 20px;
 }
 
 .section-6a .section-title {
-    font-size: 56px;
+    font-size: 48px;
     font-weight: 700;
     color: #FFFFFF;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     line-height: 1.2;
 }
 
 .section-6a .section-subtitle {
-    font-size: 20px;
+    font-size: 18px;
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.6;
     max-width: 700px;
@@ -42,81 +42,166 @@
 }
 
 /* ============================================
-   PART A: 5-STEP PROCESS
+   MAIN CONTENT: 2-COLUMN GRID LAYOUT
+   ============================================ */
+
+.process-and-structure-grid {
+    display: grid;
+    grid-template-columns: 0.42fr 0.58fr;
+    gap: 48px;
+    max-width: 1400px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+    align-items: start;
+}
+
+/* ============================================
+   PART A: 5-STEP PROCESS (Vertical Accordion)
    ============================================ */
 
 .process-section {
-    max-width: 1400px;
-    margin: 0 auto 100px;
-    padding: 0 20px;
+    display: block;
+    /* Grid positions this element */
 }
 
 .process-headline {
-    font-size: 40px;
+    font-size: 24px;
     font-weight: 600;
     color: #FFFFFF;
-    text-align: center;
-    margin-bottom: 16px;
+    text-align: left;
+    margin-bottom: 8px;
     line-height: 1.3;
 }
 
 .process-subheadline {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.7);
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 60px;
-    line-height: 1.6;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: left;
+    margin: 0 0 24px;
+    line-height: 1.5;
 }
 
+/* Vertical Accordion Stack */
 .process-steps {
     display: flex;
-    gap: 32px;
-    align-items: flex-start;
-    overflow-x: auto;
-    padding-bottom: 20px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(92, 230, 201, 0.3) transparent;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.process-steps::-webkit-scrollbar {
-    height: 8px;
-}
-
-.process-steps::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-}
-
-.process-steps::-webkit-scrollbar-thumb {
-    background: rgba(92, 230, 201, 0.3);
-    border-radius: 4px;
-}
-
+/* Individual Accordion Step */
 .process-step {
     position: relative;
-    flex: 0 0 280px;
-    scroll-snap-align: start;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    padding: 32px 24px;
-    transition: all 0.4s ease;
+    border-left: 3px solid var(--step-color);
+    border-radius: 12px;
+    padding: 16px 16px 16px 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .process-step:hover {
-    transform: translateY(-8px);
-    border-color: var(--step-color);
     background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.12);
+    border-left-color: var(--step-color);
 }
 
 .process-step.expanded {
-    flex: 0 0 400px;
     background: rgba(255, 255, 255, 0.06);
     border-color: var(--step-color);
+    border-left-width: 4px;
 }
+
+/* Accordion Header (Number + Icon + Title + Expand) */
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Step Number Badge - Compact */
+.step-number {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--step-color);
+    color: #050505;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px;
+}
+
+/* Step Icon - Compact */
+.step-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.85;
+}
+
+.step-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Step Content */
+.step-content {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Step Headline */
+.step-headline {
+    font-size: 15px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin: 0 0 4px;
+    line-height: 1.3;
+}
+
+/* Short Description */
+.step-short-desc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Expand Button - Compact */
+.step-expand-btn {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    color: var(--step-color);
+    font-size: 18px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.step-expand-btn:hover {
+    background: var(--step-color);
+    color: #050505;
+    border-color: var(--step-color);
+}
+
+
 
 /* Step Number Badge */
 .step-number {
@@ -250,30 +335,29 @@
 }
 
 /* ============================================
-   PART B: ANIMATED NETWORK VISUALIZATION
+   PART B: NETWORK VISUALIZATION (Right Column)
    ============================================ */
 
 .hierarchy-section {
-    max-width: 1400px;
-    margin: 0 auto 100px;
-    padding: 0 20px;
+    display: block;
+    /* Grid positions this element */
 }
 
 .hierarchy-headline {
-    font-size: 40px;
+    font-size: 24px;
     font-weight: 600;
     color: #FFFFFF;
-    text-align: center;
-    margin-bottom: 16px;
+    text-align: left;
+    margin-bottom: 8px;
     line-height: 1.3;
 }
 
 .hierarchy-subheadline {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.7);
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 60px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: left;
+    margin: 0 0 24px;
+
     line-height: 1.6;
 }
 
@@ -281,8 +365,8 @@
 .network-visualization {
     position: relative;
     width: 100%;
-    height: 450px;
-    margin-bottom: 40px;
+    height: 380px;
+    margin-bottom: 24px;
 }
 
 /* SVG Canvas for connections */
@@ -527,7 +611,7 @@
 
 /* Flip Card Container */
 .flip-card {
-    height: 320px;
+    height: 280px;
     perspective: 1000px;
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -707,77 +791,96 @@
 .departments-section {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
 }
 
 .departments-headline {
-    font-size: 40px;
+    font-size: 24px;
     font-weight: 600;
     color: #FFFFFF;
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 32px;
     line-height: 1.3;
 }
 
+/* Compact 7-Column Grid */
 .departments-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 16px;
 }
 
+/* Compact Department Card */
 .department-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-left: 4px solid var(--dept-accent-color);
-    border-radius: 16px;
-    padding: 32px 24px;
+    border-top: 3px solid var(--dept-accent-color);
+    border-radius: 12px;
+    padding: 20px 12px;
+    text-align: center;
     transition: all 0.3s ease;
-    cursor: default;
+    cursor: pointer;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .department-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
     border-color: var(--dept-accent-color);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 .dept-icon {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 20px;
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 12px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .dept-icon svg {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
 }
 
 .dept-name {
-    font-size: 20px;
+    font-size: 13px;
     font-weight: 600;
     color: #FFFFFF;
     text-align: center;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     line-height: 1.3;
 }
 
+/* Skills - Hidden by default, reveal on hover */
 .dept-skills {
     list-style: none;
     padding: 0;
     margin: 0;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.35s ease;
+}
+
+.department-card:hover .dept-skills {
+    max-height: 150px;
+    opacity: 1;
+    margin-top: 8px;
 }
 
 .dept-skills li {
-    font-size: 14px;
+    font-size: 11px;
     color: rgba(255, 255, 255, 0.75);
-    line-height: 1.7;
-    margin-bottom: 8px;
-    padding-left: 18px;
+    line-height: 1.5;
+    margin-bottom: 4px;
+    padding-left: 12px;
     position: relative;
+    text-align: left;
 }
 
 .dept-skills li::before {
@@ -786,7 +889,20 @@
     left: 0;
     color: var(--dept-accent-color);
     font-weight: 700;
-    font-size: 16px;
+    font-size: 12px;
+}
+
+/* Hover hint for departments */
+.dept-hover-hint {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 4px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.department-card:hover .dept-hover-hint {
+    opacity: 0;
 }
 
 .dept-skills li:last-child {
@@ -798,6 +914,18 @@
    ============================================ */
 
 @media (max-width: 1023px) {
+
+    /* Collapse 2-column grid to single column */
+    .process-and-structure-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    /* Departments: 4 columns on tablet */
+    .departments-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
     .section-6a {
         padding: 80px 0;
     }

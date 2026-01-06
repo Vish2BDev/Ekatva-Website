@@ -322,162 +322,235 @@
 }
 
 /* ============================================
-   PART C: BEYOND FESTS (EVOLUTION)
+   PART C+D: EVOLUTION + 2030 DREAM (UNIFIED)
    ============================================ */
 
-.evolution-section {
-    max-width: 1400px;
-    margin: 0 auto 100px;
-    padding: 0 20px;
-}
-
-.evolution-headline {
-    font-size: 40px;
-    font-weight: 600;
-    color: #FFFFFF;
-    text-align: center;
-    margin-bottom: 16px;
-    line-height: 1.3;
-}
-
-.evolution-subheadline {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.7);
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto 60px;
-    line-height: 1.6;
-}
-
-.evolution-areas {
+.evolution-and-dream-unified {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    margin-bottom: 60px;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 60px;
+    align-items: start;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 80px 24px;
 }
 
-.evolution-card {
-    padding: 32px 28px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.evolution-card:hover {
-    transform: translateY(-8px);
-    background: rgba(92, 230, 201, 0.05);
-    border-color: rgba(92, 230, 201, 0.2);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-}
-
-.evolution-icon {
-    font-size: 48px;
-    display: block;
-    margin-bottom: 20px;
-}
-
-.evolution-title {
-    font-size: 18px;
+/* LEFT: Evolution Column */
+.evolution-column .evolution-title-compact {
+    font-size: 36px;
     font-weight: 600;
     color: #FFFFFF;
     margin-bottom: 12px;
-    line-height: 1.3;
+    line-height: 1.2;
 }
 
-.evolution-text {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.75);
+.evolution-column .evolution-intro-compact {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 32px;
     line-height: 1.6;
 }
 
-.evolution-conclusion {
-    font-size: 24px;
-    font-weight: 500;
-    color: #5CE6C9;
-    text-align: center;
-    font-style: italic;
-    line-height: 1.5;
+.evolution-grid-duo {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
 }
 
-/* ============================================
-   PART D: THE 2030 DREAM
-   ============================================ */
-
-.dream-2030-section {
-    margin: 120px 20px 0 20px;
-    padding: 100px 60px;
-    background: radial-gradient(circle at center,
-            rgba(92, 230, 201, 0.12) 0%,
-            rgba(255, 207, 150, 0.08) 50%,
-            transparent 100%);
-    border-radius: 24px;
+/* Glass & Light Card Style */
+.evolution-item-compact {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(92, 230, 201, 0.15);
+    border-radius: 16px;
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    max-width: 1400px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
-.dream-2030-section::before {
+.evolution-item-compact::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-        repeating-linear-gradient(90deg,
-            rgba(255, 255, 255, 0.02) 0px,
-            rgba(255, 255, 255, 0.02) 1px,
-            transparent 1px,
-            transparent 40px);
-    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            rgba(92, 230, 201, 0.1) 0%,
+            transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
-.dream-content {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: center;
-    position: relative;
-    z-index: 1;
+.evolution-item-compact:hover {
+    transform: translateY(-4px) scale(1.02);
+    border-color: rgba(92, 230, 201, 0.4);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(92, 230, 201, 0.1);
 }
 
-.dream-label {
+.evolution-item-compact:hover::before {
+    opacity: 1;
+}
+
+.evo-icon-mini {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle,
+            rgba(92, 230, 201, 0.15) 0%,
+            transparent 70%);
+    border-radius: 12px;
+}
+
+.evo-icon-mini img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(92, 230, 201, 0.4));
+    transition: transform 0.4s ease;
+}
+
+.evolution-item-compact:hover .evo-icon-mini img {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 12px rgba(92, 230, 201, 0.6));
+}
+
+.evo-content h4 {
     font-size: 14px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.evo-content p {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* RIGHT: Dream Column (Sticky) */
+.dream-column {
+    position: sticky;
+    top: 120px;
+    height: fit-content;
+    margin-top: 112px;
+    /* Align with first row of cards (Title + Intro height) */
+}
+
+.dream-card-elevated {
+    padding: 40px 32px;
+    background: radial-gradient(circle at center,
+            rgba(92, 230, 201, 0.12) 0%,
+            rgba(255, 207, 150, 0.08) 50%,
+            transparent 100%);
+    border: 1px solid rgba(92, 230, 201, 0.25);
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.dream-card-elevated::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle,
+            rgba(92, 230, 201, 0.1) 0%,
+            transparent 70%);
+    animation: dreamPulse 8s ease-in-out infinite;
+}
+
+@keyframes dreamPulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: translate(-10%, -10%) scale(1.1);
+    }
+}
+
+.dream-label-mini {
+    display: block;
+    font-size: 11px;
     font-weight: 600;
     color: #FFCF96;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
 }
 
-.dream-quote {
+.dream-quote-compact {
     font-family: 'Instrument Serif', Georgia, serif;
-    font-size: 28px;
+    font-size: 18px;
     font-style: italic;
     color: rgba(255, 255, 255, 0.95);
-    line-height: 1.6;
-    margin-bottom: 32px;
+    line-height: 1.5;
+    margin-bottom: 16px;
     border: none;
     padding: 0;
+    position: relative;
+    z-index: 1;
 }
 
-.dream-quote strong {
-    font-size: 40px;
+.dream-quote-compact strong {
+    font-size: 24px;
     color: #5CE6C9;
     font-weight: 600;
     font-style: normal;
     display: block;
-    margin: 32px 0;
-    line-height: 1.3;
+    margin-top: 12px;
+    text-shadow: 0 0 20px rgba(92, 230, 201, 0.3);
 }
 
-.dream-attribution {
-    font-size: 16px;
+.dream-attribution-mini {
+    font-size: 13px;
     color: rgba(255, 255, 255, 0.7);
     font-style: normal;
+    position: relative;
+    z-index: 1;
+}
+
+.dream-visual-accent {
+    margin-top: 24px;
+    opacity: 0.6;
+    animation: accentSpin 20s linear infinite;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes accentSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ============================================
@@ -498,13 +571,11 @@
     }
 
     .expansion-headline,
-    .blueprint-headline,
-    .evolution-headline {
+    .blueprint-headline {
         font-size: 32px;
     }
 
-    .expansion-subheadline,
-    .evolution-subheadline {
+    .expansion-subheadline {
         font-size: 16px;
     }
 
@@ -518,21 +589,37 @@
         min-height: auto;
     }
 
-    .evolution-areas {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 20px;
+    /* Evolution + Dream Unified: Stack on tablet */
+    .evolution-and-dream-unified {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        padding: 60px 24px;
     }
 
-    .dream-2030-section {
-        padding: 80px 40px;
+    .evolution-grid-duo {
+        grid-template-columns: 1fr 1fr;
     }
 
-    .dream-quote {
-        font-size: 24px;
+    .dream-column {
+        margin-top: 0;
+        position: relative;
+        top: 0;
     }
 
-    .dream-quote strong {
+    .dream-column {
+        position: static;
+    }
+
+    .evolution-column .evolution-title-compact {
         font-size: 32px;
+    }
+
+    .dream-quote-compact {
+        font-size: 16px;
+    }
+
+    .dream-quote-compact strong {
+        font-size: 22px;
     }
 }
 

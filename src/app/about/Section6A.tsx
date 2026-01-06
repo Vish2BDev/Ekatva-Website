@@ -239,336 +239,339 @@ export function Section6A({ className = '' }: Section6AProps) {
                 </motion.p>
             </div>
 
-            {/* PART A: 5-STEP PROCESS */}
-            <div className="process-section">
-                <motion.h3
-                    className="process-headline"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
-                    From Proposal to Unforgettable: How EKATVA Happens
-                </motion.h3>
-                <motion.p
-                    className="process-subheadline"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                >
-                    A proven blueprint refined in Hyderabad, ready to scale across 10 cities.
-                </motion.p>
+            {/* 2-COLUMN GRID: Process (Left) + Structure (Right) */}
+            <div className="process-and-structure-grid">
+                {/* LEFT COLUMN: 5-STEP PROCESS (Accordion) */}
+                <div className="process-section">
+                    <motion.h3
+                        className="process-headline"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        How EKATVA Happens
+                    </motion.h3>
+                    <motion.p
+                        className="process-subheadline"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                    >
+                        A proven 5-step blueprint for each city.
+                    </motion.p>
 
-                <div className="process-steps">
-                    {PROCESS_STEPS.map((step, index) => (
-                        <motion.div
-                            key={step.id}
-                            className={`process-step ${expandedStep === step.id ? 'expanded' : ''}`}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            style={{ '--step-color': step.color } as React.CSSProperties}
-                        >
-                            {/* Step Number */}
-                            <div className="step-number">{step.id}</div>
-
-                            {/* Step Icon */}
-                            <div className="step-icon" data-icon={step.icon}>
-                                <StepIcon type={step.icon} color={step.color} />
-                            </div>
-
-                            {/* Step Headline */}
-                            <h4 className="step-headline">{step.headline}</h4>
-
-                            {/* Short Description */}
-                            <p className="step-short-desc">{step.shortDesc}</p>
-
-                            {/* Expand Button */}
-                            <button
-                                className="step-expand-btn"
-                                onClick={() => setExpandedStep(expandedStep === step.id ? null : step.id)}
-                                aria-label={expandedStep === step.id ? 'Collapse' : 'Expand'}
+                    <div className="process-steps">
+                        {PROCESS_STEPS.map((step, index) => (
+                            <motion.div
+                                key={step.id}
+                                className={`process-step ${expandedStep === step.id ? 'expanded' : ''}`}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                style={{ '--step-color': step.color } as React.CSSProperties}
                             >
-                                {expandedStep === step.id ? '−' : '+'}
-                            </button>
+                                {/* Step Number */}
+                                <div className="step-number">{step.id}</div>
 
-                            {/* Expanded Content */}
-                            <AnimatePresence>
-                                {expandedStep === step.id && (
-                                    <motion.div
-                                        className="step-expanded-content"
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.4, ease: 'easeOut' }}
-                                    >
-                                        <div className="expanded-inner">
-                                            {step.expandedContent.split('\n\n').map((paragraph, idx) => (
-                                                <p key={idx} className="expanded-paragraph">
-                                                    {paragraph}
-                                                </p>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-
-                            {/* Arrow (not for last step) */}
-                            {index < PROCESS_STEPS.length - 1 && (
-                                <div className="step-arrow">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                        <path
-                                            d="M5 12h14m-7-7l7 7-7 7"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
+                                {/* Step Icon */}
+                                <div className="step-icon" data-icon={step.icon}>
+                                    <StepIcon type={step.icon} color={step.color} />
                                 </div>
-                            )}
+
+                                {/* Step Headline */}
+                                <h4 className="step-headline">{step.headline}</h4>
+
+                                {/* Short Description */}
+                                <p className="step-short-desc">{step.shortDesc}</p>
+
+                                {/* Expand Button */}
+                                <button
+                                    className="step-expand-btn"
+                                    onClick={() => setExpandedStep(expandedStep === step.id ? null : step.id)}
+                                    aria-label={expandedStep === step.id ? 'Collapse' : 'Expand'}
+                                >
+                                    {expandedStep === step.id ? '−' : '+'}
+                                </button>
+
+                                {/* Expanded Content */}
+                                <AnimatePresence>
+                                    {expandedStep === step.id && (
+                                        <motion.div
+                                            className="step-expanded-content"
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: 'auto', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.4, ease: 'easeOut' }}
+                                        >
+                                            <div className="expanded-inner">
+                                                {step.expandedContent.split('\n\n').map((paragraph, idx) => (
+                                                    <p key={idx} className="expanded-paragraph">
+                                                        {paragraph}
+                                                    </p>
+                                                ))}
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+
+                                {/* Arrow (not for last step) */}
+                                {index < PROCESS_STEPS.length - 1 && (
+                                    <div className="step-arrow">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path
+                                                d="M5 12h14m-7-7l7 7-7 7"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                    </div>
+                                )}
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* RIGHT COLUMN: ORGANIZATION NETWORK */}
+                <div className="hierarchy-section">
+                    <motion.h3
+                        className="hierarchy-headline"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        Organization Structure
+                    </motion.h3>
+                    <motion.p
+                        className="hierarchy-subheadline"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                    >
+                        Student-led, flat hierarchy, community-powered.
+                    </motion.p>
+
+                    {/* ANIMATED NETWORK VISUALIZATION */}
+                    <motion.div
+                        className="network-visualization"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                    >
+                        {/* SVG Canvas for connections */}
+                        <svg className="network-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+                            {/* Connection: GB to Departments */}
+                            <path
+                                className="connection-path connection-gb-dept"
+                                d="M 200 180 Q 200 320 400 350"
+                                fill="none"
+                                stroke="url(#tealGradient)"
+                                strokeWidth="2"
+                                strokeDasharray="8 4"
+                            />
+                            {/* Connection: City to Departments */}
+                            <path
+                                className="connection-path connection-city-dept"
+                                d="M 600 180 Q 600 320 400 350"
+                                fill="none"
+                                stroke="url(#goldGradient)"
+                                strokeWidth="2"
+                                strokeDasharray="8 4"
+                            />
+                            {/* Connection: GB to City (bidirectional) */}
+                            <path
+                                className="connection-path connection-gb-city"
+                                d="M 260 120 Q 400 80 540 120"
+                                fill="none"
+                                stroke="url(#peerGradient)"
+                                strokeWidth="3"
+                                strokeDasharray="10 5"
+                            />
+
+                            {/* Gradient Definitions */}
+                            <defs>
+                                <linearGradient id="tealGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#5CE6C9" stopOpacity="0.8" />
+                                    <stop offset="100%" stopColor="#5CE6C9" stopOpacity="0.2" />
+                                </linearGradient>
+                                <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#FFCF96" stopOpacity="0.8" />
+                                    <stop offset="100%" stopColor="#FFCF96" stopOpacity="0.2" />
+                                </linearGradient>
+                                <linearGradient id="peerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stopColor="#5CE6C9" stopOpacity="0.6" />
+                                    <stop offset="50%" stopColor="#FFFFFF" stopOpacity="0.3" />
+                                    <stop offset="100%" stopColor="#FFCF96" stopOpacity="0.6" />
+                                </linearGradient>
+                            </defs>
+
+                            {/* Animated Particles */}
+                            <circle className="particle particle-1" r="4" fill="#5CE6C9">
+                                <animateMotion dur="3s" repeatCount="indefinite">
+                                    <mpath href="#pathGBtoDept" />
+                                </animateMotion>
+                            </circle>
+                            <circle className="particle particle-2" r="4" fill="#FFCF96">
+                                <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
+                                    <mpath href="#pathCitytoDept" />
+                                </animateMotion>
+                            </circle>
+                            <circle className="particle particle-3" r="3" fill="#5CE6C9">
+                                <animateMotion dur="2.5s" repeatCount="indefinite">
+                                    <mpath href="#pathPeer" />
+                                </animateMotion>
+                            </circle>
+                            <circle className="particle particle-4" r="3" fill="#FFCF96">
+                                <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.25s">
+                                    <mpath href="#pathPeerReverse" />
+                                </animateMotion>
+                            </circle>
+
+                            {/* Hidden paths for particle motion */}
+                            <path id="pathGBtoDept" d="M 200 180 Q 200 320 400 350" fill="none" stroke="none" />
+                            <path id="pathCitytoDept" d="M 600 180 Q 600 320 400 350" fill="none" stroke="none" />
+                            <path id="pathPeer" d="M 260 120 Q 400 80 540 120" fill="none" stroke="none" />
+                            <path id="pathPeerReverse" d="M 540 120 Q 400 80 260 120" fill="none" stroke="none" />
+                        </svg>
+
+                        {/* NODE: Governing Body */}
+                        <motion.div
+                            className={`network-node node-gb ${hoveredCard === 'gb' ? 'active' : ''}`}
+                            initial={{ scale: 0, opacity: 0 }}
+                            whileInView={{ scale: 1, opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.5, type: 'spring' }}
+                            onMouseEnter={() => setHoveredCard('gb')}
+                            onMouseLeave={() => setHoveredCard(null)}
+                        >
+                            <div className="node-glow"></div>
+                            <div className="node-circle">
+                                <svg className="node-icon" viewBox="0 0 48 48" fill="none">
+                                    <circle cx="24" cy="24" r="16" stroke="currentColor" strokeWidth="2" />
+                                    <circle cx="24" cy="14" r="3" fill="currentColor" />
+                                    <circle cx="14" cy="28" r="3" fill="currentColor" />
+                                    <circle cx="34" cy="28" r="3" fill="currentColor" />
+                                    <path d="M24 17 L24 24 M24 24 L14 25 M24 24 L34 25" stroke="currentColor" strokeWidth="1.5" />
+                                </svg>
+                            </div>
+                            <span className="node-label">Governing Body</span>
                         </motion.div>
-                    ))}
+
+                        {/* NODE: City Chapters */}
+                        <motion.div
+                            className={`network-node node-city ${hoveredCard === 'city' ? 'active' : ''}`}
+                            initial={{ scale: 0, opacity: 0 }}
+                            whileInView={{ scale: 1, opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.7, type: 'spring' }}
+                            onMouseEnter={() => setHoveredCard('city')}
+                            onMouseLeave={() => setHoveredCard(null)}
+                        >
+                            <div className="node-glow"></div>
+                            <div className="node-circle">
+                                <svg className="node-icon" viewBox="0 0 48 48" fill="none">
+                                    <path d="M24 8 L24 40" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                    <circle cx="24" cy="16" r="8" stroke="currentColor" strokeWidth="2" fill="none" />
+                                    <circle cx="24" cy="16" r="3" fill="currentColor" />
+                                </svg>
+                            </div>
+                            <span className="node-label">City Chapters</span>
+                        </motion.div>
+
+                        {/* NODE: 7 Departments (Expandable) */}
+                        <motion.div
+                            className={`network-node node-departments ${hoveredCard === 'departments' ? 'active' : ''}`}
+                            initial={{ scale: 0, opacity: 0 }}
+                            whileInView={{ scale: 1, opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.9, type: 'spring' }}
+                            onMouseEnter={() => setHoveredCard('departments')}
+                            onMouseLeave={() => setHoveredCard(null)}
+                        >
+                            <div className="node-glow node-glow-multi"></div>
+                            <div className="node-circle node-circle-large">
+                                <span className="dept-count">7</span>
+                                <span className="dept-label">Teams</span>
+                            </div>
+                            <span className="node-label">Functional Departments</span>
+                        </motion.div>
+
+                        {/* Flow Labels */}
+                        <div className="flow-label flow-label-peer">
+                            <span>Blueprint & Support ↔ Feedback & Stories</span>
+                        </div>
+                        <div className="flow-label flow-label-support">
+                            <span>Cross-functional Support</span>
+                        </div>
+                    </motion.div>
+
+                    {/* SUMMARY ROW - FLIP CARDS */}
+                    <motion.div
+                        className="network-summary-row"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 1.2 }}
+                    >
+                        {/* GB Flip Card */}
+                        <FlipCard
+                            type="gb"
+                            title="Governing Body"
+                            frontDescription="12 UHC Houses. 20+ Student Societies. One Governing Body."
+                            backContent={[
+                                "Co-equal partnership of all student bodies",
+                                "Democratic decision-making process",
+                                "Rotating leadership roles",
+                                "Shared resources & cross-society support",
+                                "Brand standards & quality assurance"
+                            ]}
+                            accentColor="#5CE6C9"
+                            isHighlighted={hoveredCard === 'gb'}
+                        />
+
+                        {/* City Chapters Flip Card */}
+                        <FlipCard
+                            type="city"
+                            title="City Chapters"
+                            frontDescription="Regional Coordinators leading local execution."
+                            backContent={[
+                                "Regional Coordinators per city",
+                                "Local volunteers & ground support",
+                                "7 Department Heads in each chapter",
+                                "Centralized blueprint adaptation",
+                                "Cross-city mentorship & sharing"
+                            ]}
+                            accentColor="#FFCF96"
+                            isHighlighted={hoveredCard === 'city'}
+                        />
+
+                        {/* Departments Flip Card */}
+                        <FlipCard
+                            type="departments"
+                            title="7 Departments"
+                            frontDescription="Cross-functional teams supporting every edition."
+                            backContent={[
+                                "Content • Cultural • Technical",
+                                "Transport • Volunteers • Sponsor • Media",
+                                "Each team has city-level heads",
+                                "Cross-functional collaboration",
+                                "Blueprint templates for all cities"
+                            ]}
+                            accentColor="#FFFFFF"
+                            isHighlighted={hoveredCard === 'departments'}
+                        />
+                    </motion.div>
                 </div>
             </div>
 
-            {/* PART B: ANIMATED ORGANIZATION NETWORK */}
-            <div className="hierarchy-section">
-                <motion.h3
-                    className="hierarchy-headline"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
-                    A Fest Ran by the Community, For the Community
-                </motion.h3>
-                <motion.p
-                    className="hierarchy-subheadline"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                >
-                    No hierarchy. No single owner. Just students uniting to create something bigger than themselves.
-                </motion.p>
-
-                {/* ANIMATED NETWORK VISUALIZATION */}
-                <motion.div
-                    className="network-visualization"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                >
-                    {/* SVG Canvas for connections */}
-                    <svg className="network-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
-                        {/* Connection: GB to Departments */}
-                        <path
-                            className="connection-path connection-gb-dept"
-                            d="M 200 180 Q 200 320 400 350"
-                            fill="none"
-                            stroke="url(#tealGradient)"
-                            strokeWidth="2"
-                            strokeDasharray="8 4"
-                        />
-                        {/* Connection: City to Departments */}
-                        <path
-                            className="connection-path connection-city-dept"
-                            d="M 600 180 Q 600 320 400 350"
-                            fill="none"
-                            stroke="url(#goldGradient)"
-                            strokeWidth="2"
-                            strokeDasharray="8 4"
-                        />
-                        {/* Connection: GB to City (bidirectional) */}
-                        <path
-                            className="connection-path connection-gb-city"
-                            d="M 260 120 Q 400 80 540 120"
-                            fill="none"
-                            stroke="url(#peerGradient)"
-                            strokeWidth="3"
-                            strokeDasharray="10 5"
-                        />
-
-                        {/* Gradient Definitions */}
-                        <defs>
-                            <linearGradient id="tealGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#5CE6C9" stopOpacity="0.8" />
-                                <stop offset="100%" stopColor="#5CE6C9" stopOpacity="0.2" />
-                            </linearGradient>
-                            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stopColor="#FFCF96" stopOpacity="0.8" />
-                                <stop offset="100%" stopColor="#FFCF96" stopOpacity="0.2" />
-                            </linearGradient>
-                            <linearGradient id="peerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stopColor="#5CE6C9" stopOpacity="0.6" />
-                                <stop offset="50%" stopColor="#FFFFFF" stopOpacity="0.3" />
-                                <stop offset="100%" stopColor="#FFCF96" stopOpacity="0.6" />
-                            </linearGradient>
-                        </defs>
-
-                        {/* Animated Particles */}
-                        <circle className="particle particle-1" r="4" fill="#5CE6C9">
-                            <animateMotion dur="3s" repeatCount="indefinite">
-                                <mpath href="#pathGBtoDept" />
-                            </animateMotion>
-                        </circle>
-                        <circle className="particle particle-2" r="4" fill="#FFCF96">
-                            <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
-                                <mpath href="#pathCitytoDept" />
-                            </animateMotion>
-                        </circle>
-                        <circle className="particle particle-3" r="3" fill="#5CE6C9">
-                            <animateMotion dur="2.5s" repeatCount="indefinite">
-                                <mpath href="#pathPeer" />
-                            </animateMotion>
-                        </circle>
-                        <circle className="particle particle-4" r="3" fill="#FFCF96">
-                            <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.25s">
-                                <mpath href="#pathPeerReverse" />
-                            </animateMotion>
-                        </circle>
-
-                        {/* Hidden paths for particle motion */}
-                        <path id="pathGBtoDept" d="M 200 180 Q 200 320 400 350" fill="none" stroke="none" />
-                        <path id="pathCitytoDept" d="M 600 180 Q 600 320 400 350" fill="none" stroke="none" />
-                        <path id="pathPeer" d="M 260 120 Q 400 80 540 120" fill="none" stroke="none" />
-                        <path id="pathPeerReverse" d="M 540 120 Q 400 80 260 120" fill="none" stroke="none" />
-                    </svg>
-
-                    {/* NODE: Governing Body */}
-                    <motion.div
-                        className={`network-node node-gb ${hoveredCard === 'gb' ? 'active' : ''}`}
-                        initial={{ scale: 0, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.5, type: 'spring' }}
-                        onMouseEnter={() => setHoveredCard('gb')}
-                        onMouseLeave={() => setHoveredCard(null)}
-                    >
-                        <div className="node-glow"></div>
-                        <div className="node-circle">
-                            <svg className="node-icon" viewBox="0 0 48 48" fill="none">
-                                <circle cx="24" cy="24" r="16" stroke="currentColor" strokeWidth="2" />
-                                <circle cx="24" cy="14" r="3" fill="currentColor" />
-                                <circle cx="14" cy="28" r="3" fill="currentColor" />
-                                <circle cx="34" cy="28" r="3" fill="currentColor" />
-                                <path d="M24 17 L24 24 M24 24 L14 25 M24 24 L34 25" stroke="currentColor" strokeWidth="1.5" />
-                            </svg>
-                        </div>
-                        <span className="node-label">Governing Body</span>
-                    </motion.div>
-
-                    {/* NODE: City Chapters */}
-                    <motion.div
-                        className={`network-node node-city ${hoveredCard === 'city' ? 'active' : ''}`}
-                        initial={{ scale: 0, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.7, type: 'spring' }}
-                        onMouseEnter={() => setHoveredCard('city')}
-                        onMouseLeave={() => setHoveredCard(null)}
-                    >
-                        <div className="node-glow"></div>
-                        <div className="node-circle">
-                            <svg className="node-icon" viewBox="0 0 48 48" fill="none">
-                                <path d="M24 8 L24 40" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                                <circle cx="24" cy="16" r="8" stroke="currentColor" strokeWidth="2" fill="none" />
-                                <circle cx="24" cy="16" r="3" fill="currentColor" />
-                            </svg>
-                        </div>
-                        <span className="node-label">City Chapters</span>
-                    </motion.div>
-
-                    {/* NODE: 7 Departments (Expandable) */}
-                    <motion.div
-                        className={`network-node node-departments ${hoveredCard === 'departments' ? 'active' : ''}`}
-                        initial={{ scale: 0, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.9, type: 'spring' }}
-                        onMouseEnter={() => setHoveredCard('departments')}
-                        onMouseLeave={() => setHoveredCard(null)}
-                    >
-                        <div className="node-glow node-glow-multi"></div>
-                        <div className="node-circle node-circle-large">
-                            <span className="dept-count">7</span>
-                            <span className="dept-label">Teams</span>
-                        </div>
-                        <span className="node-label">Functional Departments</span>
-                    </motion.div>
-
-                    {/* Flow Labels */}
-                    <div className="flow-label flow-label-peer">
-                        <span>Blueprint & Support ↔ Feedback & Stories</span>
-                    </div>
-                    <div className="flow-label flow-label-support">
-                        <span>Cross-functional Support</span>
-                    </div>
-                </motion.div>
-
-                {/* SUMMARY ROW - FLIP CARDS */}
-                <motion.div
-                    className="network-summary-row"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 1.2 }}
-                >
-                    {/* GB Flip Card */}
-                    <FlipCard
-                        type="gb"
-                        title="Governing Body"
-                        frontDescription="12 UHC Houses. 20+ Student Societies. One Governing Body."
-                        backContent={[
-                            "Co-equal partnership of all student bodies",
-                            "Democratic decision-making process",
-                            "Rotating leadership roles",
-                            "Shared resources & cross-society support",
-                            "Brand standards & quality assurance"
-                        ]}
-                        accentColor="#5CE6C9"
-                        isHighlighted={hoveredCard === 'gb'}
-                    />
-
-                    {/* City Chapters Flip Card */}
-                    <FlipCard
-                        type="city"
-                        title="City Chapters"
-                        frontDescription="Regional Coordinators leading local execution."
-                        backContent={[
-                            "Regional Coordinators per city",
-                            "Local volunteers & ground support",
-                            "7 Department Heads in each chapter",
-                            "Centralized blueprint adaptation",
-                            "Cross-city mentorship & sharing"
-                        ]}
-                        accentColor="#FFCF96"
-                        isHighlighted={hoveredCard === 'city'}
-                    />
-
-                    {/* Departments Flip Card */}
-                    <FlipCard
-                        type="departments"
-                        title="7 Departments"
-                        frontDescription="Cross-functional teams supporting every edition."
-                        backContent={[
-                            "Content • Cultural • Technical",
-                            "Transport • Volunteers • Sponsor • Media",
-                            "Each team has city-level heads",
-                            "Cross-functional collaboration",
-                            "Blueprint templates for all cities"
-                        ]}
-                        accentColor="#FFFFFF"
-                        isHighlighted={hoveredCard === 'departments'}
-                    />
-                </motion.div>
-            </div>
-
-            {/* PART C: 7 DEPARTMENTS */}
+            {/* PART C: 7 DEPARTMENTS (Below 2-column grid) */}
             <div className="departments-section">
                 <motion.h3
                     className="departments-headline"
@@ -595,6 +598,7 @@ export function Section6A({ className = '' }: Section6AProps) {
                                 <DepartmentIcon type={dept.icon} color={dept.color} />
                             </div>
                             <h4 className="dept-name">{dept.name}</h4>
+                            <span className="dept-hover-hint">Hover for skills</span>
                             <ul className="dept-skills">
                                 {dept.skills.map((skill, idx) => (
                                     <li key={idx}>{skill}</li>
