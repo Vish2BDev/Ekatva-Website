@@ -587,7 +587,7 @@ export default function AboutPageContent() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
                         >
-                            <h3 className="story-subsection-title">The 4 Broken Systems</h3>
+                            <h3 className="story-subsection-title about-subhead">The 4 Broken Systems</h3>
                             <div className="systems-list">
                                 {BROKEN_SYSTEMS.map((system) => (
                                     <div key={system.number} className="system-item">
@@ -607,7 +607,7 @@ export default function AboutPageContent() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
-                            <h3 className="story-subsection-title">Why I Took This On</h3>
+                            <h3 className="story-subsection-title about-subhead">Why I Took This On</h3>
                             <blockquote className="personal-quote">
                                 "Once you've felt belonging, you can't ignore those who never will."
                             </blockquote>

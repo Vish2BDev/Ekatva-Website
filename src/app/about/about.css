@@ -31,6 +31,28 @@
     --duration-slow: 0.8s;
     --easing: cubic-bezier(0.4, 0, 0.2, 1);
     --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* FORENSIC AUDIT: TYPOGRAPHY SYSTEM */
+    --text-base: 1.125rem;
+    /* 18px */
+    --text-subhead: 2.5rem;
+    /* 40px */
+    --line-height-body: 1.6;
+
+    /* Global Rendering Optimization */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* AUDIT FIX: Enforce Body Text Size Globally */
+.about-page p {
+    font-size: var(--text-base);
+    line-height: var(--line-height-body);
+}
+
+/* AUDIT FIX: Enforce Subhead Size Globally */
+.about-page .about-subhead {
+    font-size: var(--text-subhead) !important;
 }
 
 /* ============================================================================
@@ -169,21 +191,25 @@
 /* Translation (= Oneness) */
 .hero-translation {
     font-family: 'Poppins', -apple-system, sans-serif;
-    font-size: 24px;
+    font-size: 1.25rem;
+    /* 20px */
     font-weight: 300;
     color: rgba(255, 255, 255, 0.7);
     line-height: 1.5;
-    margin: 0 0 32px 0;
+    margin: 0 0 2rem 0;
+    /* 32px -> 2rem */
 }
 
 /* Mission Statement */
 .hero-mission {
     font-family: 'Poppins', -apple-system, sans-serif;
-    font-size: 20px;
+    font-size: var(--text-base);
+    /* 18px Standard */
     font-weight: 400;
     color: rgba(255, 255, 255, 0.85);
-    line-height: 1.8;
-    max-width: 700px;
+    line-height: var(--line-height-body);
+    max-width: 44rem;
+    /* 700px -> 44rem */
     margin: 0 auto;
 }
 
@@ -718,7 +744,8 @@
    ============================================================================ */
 
 .about-belief {
-    padding: 100px 0 80px 0;
+    padding: 6.25rem 0 5rem 0;
+    /* 100px -> 6.25rem, 80px -> 5rem */
     background: linear-gradient(180deg, #050505 0%, #0A2329 100%);
 }
 
@@ -738,14 +765,26 @@
 .about-section-subtitle {
     font-size: clamp(1rem, 2vw, 1.25rem);
     color: var(--text-secondary);
-    line-height: 1.6;
+    line-height: var(--line-height-body);
+}
+
+/* New Utility: Subhead (H3 Bridge) */
+.about-subhead {
+    font-family: var(--font-serif);
+    font-size: var(--text-subhead);
+    font-weight: 600;
+    color: var(--ekatva-teal);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
 }
 
 .principles-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-    max-width: 1200px;
+    /* Verified: 2rem is consistent with design tokens */
+    max-width: 75rem;
+    /* 1200px -> 75rem */
     margin: 0 auto;
 }
 
@@ -1906,45 +1945,40 @@
     border: none;
 }
 
-.cta-card[data-accent="gold"] .cta-btn-primary {
-    background: var(--unity-gold);
-}
-
-.cta-card[data-accent="teal"] .cta-btn-primary {
-    background: var(--ekatva-teal);
-}
-
-.cta-card[data-accent="white"] .cta-btn-primary {
-    background: var(--text-primary);
-}
+/* Legacy Primary Button Styles Removed for Audit Standardization */
 
 .cta-btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
+/* FORENSIC AUDIT: BUTTON SYSTEM REFACTOR */
+/* Strict Hierarchy: Primary = Teal, Secondary = Outline */
+
+.cta-btn-primary {
+    background: var(--ekatva-teal);
+    color: #050505;
+    /* Always black text on teal */
+    border: 1px solid var(--ekatva-teal);
+}
+
+.cta-btn-primary:hover {
+    background: #4BD1B6;
+    /* Slightly lighter teal */
+    box-shadow: 0 0 20px rgba(92, 230, 201, 0.4);
+    transform: translateY(-2px);
+}
+
 .cta-btn-secondary {
     background: transparent;
-    border: 1px solid;
-}
-
-.cta-card[data-accent="gold"] .cta-btn-secondary {
-    color: var(--unity-gold);
-    border-color: var(--unity-gold);
-}
-
-.cta-card[data-accent="teal"] .cta-btn-secondary {
-    color: var(--ekatva-teal);
-    border-color: var(--ekatva-teal);
-}
-
-.cta-card[data-accent="white"] .cta-btn-secondary {
     color: var(--text-primary);
-    border-color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .cta-btn-secondary:hover {
+    border-color: var(--text-primary);
     background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
 }
 
 /* ============================================================================
@@ -2041,7 +2075,8 @@
     .about-proof,
     .about-system,
     .about-join {
-        padding: 60px 0;
+        padding: 4rem 0;
+        /* 60px -> 4rem */
     }
 
     .about-section-header {
