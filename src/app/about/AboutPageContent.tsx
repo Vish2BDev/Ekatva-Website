@@ -381,6 +381,32 @@ export default function AboutPageContent() {
                     <div className="hero-overlay" />
                 </div>
 
+                {/* CONVERGENCE AURA - Award-winning ambient effect */}
+                <div className="convergence-aura" aria-hidden="true">
+                    {/* Layer 1: Breathing Glow */}
+                    <div className="breathing-glow" />
+
+                    {/* Layer 2: Convergence Rays */}
+                    <div className="convergence-rays" />
+
+                    {/* Layer 3: Orbit Ring Path */}
+                    <div className="orbit-ring" />
+
+                    {/* Layer 4: Orbital Scripts */}
+                    <div className="orbital-scripts">
+                        {MORPH_SCRIPTS.map((script, index) => (
+                            <span
+                                key={script.langCode}
+                                className={`orbital-script ${currentScriptIndex === index ? 'active' : ''}`}
+                            >
+                                {script.script}
+                            </span>
+                        ))}
+                    </div>
+
+                </div>
+
+
                 {/* Main Content */}
                 <div className="hero-content">
                     {/* Skip Link (Accessibility) */}

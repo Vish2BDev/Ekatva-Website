@@ -206,6 +206,272 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    z-index: 3;
+}
+
+/* ============================================
+   CONVERGENCE AURA - Award-Winning Hero Enhancement
+   ============================================ */
+
+/* Layer 1: Breathing Glow Ring - Behind main text */
+.breathing-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(92, 230, 201, 0.15) 0%,
+            rgba(92, 230, 201, 0.08) 40%,
+            transparent 70%);
+    filter: blur(40px);
+    animation: breathingPulse 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes breathingPulse {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.08);
+        opacity: 0.9;
+    }
+}
+
+/* Layer 2: Convergence Rays - Subtle rotating gradient */
+.convergence-rays {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: conic-gradient(from 0deg,
+            transparent 0deg,
+            rgba(92, 230, 201, 0.03) 10deg,
+            transparent 20deg,
+            transparent 45deg,
+            rgba(255, 207, 150, 0.02) 55deg,
+            transparent 65deg,
+            transparent 90deg,
+            rgba(92, 230, 201, 0.03) 100deg,
+            transparent 110deg,
+            transparent 135deg,
+            rgba(255, 207, 150, 0.02) 145deg,
+            transparent 155deg,
+            transparent 180deg,
+            rgba(92, 230, 201, 0.03) 190deg,
+            transparent 200deg,
+            transparent 225deg,
+            rgba(255, 207, 150, 0.02) 235deg,
+            transparent 245deg,
+            transparent 270deg,
+            rgba(92, 230, 201, 0.03) 280deg,
+            transparent 290deg,
+            transparent 315deg,
+            rgba(255, 207, 150, 0.02) 325deg,
+            transparent 335deg,
+            transparent 360deg);
+    animation: raysRotate 120s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.8;
+}
+
+@keyframes raysRotate {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Layer 3: Orbital Script Traces - Using CSS Custom Properties */
+.orbital-scripts {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Each orbital script - positioned absolutely from center */
+.orbital-script {
+    --radius: 400px;
+    position: absolute;
+    font-family: 'Noto Sans Devanagari', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.15);
+    white-space: nowrap;
+    transition: color 0.5s ease, text-shadow 0.5s ease, font-size 0.5s ease;
+    transform-origin: center center;
+    /* Position using trigonometry: x = radius * cos(angle), y = radius * sin(angle) */
+    /* We'll set --angle via inline style, then use it here */
+}
+
+/* Position each script around the orbit - 360° / 7 ≈ 51.4° */
+.orbital-script:nth-child(1) {
+    --angle: 0deg;
+    top: calc(var(--radius) * -1);
+    /* cos(0) = 1, sin(0) = 0 -> top: -radius */
+    left: 0;
+    transform: translateX(-50%);
+}
+
+.orbital-script:nth-child(2) {
+    --angle: 51deg;
+    top: calc(var(--radius) * -0.629);
+    /* cos(51) ≈ 0.629 */
+    left: calc(var(--radius) * 0.777);
+    /* sin(51) ≈ 0.777 */
+    transform: translateX(-50%);
+}
+
+.orbital-script:nth-child(3) {
+    --angle: 103deg;
+    top: calc(var(--radius) * 0.225);
+    /* cos(103) ≈ -0.225 -> top becomes positive */
+    left: calc(var(--radius) * 0.974);
+    /* sin(103) ≈ 0.974 */
+    transform: translateX(-50%);
+}
+
+.orbital-script:nth-child(4) {
+    --angle: 154deg;
+    top: calc(var(--radius) * 0.899);
+    /* cos(154) ≈ -0.899 */
+    left: calc(var(--radius) * 0.438);
+    /* sin(154) ≈ 0.438 */
+    transform: translateX(-50%);
+}
+
+.orbital-script:nth-child(5) {
+    --angle: 206deg;
+    top: calc(var(--radius) * 0.899);
+    /* cos(206) ≈ -0.899 */
+    left: calc(var(--radius) * -0.438);
+    /* sin(206) ≈ -0.438 */
+    transform: translateX(-50%);
+}
+
+.orbital-script:nth-child(6) {
+    --angle: 257deg;
+    top: calc(var(--radius) * 0.225);
+    /* cos(257) ≈ -0.225 */
+    left: calc(var(--radius) * -0.974);
+    /* sin(257) ≈ -0.974 */
+    transform: translateX(-50%);
+}
+
+.orbital-script:nth-child(7) {
+    --angle: 309deg;
+    top: calc(var(--radius) * -0.629);
+    /* cos(309) ≈ 0.629 */
+    left: calc(var(--radius) * -0.777);
+    /* sin(309) ≈ -0.777 */
+    transform: translateX(-50%);
+}
+
+/* Active script glow */
+.orbital-script.active {
+    color: rgba(92, 230, 201, 0.6);
+    text-shadow: 0 0 20px rgba(92, 230, 201, 0.7),
+        0 0 40px rgba(92, 230, 201, 0.4);
+    font-size: 26px;
+}
+
+/* Subtle orbit ring path */
+.orbit-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    border: 1px dashed rgba(92, 230, 201, 0.06);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    animation: orbitRingSpin 90s linear infinite;
+}
+
+@keyframes orbitRingSpin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Convergence Aura Container */
+.convergence-aura {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Tablet: Smaller orbit */
+@media (max-width: 1023px) {
+    .orbital-script {
+        --radius: 200px;
+        font-size: 18px;
+    }
+
+    .orbital-script.active {
+        font-size: 22px;
+    }
+
+    .orbit-ring {
+        width: 400px;
+        height: 400px;
+    }
+
+    .convergence-rays {
+        width: 600px;
+        height: 600px;
+    }
+
+    .breathing-glow {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+/* Mobile: Hide orbital, keep glow only */
+@media (max-width: 767px) {
+
+    .orbital-scripts,
+    .orbit-ring,
+    .convergence-rays {
+        display: none;
+    }
+
+    .breathing-glow {
+        width: 300px;
+        height: 300px;
+        filter: blur(30px);
+    }
 }
 
 /* ============================================
@@ -452,14 +718,14 @@
    ============================================================================ */
 
 .about-belief {
-    padding: 7rem 0;
+    padding: 100px 0 80px 0;
     background: linear-gradient(180deg, #050505 0%, #0A2329 100%);
 }
 
 .about-section-header {
     text-align: center;
     max-width: 800px;
-    margin: 0 auto 4rem;
+    margin: 0 auto 60px;
 }
 
 .about-section-title {
@@ -494,7 +760,7 @@
     backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
     border-radius: 1.25rem;
-    padding: 2.5rem;
+    padding: 2rem;
     transition: all var(--duration-normal) var(--easing);
     cursor: pointer;
 }
@@ -582,7 +848,34 @@
     margin-top: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-color);
-    overflow: hidden;
+    max-height: 350px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ekatva-teal) transparent;
+}
+
+.principle-expanded::-webkit-scrollbar {
+    width: 4px;
+}
+
+.principle-expanded::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.principle-expanded::-webkit-scrollbar-thumb {
+    background: var(--ekatva-teal);
+    border-radius: 4px;
+}
+
+.principle-card[data-accent="gold"] .principle-expanded {
+    scrollbar-color: var(--unity-gold) transparent;
+}
+
+.principle-card[data-accent="gold"] .principle-expanded::-webkit-scrollbar-thumb {
+    background: var(--unity-gold);
 }
 
 .principle-expanded p {
@@ -597,7 +890,7 @@
    ============================================================================ */
 
 .about-story {
-    padding: 7rem 0;
+    padding: 80px 0;
     background: var(--oneness-black);
 }
 
@@ -805,7 +1098,7 @@
    ============================================================================ */
 
 .about-philosophy {
-    padding: 7rem 0;
+    padding: 80px 0;
     background: linear-gradient(180deg, #050505 0%, #0A2329 50%, #050505 100%);
 }
 
@@ -974,7 +1267,7 @@
    ============================================================================ */
 
 .about-proof {
-    padding: 7rem 0;
+    padding: 80px 0;
     background: var(--oneness-black);
 }
 
@@ -1470,7 +1763,7 @@
    ============================================================================ */
 
 .about-join {
-    padding: 7rem 0;
+    padding: 100px 0 120px 0;
     background: var(--oneness-black);
 }
 
@@ -1748,7 +2041,11 @@
     .about-proof,
     .about-system,
     .about-join {
-        padding: 4rem 0;
+        padding: 60px 0;
+    }
+
+    .about-section-header {
+        margin-bottom: 40px;
     }
 
     /* Smaller section titles on mobile */

@@ -12,7 +12,7 @@
    ============================================ */
 
 .section-6a {
-    padding: 120px 0;
+    padding: 60px 0;
     background: #050505;
     position: relative;
     overflow: hidden;
@@ -21,7 +21,7 @@
 .section-6a .section-header {
     text-align: center;
     max-width: 900px;
-    margin: 0 auto 100px;
+    margin: 0 auto 80px;
     padding: 0 20px;
 }
 
@@ -47,7 +47,7 @@
 
 .process-section {
     max-width: 1400px;
-    margin: 0 auto 140px;
+    margin: 0 auto 100px;
     padding: 0 20px;
 }
 
@@ -121,19 +121,21 @@
 /* Step Number Badge */
 .step-number {
     position: absolute;
-    top: -12px;
-    left: 24px;
-    width: 32px;
-    height: 32px;
+    top: 20px;
+    left: 20px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--step-color);
     color: #050505;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 700;
-    border-radius: 50%;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
 /* Step Icon */
@@ -158,6 +160,7 @@
     font-weight: 600;
     color: #FFFFFF;
     text-align: center;
+    margin-top: 60px;
     margin-bottom: 16px;
     line-height: 1.3;
 }
@@ -252,7 +255,7 @@
 
 .hierarchy-section {
     max-width: 1400px;
-    margin: 0 auto 140px;
+    margin: 0 auto 100px;
     padding: 0 20px;
 }
 
@@ -524,7 +527,7 @@
 
 /* Flip Card Container */
 .flip-card {
-    height: 280px;
+    height: 320px;
     perspective: 1000px;
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -677,7 +680,7 @@
     font-size: 14px;
     color: rgba(255, 255, 255, 0.85);
     line-height: 1.6;
-    padding: 8px 0;
+    padding: 6px 0;
     padding-left: 16px;
     position: relative;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -873,11 +876,11 @@
 
 @media (max-width: 767px) {
     .section-6a {
-        padding: 60px 0;
+        padding: 48px 0;
     }
 
     .section-6a .section-header {
-        margin-bottom: 60px;
+        margin-bottom: 40px;
     }
 
     .section-6a .section-title {
@@ -891,7 +894,7 @@
     .process-section,
     .hierarchy-section,
     .departments-section {
-        margin-bottom: 80px;
+        margin-bottom: 60px;
     }
 
     .process-headline,
@@ -940,6 +943,18 @@
         display: none;
     }
 
+    .step-number {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+        top: 16px;
+        left: 16px;
+    }
+
+    .step-headline {
+        margin-top: 52px;
+    }
+
     /* Network Visualization: Mobile Layout */
     .network-visualization {
         height: auto;
@@ -986,7 +1001,7 @@
     }
 
     .flip-card {
-        height: 240px;
+        height: 300px;
     }
 
     .flip-card-front,
