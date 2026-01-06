@@ -419,7 +419,7 @@
     width: 100%;
     height: 420px;
     /* FIX 1.3: Increased to 420px for Tangential Docking */
-    margin-bottom: 24px;
+    margin-bottom: 80px;
 }
 
 /* SVG Canvas for connections */
@@ -491,12 +491,14 @@
     0%,
     100% {
         transform: scale(1);
-        opacity: 0.3;
+        opacity: 0.15;
+        /* FIX 2.1: Reduced from 0.3 for subtle accent */
     }
 
     50% {
         transform: scale(1.1);
-        opacity: 0.5;
+        opacity: 0.3;
+        /* FIX 2.1: Reduced from 0.5 */
     }
 }
 
@@ -510,7 +512,8 @@
             #FFCF96,
             #50E3C2,
             #FF6B9D);
-    filter: blur(20px);
+    filter: blur(30px);
+    /* FIX 2.1: Increased blur for softer look */
 }
 
 /* Node Circle */
@@ -564,6 +567,46 @@
     background: rgba(92, 230, 201, 0.15);
     border-color: #5CE6C9;
     color: #5CE6C9;
+    /* FIX 2.3: Visual Entry Point - 10% larger */
+    width: 110px;
+    height: 110px;
+}
+
+/* FIX 2.3: Sequence Badge Style */
+.node-sequence-badge {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(92, 230, 201, 0.25);
+    border: 1px solid #5CE6C9;
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #5CE6C9;
+    font-size: 11px;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(92, 230, 201, 0.3);
+    z-index: 10;
+    pointer-events: none;
+    animation: badgePulse 3s infinite ease-in-out;
+}
+
+@keyframes badgePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(92, 230, 201, 0.3);
+    }
+
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 15px rgba(92, 230, 201, 0.5);
+    }
 }
 
 .node-gb:hover .node-circle,

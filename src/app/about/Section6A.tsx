@@ -369,6 +369,11 @@ export function Section6A({ className = '' }: Section6AProps) {
                             <path className="connection-path" d="M 600 120 Q 600 240 400 290" fill="none" stroke="url(#goldGradient)" strokeWidth="2" strokeDasharray="8 4" opacity="0.6" />
                             <path className="connection-path" d="M 240 100 Q 400 40 560 100" fill="none" stroke="url(#peerGradient)" strokeWidth="2.5" strokeDasharray="10 5" opacity="0.8" />
 
+                            {/* AUDIT FIX: Connection Anchor Dots */}
+                            <circle cx="200" cy="120" r="3" fill="#5CE6C9" opacity="0.8" />
+                            <circle cx="600" cy="120" r="3" fill="#FFCF96" opacity="0.8" />
+                            <circle cx="400" cy="290" r="3" fill="white" opacity="0.6" />
+
                             {/* Gradients */}
                             <defs>
                                 <linearGradient id="tealGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -387,27 +392,28 @@ export function Section6A({ className = '' }: Section6AProps) {
                             </defs>
                         </svg>
 
-                        {/* NODE: Governing Body */}
+                        {/* TOP LEFT: GOVERNING BODY */}
                         <motion.div
-                            className={`network-node node-gb ${hoveredCard === 'gb' ? 'active' : ''}`}
-                            initial={{ scale: 0, opacity: 0 }}
-                            whileInView={{ scale: 1, opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: 0.5, type: 'spring' }}
-                            onMouseEnter={() => setHoveredCard('gb')}
-                            onMouseLeave={() => setHoveredCard(null)}
+                            className="network-node node-gb"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.2, duration: 0.5 }}
                         >
                             <div className="node-glow"></div>
+                            {/* FIX 2.3: Sequence Badge for Entry Point */}
+                            <div className="node-sequence-badge">01</div>
                             <div className="node-circle">
-                                <svg className="node-icon" viewBox="0 0 48 48" fill="none">
-                                    <circle cx="24" cy="24" r="16" stroke="currentColor" strokeWidth="2" />
-                                    <circle cx="24" cy="14" r="3" fill="currentColor" />
-                                    <circle cx="14" cy="28" r="3" fill="currentColor" />
-                                    <circle cx="34" cy="28" r="3" fill="currentColor" />
-                                    <path d="M24 17 L24 24 M24 24 L14 25 M24 24 L34 25" stroke="currentColor" strokeWidth="1.5" />
-                                </svg>
+                                <div className="node-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                        <circle cx="12" cy="5" r="2" />
+                                        <circle cx="5" cy="19" r="2" />
+                                        <circle cx="19" cy="19" r="2" />
+                                        <path d="M12 7v5" strokeLinecap="round" />
+                                        <path d="M5 17c0-4 7-4 7-4s7 0 7 4" strokeLinecap="round" />
+                                    </svg>
+                                </div>
                             </div>
-                            <span className="node-label">Governing Body</span>
+                            <div className="node-label">Governing Body</div>
                         </motion.div>
 
                         {/* NODE: City Chapters */}
@@ -421,6 +427,8 @@ export function Section6A({ className = '' }: Section6AProps) {
                             onMouseLeave={() => setHoveredCard(null)}
                         >
                             <div className="node-glow"></div>
+                            {/* AUDIT FIX: Badge 02 */}
+                            <div className="node-sequence-badge">02</div>
                             <div className="node-circle">
                                 <svg className="node-icon" viewBox="0 0 48 48" fill="none">
                                     <path d="M24 8 L24 40" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -442,20 +450,18 @@ export function Section6A({ className = '' }: Section6AProps) {
                             onMouseLeave={() => setHoveredCard(null)}
                         >
                             <div className="node-glow node-glow-multi"></div>
+                            {/* AUDIT FIX: Badge 03 */}
+                            <div className="node-sequence-badge">03</div>
                             <div className="node-circle node-circle-large">
                                 <span className="dept-count">7</span>
                                 <span className="dept-label">TEAMS</span>
                             </div>
-                            <span className="node-label">Functional Departments</span>
+                            {/* AUDIT FIX: Semantic Rename */}
+                            <span className="node-label">Support System</span>
                         </motion.div>
 
-                        {/* Flow Labels */}
-                        <div className="flow-label flow-label-peer">
-                            <span>Blueprint & Support ↔ Feedback & Stories</span>
-                        </div>
-                        <div className="flow-label flow-label-support">
-                            <span>Cross-Functional Support</span>
-                        </div>
+                        {/* AUDIT FIX: Missing Flow Label */}
+                        <div className="flow-label flow-label-peer">PEER-TO-PEER</div>
                     </motion.div>
 
                     {/* SUMMARY ROW - FLIP CARDS */}
