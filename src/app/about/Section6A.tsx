@@ -766,7 +766,12 @@ function FlipCard({ type, title, frontDescription, backContent, accentColor, isH
                     </div>
                     <h4>{title}</h4>
                     <p>{frontDescription}</p>
-                    <span className="flip-hint">Hover to explore</span>
+                    <span className="flip-hint">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                            <path d="M6 0L7.5 4.5L12 6L7.5 7.5L6 12L4.5 7.5L0 6L4.5 4.5L6 0Z" />
+                        </svg>
+                        Hover to explore
+                    </span>
                 </div>
 
                 {/* BACK FACE */}
