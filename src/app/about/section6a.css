@@ -27,7 +27,7 @@
 
 .section-6a .section-title {
     font-family: 'Instrument Serif', Georgia, serif;
-    font-size: 48px;
+    font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 700;
     color: #FFFFFF;
     margin-bottom: 16px;
@@ -35,7 +35,7 @@
 }
 
 .section-6a .section-subtitle {
-    font-size: 18px;
+    font-size: clamp(1rem, 2vw, 1.25rem);
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.6;
     max-width: 700px;
@@ -81,7 +81,8 @@
 }
 
 .process-headline {
-    font-size: 24px;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 2.5rem;
     font-weight: 600;
     color: #FFFFFF;
     text-align: left;
