@@ -1,9 +1,9 @@
 /**
- * SECTION 6A: HOW EKATVA WORKS - COMPACT LAYOUT
+ * SECTION 6A: HOW EKATVA WORKS - COMPACT 2-COLUMN LAYOUT
  * 
  * Components:
- * - 5-Step Process (Vertical Accordion)
- * - Flat Hierarchy Network + Flip Cards (Right Column)
+ * - 5-Step Process (Vertical Accordion - Left Column)
+ * - Network + Flip Cards (Right Column)
  * - 7 Department Cards (Compact Grid)
  */
 
@@ -61,7 +61,22 @@
 
 .process-section {
     display: block;
-    /* Grid positions this element */
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(92, 230, 201, 0.12);
+    border-radius: 24px;
+    padding: 28px;
+    position: relative;
+}
+
+/* Teal accent line */
+.process-headline::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #5CE6C9, transparent);
+    border-radius: 2px;
+    margin-bottom: 16px;
 }
 
 .process-headline {
@@ -112,7 +127,7 @@
     border-left-width: 4px;
 }
 
-/* Accordion Header (Number + Icon + Title + Expand) */
+/* Accordion Header (Number + Icon + Content + Expand) */
 .step-header {
     display: flex;
     align-items: center;
@@ -173,6 +188,7 @@
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -201,7 +217,29 @@
     border-color: var(--step-color);
 }
 
+/* Expanded Content */
+.step-expanded-content {
+    overflow: hidden;
+    margin-top: 16px;
+}
 
+.expanded-inner {
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.expanded-paragraph {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.6;
+    margin-bottom: 12px;
+    text-align: left;
+    white-space: pre-wrap;
+}
+
+.expanded-paragraph:last-child {
+    margin-bottom: 0;
+}
 
 /* Step Number Badge */
 .step-number {
@@ -340,7 +378,22 @@
 
 .hierarchy-section {
     display: block;
-    /* Grid positions this element */
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 207, 150, 0.12);
+    border-radius: 24px;
+    padding: 28px;
+    position: relative;
+}
+
+/* Gold accent line */
+.hierarchy-headline::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #FFCF96, transparent);
+    border-radius: 2px;
+    margin-bottom: 16px;
 }
 
 .hierarchy-headline {
@@ -357,16 +410,15 @@
     color: rgba(255, 255, 255, 0.6);
     text-align: left;
     margin: 0 0 24px;
-
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 /* Network Visualization Container */
 .network-visualization {
     position: relative;
     width: 100%;
-    height: 380px;
-    margin-bottom: 24px;
+    height: 320px;
+    margin-bottom: 20px;
 }
 
 /* SVG Canvas for connections */
@@ -498,8 +550,8 @@
 
 /* Governing Body Node */
 .node-gb {
-    left: 15%;
-    top: 20%;
+    left: 12%;
+    top: 22%;
     transform: translateX(-50%);
 }
 
@@ -521,8 +573,8 @@
 
 /* City Chapters Node */
 .node-city {
-    right: 15%;
-    top: 20%;
+    right: 12%;
+    top: 22%;
     transform: translateX(50%);
 }
 
@@ -545,7 +597,7 @@
 /* Departments Node */
 .node-departments {
     left: 50%;
-    bottom: 10%;
+    bottom: 8%;
     transform: translateX(-50%);
 }
 
@@ -785,29 +837,39 @@
 
 
 /* ============================================
-   PART C: 7 DEPARTMENTS
+   PART C: 7 DEPARTMENTS (Integrated in Right Column)
    ============================================ */
 
-.departments-section {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 24px;
+/* Departments Divider Line */
+.departments-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 24px 0 20px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
-.departments-headline {
-    font-size: 24px;
-    font-weight: 600;
-    color: #FFFFFF;
-    text-align: center;
-    margin-bottom: 32px;
-    line-height: 1.3;
+.departments-divider::before,
+.departments-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
 }
 
-/* Compact 7-Column Grid */
+/* Integrated departments (inside hierarchy-section) */
+.departments-integrated {
+    margin-top: 20px;
+}
+
+/* Departments Grid - Auto-fit for inside container */
 .departments-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
 }
 
 /* Compact Department Card */
@@ -816,37 +878,37 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-top: 3px solid var(--dept-accent-color);
     border-radius: 12px;
-    padding: 20px 12px;
-    text-align: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    padding: 16px 12px;
     min-height: 120px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    transition: all 0.3s ease;
+    cursor: default;
+    text-align: center;
+    position: relative;
 }
 
 .department-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-4px);
     border-color: var(--dept-accent-color);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.05);
 }
 
+/* Department Icon - Compact */
 .dept-icon {
     width: 44px;
     height: 44px;
-    margin: 0 auto 12px;
+    margin: 0 auto 10px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .dept-icon svg {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
 }
 
+/* Department Name - Compact */
 .dept-name {
     font-size: 13px;
     font-weight: 600;
@@ -854,6 +916,18 @@
     text-align: center;
     margin-bottom: 8px;
     line-height: 1.3;
+}
+
+/* Hover Hint */
+.dept-hover-hint {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 8px;
+    transition: opacity 0.3s ease;
+}
+
+.department-card:hover .dept-hover-hint {
+    opacity: 0;
 }
 
 /* Skills - Hidden by default, reveal on hover */
@@ -864,13 +938,12 @@
     max-height: 0;
     opacity: 0;
     overflow: hidden;
-    transition: all 0.35s ease;
+    transition: all 0.3s ease;
 }
 
 .department-card:hover .dept-skills {
     max-height: 150px;
     opacity: 1;
-    margin-top: 8px;
 }
 
 .dept-skills li {
@@ -892,19 +965,6 @@
     font-size: 12px;
 }
 
-/* Hover hint for departments */
-.dept-hover-hint {
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.4);
-    margin-top: 4px;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-.department-card:hover .dept-hover-hint {
-    opacity: 0;
-}
-
 .dept-skills li:last-child {
     margin-bottom: 0;
 }
@@ -921,44 +981,34 @@
         gap: 40px;
     }
 
+    /* Center headlines on tablet+ */
+    .process-headline,
+    .hierarchy-headline {
+        text-align: center;
+    }
+
+    .process-subheadline,
+    .hierarchy-subheadline {
+        text-align: center;
+    }
+
     /* Departments: 4 columns on tablet */
     .departments-grid {
         grid-template-columns: repeat(4, 1fr);
     }
 
     .section-6a {
-        padding: 80px 0;
+        padding: 60px 0;
     }
 
     .section-6a .section-title {
         font-size: 40px;
     }
 
-    .section-6a .section-subtitle {
-        font-size: 18px;
-    }
-
     .process-headline,
     .hierarchy-headline,
     .departments-headline {
-        font-size: 32px;
-    }
-
-    .process-subheadline,
-    .hierarchy-subheadline {
-        font-size: 16px;
-    }
-
-    .process-steps {
-        gap: 20px;
-    }
-
-    .process-step {
-        flex: 0 0 260px;
-    }
-
-    .process-step.expanded {
-        flex: 0 0 360px;
+        font-size: 28px;
     }
 
     /* Network: Tablet adjustments */

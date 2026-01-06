@@ -239,9 +239,9 @@ export function Section6A({ className = '' }: Section6AProps) {
                 </motion.p>
             </div>
 
-            {/* 2-COLUMN GRID: Process (Left) + Structure (Right) */}
+            {/* 2-COLUMN GRID: Process (Left) + Network/Flip Cards (Right) */}
             <div className="process-and-structure-grid">
-                {/* LEFT COLUMN: 5-STEP PROCESS (Accordion) */}
+                {/* LEFT COLUMN: 5-STEP PROCESS ACCORDION */}
                 <div className="process-section">
                     <motion.h3
                         className="process-headline"
@@ -259,7 +259,7 @@ export function Section6A({ className = '' }: Section6AProps) {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.1 }}
                     >
-                        A proven 5-step blueprint for each city.
+                        A proven 5-step blueprint, ready to scale.
                     </motion.p>
 
                     <div className="process-steps">
@@ -267,34 +267,31 @@ export function Section6A({ className = '' }: Section6AProps) {
                             <motion.div
                                 key={step.id}
                                 className={`process-step ${expandedStep === step.id ? 'expanded' : ''}`}
-                                initial={{ opacity: 0, y: 30 }}
+                                initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                transition={{ duration: 0.4, delay: index * 0.05 }}
                                 style={{ '--step-color': step.color } as React.CSSProperties}
+                                onClick={() => setExpandedStep(expandedStep === step.id ? null : step.id)}
                             >
-                                {/* Step Number */}
-                                <div className="step-number">{step.id}</div>
-
-                                {/* Step Icon */}
-                                <div className="step-icon" data-icon={step.icon}>
-                                    <StepIcon type={step.icon} color={step.color} />
+                                {/* Accordion Header Row */}
+                                <div className="step-header">
+                                    <div className="step-number">{step.id}</div>
+                                    <div className="step-icon">
+                                        <StepIcon type={step.icon} color={step.color} />
+                                    </div>
+                                    <div className="step-content">
+                                        <h4 className="step-headline">{step.headline}</h4>
+                                        <p className="step-short-desc">{step.shortDesc}</p>
+                                    </div>
+                                    <button
+                                        className="step-expand-btn"
+                                        aria-label={expandedStep === step.id ? 'Collapse' : 'Expand'}
+                                        aria-expanded={expandedStep === step.id}
+                                    >
+                                        {expandedStep === step.id ? '−' : '+'}
+                                    </button>
                                 </div>
-
-                                {/* Step Headline */}
-                                <h4 className="step-headline">{step.headline}</h4>
-
-                                {/* Short Description */}
-                                <p className="step-short-desc">{step.shortDesc}</p>
-
-                                {/* Expand Button */}
-                                <button
-                                    className="step-expand-btn"
-                                    onClick={() => setExpandedStep(expandedStep === step.id ? null : step.id)}
-                                    aria-label={expandedStep === step.id ? 'Collapse' : 'Expand'}
-                                >
-                                    {expandedStep === step.id ? '−' : '+'}
-                                </button>
 
                                 {/* Expanded Content */}
                                 <AnimatePresence>
@@ -316,21 +313,6 @@ export function Section6A({ className = '' }: Section6AProps) {
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
-
-                                {/* Arrow (not for last step) */}
-                                {index < PROCESS_STEPS.length - 1 && (
-                                    <div className="step-arrow">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path
-                                                d="M5 12h14m-7-7l7 7-7 7"
-                                                stroke="currentColor"
-                                                strokeWidth="2"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                            />
-                                        </svg>
-                                    </div>
-                                )}
                             </motion.div>
                         ))}
                     </div>
@@ -485,7 +467,7 @@ export function Section6A({ className = '' }: Section6AProps) {
                             <span className="node-label">City Chapters</span>
                         </motion.div>
 
-                        {/* NODE: 7 Departments (Expandable) */}
+                        {/* NODE: 7 Functional Departments (Center Bottom) */}
                         <motion.div
                             className={`network-node node-departments ${hoveredCard === 'departments' ? 'active' : ''}`}
                             initial={{ scale: 0, opacity: 0 }}
@@ -498,7 +480,7 @@ export function Section6A({ className = '' }: Section6AProps) {
                             <div className="node-glow node-glow-multi"></div>
                             <div className="node-circle node-circle-large">
                                 <span className="dept-count">7</span>
-                                <span className="dept-label">Teams</span>
+                                <span className="dept-label">TEAMS</span>
                             </div>
                             <span className="node-label">Functional Departments</span>
                         </motion.div>
@@ -508,7 +490,7 @@ export function Section6A({ className = '' }: Section6AProps) {
                             <span>Blueprint & Support ↔ Feedback & Stories</span>
                         </div>
                         <div className="flow-label flow-label-support">
-                            <span>Cross-functional Support</span>
+                            <span>Cross-Functional Support</span>
                         </div>
                     </motion.div>
 
@@ -568,44 +550,37 @@ export function Section6A({ className = '' }: Section6AProps) {
                             isHighlighted={hoveredCard === 'departments'}
                         />
                     </motion.div>
-                </div>
-            </div>
 
-            {/* PART C: 7 DEPARTMENTS (Below 2-column grid) */}
-            <div className="departments-section">
-                <motion.h3
-                    className="departments-headline"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
-                    The Teams Making It Happen
-                </motion.h3>
-
-                <div className="departments-grid">
-                    {DEPARTMENTS.map((dept, index) => (
-                        <motion.div
-                            key={dept.id}
-                            className="department-card"
-                            style={{ '--dept-accent-color': dept.color } as React.CSSProperties}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.05 }}
-                        >
-                            <div className="dept-icon">
-                                <DepartmentIcon type={dept.icon} color={dept.color} />
-                            </div>
-                            <h4 className="dept-name">{dept.name}</h4>
-                            <span className="dept-hover-hint">Hover for skills</span>
-                            <ul className="dept-skills">
-                                {dept.skills.map((skill, idx) => (
-                                    <li key={idx}>{skill}</li>
-                                ))}
-                            </ul>
-                        </motion.div>
-                    ))}
+                    {/* INTEGRATED DEPARTMENTS (Inside Right Column) */}
+                    <div className="departments-integrated">
+                        <div className="departments-divider">
+                            7 Cross-Functional Teams
+                        </div>
+                        <div className="departments-grid">
+                            {DEPARTMENTS.map((dept, index) => (
+                                <motion.div
+                                    key={dept.id}
+                                    className="department-card"
+                                    style={{ '--dept-accent-color': dept.color } as React.CSSProperties}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: index * 0.03 }}
+                                >
+                                    <div className="dept-icon">
+                                        <DepartmentIcon type={dept.icon} color={dept.color} />
+                                    </div>
+                                    <h4 className="dept-name">{dept.name}</h4>
+                                    <span className="dept-hover-hint">Hover</span>
+                                    <ul className="dept-skills">
+                                        {dept.skills.map((skill, idx) => (
+                                            <li key={idx}>{skill}</li>
+                                        ))}
+                                    </ul>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
