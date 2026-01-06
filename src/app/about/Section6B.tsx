@@ -15,7 +15,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import india from '@svg-maps/india';
 import './section6b.css';
 
-// City Data - EXACT coordinates from @/data/cities.ts (viewBox 612x696)
+// Map viewBox dimensions (from @svg-maps/india) - used for percentage calculations
+const MAP_VIEWBOX = { width: 612, height: 696 };
+
+// City Data - Using PROVEN coordinates from cities.ts (viewBox 612x696)
+// These coordinates are verified to work correctly in RippleSection
 const CITIES = [
     {
         id: 1,
@@ -25,7 +29,7 @@ const CITIES = [
         date: 'Feb 2025',
         students: '230+',
         rating: '4.4/5',
-        position: { x: 215, y: 485 },  // Exact from cities.ts
+        position: { x: 215, y: 485 },  // PROVEN from cities.ts
         color: '#5CE6C9',
         description: 'The inaugural edition that proved EKATVA works at scale.',
         link: '/editions/hyderabad'
@@ -38,7 +42,7 @@ const CITIES = [
         date: 'Q2 2025',
         students: '300+ expected',
         rating: null,
-        position: { x: 192, y: 205 },  // Exact from cities.ts
+        position: { x: 192, y: 205 },  // PROVEN from cities.ts
         color: '#FFCF96',
         description: "Bringing EKATVA to North India's largest BS community."
     },
@@ -50,7 +54,7 @@ const CITIES = [
         date: 'Q3 2025',
         students: '250+ expected',
         rating: null,
-        position: { x: 95, y: 430 },   // Exact from cities.ts
+        position: { x: 95, y: 430 },   // PROVEN from cities.ts
         color: '#FFCF96',
         description: 'Connecting students across Mumbai and Pune regions.'
     },
@@ -62,36 +66,48 @@ const CITIES = [
         date: 'Q4 2025',
         students: '280+ expected',
         rating: null,
-        position: { x: 175, y: 575 },  // Exact from cities.ts
+        position: { x: 175, y: 575 },  // PROVEN from cities.ts
         color: '#FFCF96',
         description: "India's tech capital meets EKATVA's community spirit."
     },
     {
         id: 5,
+        name: 'Patna',
+        state: 'Bihar',
+        status: 'planned',
+        date: 'Q2 2025',
+        students: '200+ expected',
+        rating: null,
+        position: { x: 370, y: 290 },  // PROVEN from cities.ts
+        color: '#FFCF96',
+        description: 'Expanding EKATVA to Eastern India.'
+    },
+    {
+        id: 6,
         name: 'Chennai',
         state: 'Tamil Nadu',
         status: 'future',
         date: '2026',
         students: 'TBD',
         rating: null,
-        position: { x: 250, y: 600 },  // South-east coast (estimated)
+        position: { x: 240, y: 590 },  // Southeast coast, below Bangalore
         color: 'rgba(255, 255, 255, 0.4)',
         description: "Coming home to IIT Madras BS's birthplace."
     },
     {
-        id: 6,
+        id: 7,
         name: 'Kolkata',
         state: 'West Bengal',
         status: 'future',
         date: '2026',
         students: 'TBD',
         rating: null,
-        position: { x: 430, y: 350 },  // Exact from cities.ts
+        position: { x: 430, y: 350 },  // PROVEN from cities.ts
         color: 'rgba(255, 255, 255, 0.4)',
         description: 'Expanding to Eastern India.'
     },
     {
-        id: 7,
+        id: 8,
         name: 'Pune',
         state: 'Maharashtra',
         status: 'future',
@@ -103,40 +119,40 @@ const CITIES = [
         description: "Maharashtra's educational hub joins EKATVA."
     },
     {
-        id: 8,
+        id: 9,
         name: 'Ahmedabad',
         state: 'Gujarat',
         status: 'future',
         date: '2027',
         students: 'TBD',
         rating: null,
-        position: { x: 85, y: 335 },   // Exact from cities.ts
+        position: { x: 85, y: 335 },   // PROVEN from cities.ts
         color: 'rgba(255, 255, 255, 0.4)',
         description: 'Western India expansion.'
     },
     {
-        id: 9,
+        id: 10,
         name: 'Jaipur',
         state: 'Rajasthan',
         status: 'future',
         date: '2027',
         students: 'TBD',
         rating: null,
-        position: { x: 150, y: 285 },  // Exact from cities.ts
+        position: { x: 150, y: 285 },  // PROVEN from cities.ts
         color: 'rgba(255, 255, 255, 0.4)',
         description: 'Bringing EKATVA to Rajasthan.'
     },
     {
-        id: 10,
-        name: 'Lucknow',
-        state: 'Uttar Pradesh',
+        id: 11,
+        name: 'Nagpur',
+        state: 'Maharashtra',
         status: 'future',
         date: '2027',
         students: 'TBD',
         rating: null,
-        position: { x: 290, y: 265 },  // North-central (east of Delhi)
+        position: { x: 200, y: 395 },  // PROVEN from cities.ts - Central India
         color: 'rgba(255, 255, 255, 0.4)',
-        description: 'North India expansion continues.'
+        description: 'Central India expansion.'
     }
 ];
 
@@ -248,7 +264,7 @@ export function Section6B({ className = '' }: Section6BProps) {
                 </motion.p>
 
                 <div className="map-container">
-                    {/* India Map SVG */}
+                    {/* India Map with Overlay Markers (RippleSection approach) */}
                     <motion.div
                         className="india-map"
                         initial={{ opacity: 0, scale: 0.9 }}
@@ -256,7 +272,100 @@ export function Section6B({ className = '' }: Section6BProps) {
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
-                        <IndiaMapSVG cities={CITIES} selectedCity={selectedCity} onCityClick={setSelectedCity} />
+                        {/* Base Map SVG - just the map paths */}
+                        <div className="map-wrapper">
+                            <svg
+                                viewBox={india.viewBox}
+                                className="india-map-svg"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                {/* Render all Indian states from @svg-maps/india */}
+                                {india.locations.map((location: { id: string; path: string }) => (
+                                    <path
+                                        key={location.id}
+                                        d={location.path}
+                                        fill="rgba(255, 255, 255, 0.06)"
+                                        stroke="rgba(255, 255, 255, 0.25)"
+                                        strokeWidth="0.5"
+                                        strokeLinejoin="round"
+                                    />
+                                ))}
+
+                                {/* Connection Lines from Hyderabad to planned cities */}
+                                {CITIES.slice(1, 5).map((city) => (
+                                    <line
+                                        key={`line-${city.id}`}
+                                        x1={CITIES[0].position.x}
+                                        y1={CITIES[0].position.y}
+                                        x2={city.position.x}
+                                        y2={city.position.y}
+                                        stroke="rgba(92, 230, 201, 0.25)"
+                                        strokeWidth="1.5"
+                                        strokeDasharray="6 4"
+                                    />
+                                ))}
+
+                                {/* Legend inside SVG */}
+                                <g transform="translate(40, 660)">
+                                    <circle cx="0" cy="0" r="5" fill="#5CE6C9" />
+                                    <text x="12" y="4" fill="rgba(255, 255, 255, 0.7)" fontSize="11">Completed</text>
+
+                                    <circle cx="95" cy="0" r="5" fill="#FFCF96" />
+                                    <text x="107" y="4" fill="rgba(255, 255, 255, 0.7)" fontSize="11">Planned 2025</text>
+
+                                    <circle cx="215" cy="0" r="5" fill="rgba(255, 255, 255, 0.4)" />
+                                    <text x="227" y="4" fill="rgba(255, 255, 255, 0.7)" fontSize="11">Future</text>
+                                </g>
+                            </svg>
+
+                            {/* City Markers as Overlay (percentage positioning) */}
+                            {CITIES.map((city) => {
+                                const leftPercent = (city.position.x / MAP_VIEWBOX.width) * 100;
+                                const topPercent = (city.position.y / MAP_VIEWBOX.height) * 100;
+                                const isSelected = selectedCity.id === city.id;
+
+                                return (
+                                    <div
+                                        key={city.id}
+                                        className={`city-marker-overlay ${isSelected ? 'active' : ''}`}
+                                        style={{
+                                            left: `${leftPercent}%`,
+                                            top: `${topPercent}%`,
+                                        }}
+                                        onClick={() => setSelectedCity(city)}
+                                    >
+                                        {/* Pulse ring */}
+                                        {isSelected && (
+                                            <div
+                                                className="marker-pulse"
+                                                style={{ borderColor: city.color }}
+                                            />
+                                        )}
+                                        {/* Main dot */}
+                                        <div
+                                            className="marker-dot"
+                                            style={{
+                                                backgroundColor: city.color,
+                                                width: isSelected ? '16px' : '12px',
+                                                height: isSelected ? '16px' : '12px',
+                                                boxShadow: `0 0 12px ${city.color}, 0 0 24px ${city.color}60`
+                                            }}
+                                        />
+                                        {/* City name */}
+                                        <span
+                                            className="marker-label"
+                                            style={{
+                                                color: city.color,
+                                                opacity: isSelected ? 1 : 0.8,
+                                                fontWeight: isSelected ? 600 : 500
+                                            }}
+                                        >
+                                            {city.name}
+                                        </span>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </motion.div>
 
                     {/* City Details Panel */}
@@ -425,121 +534,6 @@ export function Section6B({ className = '' }: Section6BProps) {
                 </div>
             </section>
         </section>
-    );
-}
-
-// India Map SVG Component using @svg-maps/india
-function IndiaMapSVG({
-    cities,
-    selectedCity,
-    onCityClick
-}: {
-    cities: typeof CITIES;
-    selectedCity: typeof CITIES[0];
-    onCityClick: (city: typeof CITIES[0]) => void;
-}) {
-    return (
-        <svg
-            viewBox={india.viewBox}
-            className="india-map-svg"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            {/* Render all Indian states from @svg-maps/india */}
-            {india.locations.map((location) => (
-                <path
-                    key={location.id}
-                    d={location.path}
-                    fill="rgba(255, 255, 255, 0.06)"
-                    stroke="rgba(255, 255, 255, 0.25)"
-                    strokeWidth="0.5"
-                    strokeLinejoin="round"
-                />
-            ))}
-
-            {/* Connection Lines from Hyderabad to planned cities */}
-            {cities.slice(1, 4).map((city) => (
-                <line
-                    key={`line-${city.id}`}
-                    x1={cities[0].position.x}
-                    y1={cities[0].position.y}
-                    x2={city.position.x}
-                    y2={city.position.y}
-                    stroke="rgba(92, 230, 201, 0.25)"
-                    strokeWidth="1.5"
-                    strokeDasharray="6 4"
-                />
-            ))}
-
-            {/* City Markers */}
-            {cities.map((city) => (
-                <g
-                    key={city.id}
-                    className={`city-marker ${selectedCity.id === city.id ? 'active' : ''}`}
-                    data-status={city.status}
-                    onClick={() => onCityClick(city)}
-                    style={{ cursor: 'pointer' }}
-                >
-                    {/* Pulse rings for selected city */}
-                    {selectedCity.id === city.id && (
-                        <>
-                            <circle
-                                cx={city.position.x}
-                                cy={city.position.y}
-                                r={22}
-                                fill="none"
-                                stroke={city.color}
-                                strokeWidth="1"
-                                opacity="0.2"
-                            />
-                            <circle
-                                cx={city.position.x}
-                                cy={city.position.y}
-                                r={16}
-                                fill="none"
-                                stroke={city.color}
-                                strokeWidth="1.5"
-                                opacity="0.4"
-                            />
-                        </>
-                    )}
-
-                    {/* Main Marker */}
-                    <circle
-                        cx={city.position.x}
-                        cy={city.position.y}
-                        r={selectedCity.id === city.id ? 10 : 7}
-                        fill={city.color}
-                        stroke="rgba(255, 255, 255, 0.8)"
-                        strokeWidth={selectedCity.id === city.id ? 2.5 : 1.5}
-                    />
-
-                    {/* City Name Label */}
-                    <text
-                        x={city.position.x}
-                        y={city.position.y - 16}
-                        textAnchor="middle"
-                        fill={selectedCity.id === city.id ? '#FFFFFF' : 'rgba(255, 255, 255, 0.75)'}
-                        fontSize={selectedCity.id === city.id ? '13' : '11'}
-                        fontWeight={selectedCity.id === city.id ? '600' : '500'}
-                        style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}
-                    >
-                        {city.name}
-                    </text>
-                </g>
-            ))}
-
-            {/* Legend */}
-            <g transform="translate(40, 660)">
-                <circle cx="0" cy="0" r="5" fill="#5CE6C9" />
-                <text x="12" y="4" fill="rgba(255, 255, 255, 0.7)" fontSize="11">Completed</text>
-
-                <circle cx="95" cy="0" r="5" fill="#FFCF96" />
-                <text x="107" y="4" fill="rgba(255, 255, 255, 0.7)" fontSize="11">Planned 2025</text>
-
-                <circle cx="205" cy="0" r="5" fill="rgba(255, 255, 255, 0.4)" />
-                <text x="217" y="4" fill="rgba(255, 255, 255, 0.7)" fontSize="11">Future</text>
-            </g>
-        </svg>
     );
 }
 
