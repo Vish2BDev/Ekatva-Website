@@ -348,36 +348,28 @@ export function Section6A({ className = '' }: Section6AProps) {
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
                         {/* SVG Canvas for connections */}
-                        <svg className="network-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
-                            {/* Connection: GB to Departments */}
-                            <path
-                                className="connection-path connection-gb-dept"
-                                d="M 200 180 Q 200 320 400 350"
+                        {/* SVG Canvas for connections */}
+                        <svg className="network-svg" viewBox="0 0 800 360" preserveAspectRatio="xMidYMid meet">
+                            {/* MAIN ORBITAL ELLIPSE - Continuous loop that touches 7 Teams Node center */}
+                            {/* Center: (400, 165), Ry: 125 => Bottom Y = 290 */}
+                            <ellipse
+                                cx="400"
+                                cy="165"
+                                rx="240"
+                                ry="125"
                                 fill="none"
-                                stroke="url(#tealGradient)"
-                                strokeWidth="2"
+                                stroke="rgba(92, 230, 201, 0.12)"
+                                strokeWidth="1.5"
                                 strokeDasharray="8 4"
-                            />
-                            {/* Connection: City to Departments */}
-                            <path
-                                className="connection-path connection-city-dept"
-                                d="M 600 180 Q 600 320 400 350"
-                                fill="none"
-                                stroke="url(#goldGradient)"
-                                strokeWidth="2"
-                                strokeDasharray="8 4"
-                            />
-                            {/* Connection: GB to City (bidirectional) */}
-                            <path
-                                className="connection-path connection-gb-city"
-                                d="M 260 120 Q 400 80 540 120"
-                                fill="none"
-                                stroke="url(#peerGradient)"
-                                strokeWidth="3"
-                                strokeDasharray="10 5"
+                                className="connection-path orbital-ring"
                             />
 
-                            {/* Gradient Definitions */}
+                            {/* Visual accent connections */}
+                            <path className="connection-path" d="M 200 120 Q 200 240 400 290" fill="none" stroke="url(#tealGradient)" strokeWidth="2" strokeDasharray="8 4" opacity="0.6" />
+                            <path className="connection-path" d="M 600 120 Q 600 240 400 290" fill="none" stroke="url(#goldGradient)" strokeWidth="2" strokeDasharray="8 4" opacity="0.6" />
+                            <path className="connection-path" d="M 240 100 Q 400 40 560 100" fill="none" stroke="url(#peerGradient)" strokeWidth="2.5" strokeDasharray="10 5" opacity="0.8" />
+
+                            {/* Gradients */}
                             <defs>
                                 <linearGradient id="tealGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stopColor="#5CE6C9" stopOpacity="0.8" />
@@ -393,34 +385,6 @@ export function Section6A({ className = '' }: Section6AProps) {
                                     <stop offset="100%" stopColor="#FFCF96" stopOpacity="0.6" />
                                 </linearGradient>
                             </defs>
-
-                            {/* Animated Particles */}
-                            <circle className="particle particle-1" r="4" fill="#5CE6C9">
-                                <animateMotion dur="3s" repeatCount="indefinite">
-                                    <mpath href="#pathGBtoDept" />
-                                </animateMotion>
-                            </circle>
-                            <circle className="particle particle-2" r="4" fill="#FFCF96">
-                                <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
-                                    <mpath href="#pathCitytoDept" />
-                                </animateMotion>
-                            </circle>
-                            <circle className="particle particle-3" r="3" fill="#5CE6C9">
-                                <animateMotion dur="2.5s" repeatCount="indefinite">
-                                    <mpath href="#pathPeer" />
-                                </animateMotion>
-                            </circle>
-                            <circle className="particle particle-4" r="3" fill="#FFCF96">
-                                <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.25s">
-                                    <mpath href="#pathPeerReverse" />
-                                </animateMotion>
-                            </circle>
-
-                            {/* Hidden paths for particle motion */}
-                            <path id="pathGBtoDept" d="M 200 180 Q 200 320 400 350" fill="none" stroke="none" />
-                            <path id="pathCitytoDept" d="M 600 180 Q 600 320 400 350" fill="none" stroke="none" />
-                            <path id="pathPeer" d="M 260 120 Q 400 80 540 120" fill="none" stroke="none" />
-                            <path id="pathPeerReverse" d="M 540 120 Q 400 80 260 120" fill="none" stroke="none" />
                         </svg>
 
                         {/* NODE: Governing Body */}
