@@ -427,36 +427,37 @@ export function Section6B({ className = '' }: Section6BProps) {
                     <strong>Expansion Strategy:</strong> 2-3 cities per year. Opportunity-driven, quality-first.
                     Founder involvement for first 5 cities.
                 </p>
-            </div>
 
-            {/* PART B: SCALING BLUEPRINT */}
-            <div className="blueprint-section">
-                <motion.h3
-                    className="blueprint-headline"
-                    initial={{ opacity: 0, y: 20 }}
+                {/* 🆕 BLUEPRINT INTEGRATION - ISSUE #6 FIX */}
+                <motion.div
+                    className="blueprint-integrated"
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
                 >
-                    One Vision, Many Cities: The Hub-Spoke Model
-                </motion.h3>
+                    <div className="blueprint-divider">
+                        <span>Built on 3 Principles</span>
+                    </div>
 
-                <div className="blueprint-principles">
-                    {BLUEPRINT_PRINCIPLES.map((principle, index) => (
-                        <motion.div
-                            key={index}
-                            className="principle-card"
-                            initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
-                        >
-                            <div className="principle-icon">{principle.icon}</div>
-                            <h4 className="principle-headline">{principle.headline}</h4>
-                            <p className="principle-text">{principle.text}</p>
-                        </motion.div>
-                    ))}
-                </div>
+                    <div className="blueprint-cards-compact">
+                        {BLUEPRINT_PRINCIPLES.map((principle, index) => (
+                            <motion.div
+                                key={index}
+                                className="blueprint-card-mini"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: index * 0.1 }}
+                                whileHover={{ y: -6 }}
+                            >
+                                <span className="principle-icon-sm">{principle.icon}</span>
+                                <h5>{principle.headline}</h5>
+                                <p>{principle.text}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </motion.div>
             </div>
 
             {/* PART C+D: EVOLUTION + 2030 DREAM (UNIFIED) */}

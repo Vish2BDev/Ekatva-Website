@@ -334,63 +334,129 @@
 }
 
 /* ============================================
-   PART B: SCALING BLUEPRINT
+   🆕 BLUEPRINT INTEGRATION - ISSUE #6 FIX
    ============================================ */
 
-.blueprint-section {
-    max-width: 1400px;
-    margin: 0 auto 100px;
-    padding: 0 20px;
+.blueprint-integrated {
+    margin-top: 80px;
+    padding-top: 60px;
+    border-top: 1px solid rgba(92, 230, 201, 0.15);
+    position: relative;
 }
 
-.blueprint-headline {
-    font-size: 40px;
-    font-weight: 600;
-    color: #FFFFFF;
+/* Elegant divider with centered label */
+.blueprint-divider {
     text-align: center;
-    margin-bottom: 60px;
-    line-height: 1.3;
+    margin-bottom: 48px;
+    position: relative;
 }
 
-.blueprint-principles {
-    display: flex;
-    flex-direction: column;
+.blueprint-divider span {
+    position: relative;
+    display: inline-block;
+    padding: 0 32px;
+    background: #050505;
+    font-size: 18px;
+    font-weight: 600;
+    color: #FFCF96;
+    letter-spacing: 0.02em;
+    z-index: 1;
+}
+
+.blueprint-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(92, 230, 201, 0.3) 20%,
+            rgba(92, 230, 201, 0.4) 50%,
+            rgba(92, 230, 201, 0.3) 80%,
+            transparent 100%);
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+/* Compact 3-column grid */
+.blueprint-cards-compact {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.principle-card {
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.03);
+/* Mini card design */
+.blueprint-card-mini {
+    padding: 32px 24px;
+    background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    transition: all 0.4s ease;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
 }
 
-.principle-card:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(92, 230, 201, 0.2);
-    transform: translateX(8px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+/* Hover glow effect */
+.blueprint-card-mini::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #5CE6C9 0%, #FFCF96 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.principle-icon {
-    font-size: 48px;
-    margin-bottom: 20px;
+.blueprint-card-mini:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(92, 230, 201, 0.25);
+    transform: translateY(-6px);
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.25),
+        0 0 40px rgba(92, 230, 201, 0.1);
+}
+
+.blueprint-card-mini:hover::before {
+    transform: scaleX(1);
+}
+
+/* Icon styling */
+.principle-icon-sm {
+    font-size: 40px;
     display: block;
+    margin: 0 auto 20px;
+    line-height: 1;
+    filter: drop-shadow(0 4px 12px rgba(92, 230, 201, 0.2));
+    transition: transform 0.3s ease;
 }
 
-.principle-headline {
-    font-size: 24px;
+.blueprint-card-mini:hover .principle-icon-sm {
+    transform: scale(1.1);
+    filter: drop-shadow(0 6px 16px rgba(92, 230, 201, 0.4));
+}
+
+/* Typography */
+.blueprint-card-mini h5 {
+    font-size: 17px;
     font-weight: 600;
     color: #FFFFFF;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     line-height: 1.3;
 }
 
-.principle-text {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.85);
-    line-height: 1.7;
+.blueprint-card-mini p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* ============================================
@@ -693,6 +759,44 @@
     .dream-quote-compact strong {
         font-size: 22px;
     }
+
+    /* Blueprint Integration - Tablet */
+    .blueprint-integrated {
+        margin-top: 60px;
+        padding-top: 48px;
+    }
+
+    .blueprint-divider {
+        margin-bottom: 40px;
+    }
+
+    .blueprint-divider span {
+        font-size: 16px;
+        padding: 0 24px;
+    }
+
+    .blueprint-cards-compact {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        max-width: 600px;
+    }
+
+    .blueprint-card-mini {
+        padding: 28px 24px;
+    }
+
+    .principle-icon-sm {
+        font-size: 36px;
+        margin-bottom: 16px;
+    }
+
+    .blueprint-card-mini h5 {
+        font-size: 16px;
+    }
+
+    .blueprint-card-mini p {
+        font-size: 13px;
+    }
 }
 
 /* ============================================
@@ -794,6 +898,44 @@
 
     .principle-text {
         font-size: 15px;
+    }
+
+    /* Blueprint Integration - Mobile */
+    .blueprint-integrated {
+        margin-top: 48px;
+        padding-top: 40px;
+    }
+
+    .blueprint-divider {
+        margin-bottom: 32px;
+    }
+
+    .blueprint-divider span {
+        font-size: 15px;
+        padding: 0 20px;
+    }
+
+    .blueprint-cards-compact {
+        gap: 16px;
+    }
+
+    .blueprint-card-mini {
+        padding: 24px 20px;
+    }
+
+    .principle-icon-sm {
+        font-size: 32px;
+        margin-bottom: 12px;
+    }
+
+    .blueprint-card-mini h5 {
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+
+    .blueprint-card-mini p {
+        font-size: 13px;
+        line-height: 1.5;
     }
 
     /* Evolution */
