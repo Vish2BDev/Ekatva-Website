@@ -22,7 +22,7 @@
 .section-6b-header {
     text-align: center;
     max-width: 900px;
-    margin: 0 auto 48px;
+    margin: 0 auto 32px;
     padding: 0 20px;
 }
 
@@ -49,7 +49,7 @@
 
 .expansion-section {
     max-width: 1400px;
-    margin: 0 auto 100px;
+    margin: 0 auto 40px;
     padding: 0 20px;
 }
 
@@ -67,16 +67,16 @@
     color: rgba(255, 255, 255, 0.7);
     text-align: center;
     max-width: 800px;
-    margin: 0 auto 60px;
+    margin: 0 auto 32px;
     line-height: 1.6;
 }
 
 .map-container {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: 40px;
-    margin-bottom: 40px;
-    align-items: center;
+    gap: 32px;
+    margin-bottom: 0;
+    align-items: start;
 }
 
 /* India Map - Single Viewport Fit */
@@ -213,10 +213,34 @@
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    padding: 40px;
-    min-height: 400px;
+    padding: 28px;
+    min-height: auto;
     position: sticky;
     top: 100px;
+}
+
+/* Expansion Strategy Inline (inside details panel) */
+.expansion-strategy-inline {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(92, 230, 201, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.strategy-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #FFCF96;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.strategy-text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
 }
 
 .city-header {
@@ -338,8 +362,8 @@
    ============================================ */
 
 .blueprint-integrated {
-    margin-top: 80px;
-    padding-top: 60px;
+    margin-top: 40px;
+    padding-top: 32px;
     border-top: 1px solid rgba(92, 230, 201, 0.15);
     position: relative;
 }
@@ -347,7 +371,7 @@
 /* Elegant divider with centered label */
 .blueprint-divider {
     text-align: center;
-    margin-bottom: 48px;
+    margin-bottom: 24px;
     position: relative;
 }
 
@@ -384,14 +408,14 @@
 .blueprint-cards-compact {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 16px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 /* Mini card design */
 .blueprint-card-mini {
-    padding: 32px 24px;
+    padding: 20px 16px;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
@@ -430,9 +454,9 @@
 
 /* Icon styling */
 .principle-icon-sm {
-    font-size: 40px;
+    font-size: 32px;
     display: block;
-    margin: 0 auto 20px;
+    margin: 0 auto 12px;
     line-height: 1;
     filter: drop-shadow(0 4px 12px rgba(92, 230, 201, 0.2));
     transition: transform 0.3s ease;
@@ -453,10 +477,21 @@
 }
 
 .blueprint-card-mini p {
-    font-size: 14px;
+    font-size: 13px;
     color: rgba(255, 255, 255, 0.75);
-    line-height: 1.6;
+    line-height: 1.5;
     margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.blueprint-card-mini:hover p {
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    overflow: visible;
 }
 
 /* ============================================
@@ -466,11 +501,11 @@
 .evolution-and-dream-unified {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
-    gap: 60px;
+    gap: 40px;
     align-items: start;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 80px 24px;
+    padding: 48px 24px;
 }
 
 /* LEFT: Evolution Column */
@@ -483,28 +518,28 @@
 }
 
 .evolution-column .evolution-intro-compact {
-    font-size: 16px;
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 32px;
+    margin-bottom: 20px;
     line-height: 1.6;
 }
 
 .evolution-grid-duo {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 12px;
 }
 
 /* Glass & Light Card Style */
 .evolution-item-compact {
     display: flex;
     align-items: flex-start;
-    gap: 16px;
-    padding: 20px;
+    gap: 12px;
+    padding: 14px;
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(92, 230, 201, 0.15);
-    border-radius: 16px;
+    border-radius: 12px;
     box-shadow:
         0 4px 24px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -540,8 +575,8 @@
 }
 
 .evo-icon-mini {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -549,7 +584,7 @@
     background: radial-gradient(circle,
             rgba(92, 230, 201, 0.15) 0%,
             transparent 70%);
-    border-radius: 12px;
+    border-radius: 10px;
 }
 
 .evo-icon-mini img {
@@ -585,12 +620,12 @@
     position: sticky;
     top: 120px;
     height: fit-content;
-    margin-top: 112px;
+    margin-top: 62px;
     /* Align with first row of cards (Title + Intro height) */
 }
 
 .dream-card-elevated {
-    padding: 40px 32px;
+    padding: 28px 24px;
     background: radial-gradient(circle at center,
             rgba(92, 230, 201, 0.12) 0%,
             rgba(255, 207, 150, 0.08) 50%,

@@ -483,7 +483,7 @@ export default function AboutPageContent() {
             {/* ================================================================
                 SECTION 2: THE BELIEF
             ================================================================ */}
-            <section className="about-belief">
+            <section className="about-belief" id="our-beliefs">
                 <div className="about-container">
                     <motion.header
                         className="about-section-header"
@@ -564,7 +564,7 @@ export default function AboutPageContent() {
             {/* ================================================================
                 SECTION 3: THE STORY
             ================================================================ */}
-            <section className="about-story">
+            <section className="about-story" id="the-story">
                 <div className="about-container">
                     <motion.header
                         className="about-section-header"
@@ -634,7 +634,7 @@ export default function AboutPageContent() {
             {/* ================================================================
                 SECTION 4: THE PHILOSOPHY
             ================================================================ */}
-            <section className="about-philosophy">
+            <section className="about-philosophy" id="philosophy">
                 <div className="about-container">
                     <motion.header
                         className="about-section-header"
@@ -732,7 +732,7 @@ export default function AboutPageContent() {
             {/* ================================================================
                 SECTION 7: JOIN THE MOVEMENT
             ================================================================ */}
-            <section className="about-join">
+            <section className="about-join" id="get-involved">
                 <div className="about-container">
                     <motion.header
                         className="about-section-header"

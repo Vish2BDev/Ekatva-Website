@@ -45,7 +45,7 @@ export default function IndiaMapSVG() {
             </defs>
 
             {/* Render all Indian states/territories from the package */}
-            {india.locations.map((location) => (
+            {india.locations.map((location: any) => (
                 <path
                     key={location.id}
                     id={location.id}

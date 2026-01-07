@@ -418,15 +418,16 @@ export function Section6B({ className = '' }: Section6BProps) {
                                         View Full Story →
                                     </a>
                                 )}
+
+                                {/* Expansion Strategy - Integrated */}
+                                <div className="expansion-strategy-inline">
+                                    <span className="strategy-label">📅 Expansion</span>
+                                    <span className="strategy-text">2-3 cities/year • Quality-first • Founder-led for first 5</span>
+                                </div>
                             </motion.div>
                         </AnimatePresence>
                     </motion.div>
                 </div>
-
-                <p className="expansion-timeline">
-                    <strong>Expansion Strategy:</strong> 2-3 cities per year. Opportunity-driven, quality-first.
-                    Founder involvement for first 5 cities.
-                </p>
 
                 {/* 🆕 BLUEPRINT INTEGRATION - ISSUE #6 FIX */}
                 <motion.div
