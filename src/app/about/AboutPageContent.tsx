@@ -473,8 +473,8 @@ export default function AboutPageContent() {
                 </div>
 
                 {/* Scroll Indicator - Magnetic & Circular */}
-                <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-20 hidden md:block">
-                    <CircularScroll onClick={() => document.getElementById('belief')?.scrollIntoView({ behavior: 'smooth' })} />
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 md:bottom-12 z-20 hidden md:block">
+                    <CircularScroll onClick={() => document.getElementById('our-beliefs')?.scrollIntoView({ behavior: 'smooth' })} />
                 </div>
 
 

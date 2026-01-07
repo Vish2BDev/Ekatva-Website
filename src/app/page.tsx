@@ -1,4 +1,4 @@
-import { HeroSection, OriginStorySection, IdentityRevealSection, RippleSection, TestimonialsStackSection, FAQSection, BuildWithUsSection } from '@/components/sections'
+import { HeroSection, OriginStorySection, IdentityRevealSection, RippleSection, TestimonialsStackSection, BuildWithUsSection } from '@/components/sections'
 
 export default function Home() {
   return (
@@ -18,12 +18,10 @@ export default function Home() {
       {/* Section 5: Community Voices - Social Proof */}
       <TestimonialsStackSection />
 
-      {/* Section 6: FAQ - Address Practical Concerns */}
-      <FAQSection />
-
-      {/* Section 7: Build With Us - Conversion */}
+      {/* Section 6: Build With Us - Conversion */}
       <BuildWithUsSection />
     </main>
   )
 }
+
 
