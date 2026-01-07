@@ -1,0 +1,167 @@
+/* Testimonials Stack Section - GSAP ScrollTrigger Powered */
+
+/* Main Section Container */
+.testimonials-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(180deg, #050505 0%, #0E2F36 50%, #050505 100%);
+}
+
+/* Desktop Layout */
+.testimonials-desktop {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Decorative Vertical Text */
+.testimonials-vertical-text {
+    position: absolute;
+    left: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0.05;
+    pointer-events: none;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+/* Section Header */
+.testimonials-header {
+    position: absolute;
+    top: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 50;
+    width: 100%;
+    max-width: 800px;
+    padding: 0 1rem;
+}
+
+@media (min-width: 1024px) {
+    .testimonials-header {
+        left: 8rem;
+        transform: none;
+        text-align: left;
+    }
+}
+
+/* Card Stack Container */
+.card-stack-container {
+    position: relative;
+    width: 90%;
+    max-width: 750px;
+    height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Individual Testimonial Card - Desktop */
+.testimonial-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 2rem;
+
+    /* Glassmorphism - aligned with .ripple-glass-card */
+    background: rgba(14, 47, 54, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(92, 230, 201, 0.15);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 50px 100px -20px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+    /* GPU Optimization */
+    will-change: transform, opacity, filter;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+
+    /* Inner glow effect */
+    background-image: radial-gradient(circle at top right,
+            rgba(92, 230, 201, 0.08),
+            transparent 50%);
+}
+
+@media (min-width: 768px) {
+    .card-stack-container {
+        height: 480px;
+    }
+
+    .testimonial-card {
+        padding: 2.5rem 3rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .card-stack-container {
+        height: 520px;
+    }
+
+    .testimonial-card {
+        padding: 3rem 3.5rem;
+    }
+}
+
+/* Mobile Layout */
+.testimonials-mobile {
+    padding: 3rem 0;
+}
+
+.testimonials-mobile-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Mobile Card */
+.testimonial-card-mobile {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+
+    /* Glassmorphism */
+    background: rgba(14, 47, 54, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(92, 230, 201, 0.12);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Hide mobile on desktop, hide desktop on mobile */
+@media (min-width: 768px) {
+    .testimonials-mobile {
+        display: none !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .testimonials-desktop {
+        display: none !important;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    .testimonial-card,
+    .testimonial-card-mobile {
+        transition: none !important;
+        animation: none !important;
+    }
+}

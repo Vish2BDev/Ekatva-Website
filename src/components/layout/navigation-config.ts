@@ -86,37 +86,23 @@ export const EDITIONS_NAV: EditionNavItem[] = [
     {
         name: 'Hyderabad',
         city: 'Hyderabad',
-        slug: 'hyderabad',
+        slug: 'hyderabad-2025',
         status: 'completed',
         date: 'Feb 2025',
     },
     {
         name: 'Delhi',
-        city: 'Delhi NCR',
-        slug: 'delhi',
-        status: 'upcoming',
-        date: 'Q2 2025',
-    },
-    {
-        name: 'Mumbai',
-        city: 'Mumbai',
-        slug: 'mumbai',
+        city: 'Delhi',
+        slug: 'delhi-2025',
         status: 'planned',
-        date: 'Q3 2025',
+        date: 'Q2 2025',
     },
     {
         name: 'Bangalore',
         city: 'Bangalore',
-        slug: 'bangalore',
+        slug: 'bangalore-2025',
         status: 'planned',
         date: 'Q4 2025',
-    },
-    {
-        name: 'Patna',
-        city: 'Patna',
-        slug: 'patna',
-        status: 'planned',
-        date: 'Q2 2025',
     },
 ]
 
