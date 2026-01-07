@@ -12,6 +12,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import india from '@svg-maps/india';
 import './section6b.css';
 
@@ -32,7 +33,7 @@ const CITIES = [
         position: { x: 215, y: 485 },  // PROVEN from cities.ts
         color: '#5CE6C9',
         description: 'The inaugural edition that proved EKATVA works at scale.',
-        link: '/editions/hyderabad'
+        link: '/editions/hyderabad-2025'
     },
     {
         id: 2,
@@ -414,9 +415,9 @@ export function Section6B({ className = '' }: Section6BProps) {
                                 <p className="city-description">{selectedCity.description}</p>
 
                                 {selectedCity.link && (
-                                    <a href={selectedCity.link} className="city-link">
+                                    <Link href={selectedCity.link} className="city-link">
                                         View Full Story →
-                                    </a>
+                                    </Link>
                                 )}
 
                                 {/* Expansion Strategy - Integrated */}
