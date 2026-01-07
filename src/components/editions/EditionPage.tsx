@@ -14,8 +14,7 @@
  * 5. Student Testimonials
  * 6. Aftermovie
  * 7. Team
- * 8. Takeaways
- * 9. Next Edition
+ * 8. Next Edition
  */
 
 import { useEffect } from 'react'
@@ -28,7 +27,6 @@ import {
     TestimonialsSection,
     AftermovieSection,
     TeamSection,
-    TakeawaysSection,
     NextEditionSection,
 } from './sections'
 import '@/styles/EditionPage.css'
@@ -94,14 +92,7 @@ export function EditionPage({ edition }: EditionPageProps) {
                 city={edition.city}
             />
 
-            {/* Section 8: Takeaways */}
-            <TakeawaysSection
-                data={edition.takeaways}
-                status={edition.status}
-                city={edition.city}
-            />
-
-            {/* Section 9: Next Edition */}
+            {/* Section 8: Next Edition */}
             <NextEditionSection
                 data={edition.nextEdition}
                 currentCity={edition.city}
@@ -111,3 +102,4 @@ export function EditionPage({ edition }: EditionPageProps) {
 }
 
 export default EditionPage
+
