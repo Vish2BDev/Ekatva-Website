@@ -733,7 +733,7 @@
 
 /* Flip Card Container */
 .flip-card {
-    height: 280px;
+    height: 320px;
     perspective: 1000px;
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -865,6 +865,21 @@
     transform: rotateY(180deg);
     justify-content: flex-start;
     box-shadow: 0 0 30px color-mix(in srgb, var(--flip-accent) 20%, transparent);
+    overflow-y: auto;
+}
+
+/* Premium scrollbar styling for back face */
+.flip-card-back::-webkit-scrollbar {
+    width: 4px;
+}
+.flip-card-back::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+}
+.flip-card-back::-webkit-scrollbar-thumb {
+    background: var(--flip-accent);
+    border-radius: 2px;
+    opacity: 0.6;
 }
 
 .flip-card-back h4 {
