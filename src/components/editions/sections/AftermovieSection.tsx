@@ -75,27 +75,6 @@ export function AftermovieSection({ data, status, city, videoPoster }: Aftermovi
                         )}
                     </div>
                 </motion.div>
-
-                {/* Behind the Scenes */}
-                {data.behindTheScenes && data.behindTheScenes.length > 0 && (
-                    <motion.div
-                        className="bts-section"
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.5 }}
-                    >
-                        <h3>Behind the Scenes</h3>
-                        <div className="bts-grid">
-                            {data.behindTheScenes.map((item, index) => (
-                                <div key={index} className="bts-item">
-                                    <img src={item.photo} alt={item.caption} />
-                                    <p>{item.caption}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
             </section>
         )
     }
