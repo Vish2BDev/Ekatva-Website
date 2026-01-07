@@ -209,8 +209,249 @@
 }
 
 /* ============================================
-   SECTION 2: STATS
+   SECTION 1B: THEATRICAL FRAMED HERO (New Design)
    ============================================ */
+
+.hero-section-theatrical {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 20px 60px;
+    overflow: hidden;
+}
+
+/* Background Gradient */
+.hero-bg-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #050505 0%, #0E2F36 50%, #050505 100%);
+    z-index: 0;
+}
+
+/* Theatrical Content Container */
+.hero-theatrical-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Status Badge */
+.hero-status-badge {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+}
+
+.hero-status-badge.completed {
+    background: rgba(92, 230, 201, 0.15);
+    color: #5CE6C9;
+    border: 1px solid rgba(92, 230, 201, 0.3);
+}
+
+.hero-status-badge.upcoming {
+    background: rgba(255, 207, 150, 0.15);
+    color: #FFCF96;
+    border: 1px solid rgba(255, 207, 150, 0.3);
+}
+
+/* Theatrical Title */
+.hero-theatrical-title {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.hero-theatrical-title .title-brand {
+    font-size: 24px;
+    font-weight: 500;
+    color: #5CE6C9;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+}
+
+.hero-theatrical-title .title-city {
+    font-size: 72px;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+}
+
+.hero-theatrical-subtitle {
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.hero-theatrical-venue {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 40px;
+}
+
+/* Video Frame Container */
+.hero-video-frame {
+    position: relative;
+    width: 90%;
+    max-width: 1000px;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(92, 230, 201, 0.3);
+    box-shadow:
+        0 0 40px rgba(92, 230, 201, 0.15),
+        0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Framed Video */
+.hero-framed-video,
+.hero-framed-image,
+.hero-framed-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Mute Button */
+.hero-mute-btn {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 24px;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hero-mute-btn:hover {
+    background: rgba(92, 230, 201, 0.2);
+    border-color: #5CE6C9;
+    color: #5CE6C9;
+}
+
+/* Theatrical CTA */
+.hero-theatrical-cta {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 16px 48px;
+    background: #5CE6C9;
+    color: #050505;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(92, 230, 201, 0.3);
+}
+
+.hero-theatrical-cta:hover {
+    background: #FFCF96;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(255, 207, 150, 0.4);
+}
+
+/* Scroll Indicator */
+.hero-scroll-indicator {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.hero-scroll-indicator:hover {
+    color: #5CE6C9;
+}
+
+.hero-scroll-indicator .scroll-icon {
+    animation: scrollBounce 2s ease-in-out infinite;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 1024px) {
+    .hero-theatrical-title .title-city {
+        font-size: 56px;
+    }
+
+    .hero-video-frame {
+        width: 95%;
+    }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 768px) {
+    .hero-section-theatrical {
+        padding: 100px 16px 48px;
+    }
+
+    .hero-theatrical-title .title-brand {
+        font-size: 18px;
+    }
+
+    .hero-theatrical-title .title-city {
+        font-size: 40px;
+    }
+
+    .hero-theatrical-subtitle {
+        font-size: 18px;
+    }
+
+    .hero-video-frame {
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .hero-mute-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .hero-mute-btn span {
+        display: none;
+    }
+}
 
 .stats-section {
     padding: 120px 20px;

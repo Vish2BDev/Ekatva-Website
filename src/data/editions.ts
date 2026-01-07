@@ -54,10 +54,10 @@ export const EDITIONS_DATA: Record<string, Edition> = {
 
         hero: {
             type: 'video',
-            videoUrl: '/videos/hyderabad-aftermovie.mp4',
+            videoUrl: '/videos/ekatva-hyderabad-aftermovie.mp4',
             videoPoster: '/images/editions/hyderabad-poster.jpg',
             title: 'EKATVA Hyderabad',
-            subtitle: 'Feb 15-16, 2025',
+            subtitle: 'February 2025',
             venue: 'Inorbit Mall, Hyderabad'
         },
 
