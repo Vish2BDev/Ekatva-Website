@@ -1,10 +1,10 @@
 'use client'
 
 /**
- * SecondaryNav - Section-Level Navigation (Light Pill Layer)
+ * SecondaryNav - Section-Level Navigation (Dark Glass Layer)
  * 
- * Tomorrowland-inspired design:
- * - Light/white pill container
+ * Premium dark glass design (Perplexity-validated 9/10):
+ * - Dark glass container with teal accent border
  * - Page identifier on the left
  * - Section links with scroll-spy active tracking
  * - Smooth scroll on click
@@ -60,8 +60,8 @@ export default function SecondaryNav() {
         const element = document.getElementById(targetId)
 
         if (element) {
-            // Offset for the navigation height
-            const navHeight = 140 // Approximate height of both navbars
+            // Offset for the navigation height (reduced since smart hide)
+            const navHeight = 80
             const elementPosition = element.getBoundingClientRect().top + window.scrollY
             const offsetPosition = elementPosition - navHeight
 
@@ -86,16 +86,22 @@ export default function SecondaryNav() {
             <nav
                 className="inline-flex items-center gap-1 px-2 py-1.5 rounded-full"
                 style={{
-                    background: 'rgba(255, 255, 255, 0.95)',
-                    backdropFilter: 'blur(12px)',
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+                    background: 'rgba(15, 15, 15, 0.9)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(92, 230, 201, 0.25)',
+                    boxShadow: '0 4px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
                 }}
                 role="navigation"
                 aria-label="Page sections"
             >
                 {/* Page Label */}
                 <span
-                    className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-oneness-black/70 border-r border-black/10 whitespace-nowrap"
+                    className="px-4 py-2 text-xs font-bold uppercase tracking-wider whitespace-nowrap"
+                    style={{
+                        color: 'rgba(92, 230, 201, 0.9)',
+                        borderRight: '1px solid rgba(255, 255, 255, 0.1)'
+                    }}
                 >
                     {pageLabel}
                 </span>
@@ -110,18 +116,37 @@ export default function SecondaryNav() {
                                 key={section.target}
                                 href={section.target}
                                 onClick={(e) => handleSectionClick(e, section.target)}
-                                className={`relative px-3 py-2 text-xs font-medium transition-all duration-200 rounded-full whitespace-nowrap ${isActive
-                                        ? 'text-oneness-black'
-                                        : 'text-oneness-black/60 hover:text-oneness-black hover:bg-black/5'
-                                    }`}
+                                className="relative px-3 py-2 text-xs font-medium transition-all duration-200 rounded-full whitespace-nowrap"
+                                style={{
+                                    color: isActive
+                                        ? '#5CE6C9'
+                                        : 'rgba(255, 255, 255, 0.7)',
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (!isActive) {
+                                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.95)'
+                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (!isActive) {
+                                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)'
+                                        e.currentTarget.style.background = 'transparent'
+                                    }
+                                }}
                             >
                                 {section.label}
 
-                                {/* Active Background */}
+                                {/* Active Background with Teal Glow */}
                                 {isActive && (
                                     <motion.div
                                         layoutId="activeSection"
-                                        className="absolute inset-0 bg-ekatva-teal/20 rounded-full -z-10"
+                                        className="absolute inset-0 rounded-full -z-10"
+                                        style={{
+                                            background: 'rgba(92, 230, 201, 0.15)',
+                                            border: '1px solid rgba(92, 230, 201, 0.3)',
+                                            boxShadow: '0 0 12px rgba(92, 230, 201, 0.2)',
+                                        }}
                                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                                     />
                                 )}

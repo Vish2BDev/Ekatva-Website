@@ -73,7 +73,7 @@ export default function PrimaryNav({ onMobileMenuToggle, isMobileMenuOpen }: Pri
                     {PRIMARY_NAV.map((item) => {
                         const isActive = isNavActive(item.href, pathname ?? '/')
 
-                        // Editions Dropdown
+                        // Editions Dropdown (Horizontal Mega Menu)
                         if (item.type === 'dropdown') {
                             return (
                                 <div
@@ -104,54 +104,78 @@ export default function PrimaryNav({ onMobileMenuToggle, isMobileMenuOpen }: Pri
                                         )}
                                     </button>
 
-                                    {/* Editions Dropdown Menu */}
+                                    {/* Horizontal Mega Menu - Fixed Position to avoid overlap */}
                                     <AnimatePresence>
                                         {editionsOpen && (
                                             <motion.div
-                                                initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                                transition={{ duration: 0.2 }}
-                                                className="absolute top-full left-0 mt-2 w-64 rounded-xl border border-white/10 overflow-hidden"
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: 10 }}
+                                                transition={{ duration: 0.25, ease: 'easeOut' }}
+                                                className="fixed left-0 right-0 mt-4 mx-4"
                                                 style={{
-                                                    background: 'rgba(5, 5, 5, 0.95)',
-                                                    backdropFilter: 'blur(24px)',
+                                                    top: '100%',
+                                                    zIndex: 60,
                                                 }}
                                             >
-                                                <div className="p-2">
-                                                    {EDITIONS_NAV.map((edition) => (
+                                                <div
+                                                    className="max-w-7xl mx-auto rounded-2xl border border-white/10 overflow-hidden"
+                                                    style={{
+                                                        background: 'rgba(10, 10, 10, 0.95)',
+                                                        backdropFilter: 'blur(24px)',
+                                                        WebkitBackdropFilter: 'blur(24px)',
+                                                        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
+                                                    }}
+                                                >
+                                                    {/* Mega Menu Header */}
+                                                    <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+                                                        <div>
+                                                            <h3 className="text-white font-serif text-lg">EKATVA Editions</h3>
+                                                            <p className="text-white/50 text-sm">10 cities by 2030 — one fest at a time</p>
+                                                        </div>
                                                         <Link
-                                                            key={edition.slug}
-                                                            href={`/editions/${edition.slug}`}
-                                                            className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-white/5 transition-colors group"
+                                                            href="/editions"
+                                                            className="text-sm text-ekatva-teal hover:underline flex items-center gap-1"
                                                             onClick={() => setEditionsOpen(false)}
                                                         >
-                                                            <div>
-                                                                <span className="text-white font-medium group-hover:text-ekatva-teal transition-colors">
-                                                                    {edition.name}
-                                                                </span>
-                                                                <span className="block text-xs text-white/50">
-                                                                    {edition.date}
-                                                                </span>
-                                                            </div>
-                                                            <span className={`text-xs px-2 py-0.5 rounded-full ${edition.status === 'completed'
-                                                                    ? 'bg-ekatva-teal/20 text-ekatva-teal'
-                                                                    : edition.status === 'upcoming'
-                                                                        ? 'bg-ekatva-gold/20 text-ekatva-gold'
-                                                                        : 'bg-white/10 text-white/50'
-                                                                }`}>
-                                                                {edition.status === 'completed' ? '✓' : edition.status === 'upcoming' ? 'Soon' : 'Planned'}
-                                                            </span>
+                                                            View All →
                                                         </Link>
-                                                    ))}
+                                                    </div>
+
+                                                    {/* Horizontal City Cards Grid */}
+                                                    <div className="p-4 grid grid-cols-5 gap-3">
+                                                        {EDITIONS_NAV.map((edition) => (
+                                                            <Link
+                                                                key={edition.slug}
+                                                                href={`/editions/${edition.slug}`}
+                                                                className="group p-4 rounded-xl transition-all hover:bg-white/5 border border-transparent hover:border-ekatva-teal/30"
+                                                                onClick={() => setEditionsOpen(false)}
+                                                            >
+                                                                {/* Status Badge */}
+                                                                <div className="flex justify-between items-start mb-3">
+                                                                    <span className={`text-xs px-2 py-1 rounded-full ${edition.status === 'completed'
+                                                                            ? 'bg-ekatva-teal/20 text-ekatva-teal'
+                                                                            : edition.status === 'upcoming'
+                                                                                ? 'bg-ekatva-gold/20 text-ekatva-gold'
+                                                                                : 'bg-white/10 text-white/40'
+                                                                        }`}>
+                                                                        {edition.status === 'completed' ? '✓ Completed' : edition.status === 'upcoming' ? '🔥 Soon' : 'Planned'}
+                                                                    </span>
+                                                                </div>
+
+                                                                {/* City Name */}
+                                                                <h4 className="text-white font-medium text-lg group-hover:text-ekatva-teal transition-colors">
+                                                                    {edition.name}
+                                                                </h4>
+
+                                                                {/* Date */}
+                                                                <p className="text-white/50 text-sm mt-1">
+                                                                    {edition.date}
+                                                                </p>
+                                                            </Link>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                                <Link
-                                                    href="/editions"
-                                                    className="block px-4 py-3 text-center text-sm text-ekatva-teal border-t border-white/10 hover:bg-ekatva-teal/10 transition-colors"
-                                                    onClick={() => setEditionsOpen(false)}
-                                                >
-                                                    View All Editions →
-                                                </Link>
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
