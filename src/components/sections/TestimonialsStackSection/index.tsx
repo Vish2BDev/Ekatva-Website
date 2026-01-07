@@ -245,6 +245,7 @@ export default function TestimonialsStackSection() {
     return (
         <section
             ref={triggerRef}
+            id="testimonials"
             className="testimonials-section"
             aria-label="Community Testimonials"
         >

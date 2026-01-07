@@ -24,26 +24,31 @@ export default function SecondaryNav() {
     const pageLabel = getPageLabel(pathname ?? '/')
     const showNav = hasSecondaryNav(pathname ?? '/')
 
-    // Scroll spy - track active section
+    // Scroll spy - track active section (GSAP-aware using getBoundingClientRect)
     useEffect(() => {
         if (!showNav || sections.length === 0) return
 
         const handleScroll = () => {
-            const scrollPosition = window.scrollY + window.innerHeight / 3
+            // Use viewport-relative positioning for GSAP ScrollTrigger compatibility
+            // getBoundingClientRect gives us where elements actually ARE on screen
+            const viewportThreshold = window.innerHeight * 0.4 // Active when 40% from top
 
-            for (let i = sections.length - 1; i >= 0; i--) {
-                const section = sections[i]
+            let activeTarget = sections[0]?.target || ''
+
+            for (const section of sections) {
                 const targetId = section.target.replace('#', '')
                 const element = document.getElementById(targetId)
 
                 if (element) {
-                    const { offsetTop } = element
-                    if (scrollPosition >= offsetTop) {
-                        setActiveSection(section.target)
-                        break
+                    const rect = element.getBoundingClientRect()
+                    // Section is active if its top is above the threshold
+                    if (rect.top <= viewportThreshold) {
+                        activeTarget = section.target
                     }
                 }
             }
+
+            setActiveSection(activeTarget)
         }
 
         // Initial check
