@@ -10,12 +10,17 @@
  * - Film grain overlay for nostalgia
  * - Category label with glass pill effect
  * 
+ * PROGRESSIVE REVEAL SYSTEM:
+ * - Layer 1: Better icon (Shuffle instead of RefreshCw)
+ * - Layer 2: Entry animation (pulse on viewport)
+ * - Layer 3: Hover-expand label (circle → pill with "Shuffle" text)
+ * 
  * Architecture: Iceberg Loading + Circular Buffer
  */
 
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { RefreshCw } from 'lucide-react'
+import { Shuffle } from 'lucide-react'
 import { getShuffleSound } from '@/lib/HapticAudio'
 
 interface MemoryDeckProps {
@@ -24,6 +29,7 @@ interface MemoryDeckProps {
     images: string[]
     className?: string
     onPhotoClick?: (src: string, alt: string, layoutId: string) => void
+    entryDelay?: number // Staggered delay for entry animation
 }
 
 // Random rotation between -2° and +2° (Ekatva brand: harmony, not chaos)
@@ -34,7 +40,8 @@ export function MemoryDeck({
     label,
     images,
     className = '',
-    onPhotoClick
+    onPhotoClick,
+    entryDelay = 0
 }: MemoryDeckProps) {
     const prefersReducedMotion = useReducedMotion()
 
@@ -42,7 +49,9 @@ export function MemoryDeck({
     const [cursor, setCursor] = useState(0)
     const [isLocked, setIsLocked] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
+    const [isButtonHovered, setIsButtonHovered] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
+    const [hasEnteredView, setHasEnteredView] = useState(false)
 
     // Precomputed rotations for back cards
     const [backRotation, setBackRotation] = useState(getRandomRotation())
@@ -50,6 +59,7 @@ export function MemoryDeck({
 
     // Preload next image
     const preloadRef = useRef<HTMLImageElement | null>(null)
+    const deckRef = useRef<HTMLDivElement>(null)
 
     // Check for mobile on mount
     useEffect(() => {
@@ -58,6 +68,29 @@ export function MemoryDeck({
         window.addEventListener('resize', checkMobile)
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
+
+    // Entry animation trigger using IntersectionObserver
+    useEffect(() => {
+        if (!deckRef.current || prefersReducedMotion) {
+            setHasEnteredView(true)
+            return
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !hasEnteredView) {
+                    // Delay based on entryDelay prop for staggered effect
+                    setTimeout(() => {
+                        setHasEnteredView(true)
+                    }, entryDelay)
+                }
+            },
+            { threshold: 0.3 }
+        )
+
+        observer.observe(deckRef.current)
+        return () => observer.disconnect()
+    }, [entryDelay, hasEnteredView, prefersReducedMotion])
 
     useEffect(() => {
         // Preload n+2 image for fast shuffle
@@ -121,6 +154,7 @@ export function MemoryDeck({
 
     return (
         <div
+            ref={deckRef}
             className={`memory-deck ${className}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -203,25 +237,37 @@ export function MemoryDeck({
                 </AnimatePresence>
             </div>
 
-            {/* Shuffle Button - 56px Circle, Teal */}
+            {/* Shuffle Button - Progressive Reveal Design */}
+            {/* Layer 2: Entry animation (pulse) */}
+            {/* Layer 3: Hover-expand to show "Shuffle" text */}
             <motion.button
-                className="shuffle-btn"
+                className={`shuffle-btn ${isButtonHovered && !isMobile ? 'shuffle-btn--expanded' : ''}`}
                 onClick={handleShuffle}
+                onMouseEnter={() => setIsButtonHovered(true)}
+                onMouseLeave={() => setIsButtonHovered(false)}
                 disabled={isLocked}
+                initial={{ scale: 0.8, opacity: 0 }}
                 animate={{
                     opacity: isHovered || isMobile ? 1 : 0.6,
                     y: 0,
-                    scale: 1
+                    scale: hasEnteredView ? 1 : 0.8
                 }}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: isMobile ? 1 : 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
+                transition={{
+                    duration: 0.4,
+                    ease: [0.34, 1.56, 0.64, 1], // Spring-like bounce
+                    scale: { duration: hasEnteredView ? 0.3 : 0.5 }
+                }}
                 aria-label={`Shuffle ${label} photos`}
             >
-                <RefreshCw size={20} strokeWidth={2} />
+                <Shuffle size={18} strokeWidth={2.5} />
+                {/* Hover label - only show on desktop */}
+                <span className="shuffle-btn-label">Shuffle</span>
             </motion.button>
         </div>
     )
 }
 
 export default MemoryDeck
+

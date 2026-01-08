@@ -162,7 +162,7 @@ export function GallerySection({ data, status, city }: GallerySectionProps) {
                             Every Moment, <span className="text-gold">Every Memory</span>
                         </h2>
                         <p className="gallery-subheadline">
-                            Click to shuffle through the highlights
+                            Tap <span style={{ color: '#5CE6C9' }}>↻</span> on any deck to explore more photos
                         </p>
                     </motion.div>
 
@@ -175,13 +175,14 @@ export function GallerySection({ data, status, city }: GallerySectionProps) {
                         viewport={{ once: true }}
                         style={{ y: gridY }}
                     >
-                        {Object.entries(DECK_CONFIG).map(([deckId, deck]) => (
+                        {Object.entries(DECK_CONFIG).map(([deckId, deck], index) => (
                             <motion.div key={deckId} variants={itemVariants}>
                                 <MemoryDeck
                                     deckId={deckId}
                                     label={deck.label}
                                     images={deck.images}
                                     onPhotoClick={handlePhotoClick}
+                                    entryDelay={index * 100} // Staggered entry animation
                                 />
                             </motion.div>
                         ))}

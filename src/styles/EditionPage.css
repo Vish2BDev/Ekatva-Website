@@ -1716,15 +1716,19 @@ section {
     z-index: 10;
 }
 
-/* Shuffle Button - 56px Circle */
+/* Shuffle Button - Progressive Reveal Design */
+/* Base: 56px circle with icon */
+/* Hover: Expands to pill with "Shuffle" text */
 .shuffle-btn {
     position: absolute;
     bottom: -28px;
     left: 50%;
     transform: translateX(-50%);
-    width: 56px;
     height: 56px;
-    border-radius: 50%;
+    min-width: 56px;
+    padding: 0 16px;
+    border-radius: 28px;
+    /* Pill shape when expanded */
     background: #5CE6C9;
     color: #050505;
     border: none;
@@ -1732,9 +1736,40 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0;
     box-shadow: 0 4px 16px rgba(92, 230, 201, 0.4);
     z-index: 20;
-    transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    transition:
+        min-width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        gap 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.2s ease;
+}
+
+/* Shuffle button label - hidden by default */
+.shuffle-btn-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition:
+        max-width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.2s ease 0.1s;
+}
+
+/* Hover state - expand to show label */
+.shuffle-btn--expanded {
+    min-width: 110px;
+    gap: 8px;
+}
+
+.shuffle-btn--expanded .shuffle-btn-label {
+    max-width: 80px;
+    opacity: 1;
 }
 
 .shuffle-btn:hover {
