@@ -18,8 +18,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Download, Shuffle } from 'lucide-react'
-import Masonry from 'react-masonry-css'
-import { MasonryGalleryCard } from './MasonryGalleryCard'
+import { MemoryDeck } from './MemoryDeck'
 import { VibeStream } from './VibeStream'
 import { PhotoLightbox } from './PhotoLightbox'
 import type { GalleryData, EditionStatus } from '@/types/edition'
@@ -169,27 +168,27 @@ export function GallerySection({ data, status, city }: GallerySectionProps) {
                         </div>
                     </motion.div>
 
-                    {/* MASONRY GRID - Pinterest Style Layout */}
-                    <Masonry
-                        breakpointCols={{
-                            default: 3,
-                            1024: 2,
-                            640: 1
-                        }}
-                        className="masonry-grid"
-                        columnClassName="masonry-column"
+                    {/* Shuffle Deck Grid - 3x2 on Desktop - WITH PARALLAX */}
+                    <motion.div
+                        className="memory-deck-grid"
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        style={{ y: gridY }}
                     >
                         {Object.entries(DECK_CONFIG).map(([deckId, deck], index) => (
-                            <MasonryGalleryCard
-                                key={deckId}
-                                deckId={deckId}
-                                label={deck.label}
-                                images={deck.images}
-                                onPhotoClick={handlePhotoClick}
-                                entryDelay={index * 100}
-                            />
+                            <motion.div key={deckId} variants={itemVariants}>
+                                <MemoryDeck
+                                    deckId={deckId}
+                                    label={deck.label}
+                                    images={deck.images}
+                                    onPhotoClick={handlePhotoClick}
+                                    entryDelay={index * 100} // Staggered entry animation
+                                />
+                            </motion.div>
                         ))}
-                    </Masonry>
+                    </motion.div>
 
                     {/* Vibe Stream - Full Bleed Marquee */}
                     <motion.div

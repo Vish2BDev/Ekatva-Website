@@ -179,9 +179,8 @@ export function MemoryDeck({
                     transition={{ duration: 0.3, ease: 'easeOut' }}
                     style={{
                         backgroundImage: `url(${images[shadowIndex]})`,
-                        backgroundSize: 'contain',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center top',
                         zIndex: 1
                     }}
                 />
@@ -197,9 +196,8 @@ export function MemoryDeck({
                     transition={{ duration: 0.3, ease: 'easeOut' }}
                     style={{
                         backgroundImage: `url(${images[backIndex]})`,
-                        backgroundSize: 'contain',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center top',
                         zIndex: 2
                     }}
                 />
@@ -225,9 +223,8 @@ export function MemoryDeck({
                         transition={{ duration: 0.35, ease: 'easeOut' }}
                         style={{
                             backgroundImage: `url(${images[topIndex]})`,
-                            backgroundSize: 'contain',
-                            backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center top',
                             zIndex: 3
                         }}
                     >
