@@ -1,17 +1,22 @@
 'use client'
 
 /**
- * GALLERY SECTION - EDITION PAGE
+ * GALLERY SECTION - "Every Moment, Every Memory"
  * 
- * Photo gallery with:
- * - Grid layout for completed editions
- * - Placeholder for upcoming editions
- * - Download link for high-res photos
+ * Hybrid architecture:
+ * - 6 Interactive Shuffle Decks (3x2 grid)
+ * - 1 Infinite Vibe Stream (full-bleed marquee)
+ * 
+ * Implements Iceberg Loading:
+ * - Phase 1: Top cards only (LCP priority)
+ * - Phase 2: Back cards after idle
+ * - Phase 3: n+2 on interaction
  */
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { X, Download, ChevronLeft, ChevronRight } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Download } from 'lucide-react'
+import { MemoryDeck } from './MemoryDeck'
+import { VibeStream } from './VibeStream'
 import type { GalleryData, EditionStatus } from '@/types/edition'
 
 interface GallerySectionProps {
@@ -20,226 +25,142 @@ interface GallerySectionProps {
     city: string
 }
 
+// Gallery deck configuration - Iceberg data model
+const DECK_CONFIG = {
+    'icebreakers': {
+        label: 'Icebreakers',
+        images: [
+            '/images/gallery/icebreakers/speed-conversations.png',
+            '/images/gallery/icebreakers/senior-junior.png',
+            '/images/gallery/icebreakers/treasure-hunt.png'
+        ]
+    },
+    'red-light': {
+        label: 'Red Light, Green Light',
+        images: [
+            '/images/gallery/red-light/thumbnail.png',
+            '/images/gallery/red-light/action-1.jpg'
+        ]
+    },
+    'mimic-relay': {
+        label: 'Mimic Relay',
+        images: [
+            '/images/gallery/mimic-relay/mimic-1.png',
+            '/images/gallery/mimic-relay/mimic-2.png'
+        ]
+    },
+    'interactive': {
+        label: 'Interactive Sessions',
+        images: [
+            '/images/gallery/interactive/interactive-1.png',
+            '/images/gallery/interactive/interactive-2.png'
+        ]
+    },
+    'dj-night': {
+        label: 'Music & DJ Night',
+        images: [
+            '/images/gallery/dj-night/music.png',
+            '/images/gallery/dj-night/dance.png',
+            '/images/gallery/dj-night/dj.png'
+        ]
+    }
+}
+
+// Slider images for vibe stream
+const SLIDER_IMAGES = [
+    '/images/gallery/slider/people-1.png',
+    '/images/gallery/slider/people-2.jpg',
+    '/images/gallery/slider/people-3.jpg',
+    '/images/gallery/slider/venue-1.jpg'
+]
+
+// Animation variants
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.2,
+        },
+    },
+}
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, ease: 'easeOut' as const },
+    },
+}
+
 export function GallerySection({ data, status, city }: GallerySectionProps) {
-    const [lightboxOpen, setLightboxOpen] = useState(false)
-    const [lightboxIndex, setLightboxIndex] = useState(0)
-
-    const openLightbox = (index: number) => {
-        setLightboxIndex(index)
-        setLightboxOpen(true)
-    }
-
-    const closeLightbox = () => {
-        setLightboxOpen(false)
-    }
-
-    const navigateLightbox = (direction: 'prev' | 'next') => {
-        if (direction === 'prev') {
-            setLightboxIndex((prev) => (prev === 0 ? data.photos.length - 1 : prev - 1))
-        } else {
-            setLightboxIndex((prev) => (prev === data.photos.length - 1 ? 0 : prev + 1))
-        }
-    }
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.2,
-            },
-        },
-    }
-
-    const itemVariants = {
-        hidden: { opacity: 0, scale: 0.9 },
-        visible: {
-            opacity: 1,
-            scale: 1,
-            transition: { duration: 0.5, ease: 'easeOut' as const },
-        },
-    }
-
-    // Completed edition with photos
-    if (status === 'completed' && data.photos.length > 0) {
+    // For completed editions with shuffle decks
+    if (status === 'completed') {
         return (
-            <section className="gallery-section">
-                <motion.h2
-                    className="section-headline"
+            <section className="gallery-section gallery-section--hybrid">
+                {/* Section Header */}
+                <motion.div
+                    className="gallery-header"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
                 >
-                    Every Moment, Every Memory
-                </motion.h2>
+                    <h2 className="section-headline">
+                        Every Moment, <span className="text-gold">Every Memory</span>
+                    </h2>
+                    <p className="gallery-subheadline">
+                        Click to shuffle through the highlights
+                    </p>
+                </motion.div>
 
+                {/* Shuffle Deck Grid - 3x2 on Desktop */}
                 <motion.div
-                    className="gallery-grid"
+                    className="memory-deck-grid"
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
                 >
-                    {data.photos.slice(0, 8).map((photo, index) => (
-                        <motion.div
-                            key={index}
-                            className="gallery-item"
-                            variants={itemVariants}
-                            onClick={() => openLightbox(index)}
-                        >
-                            <img src={photo.url} alt={photo.caption} />
-                            <div className="gallery-caption">
-                                <p>{photo.caption}</p>
-                                {photo.timestamp && <span>{photo.timestamp}</span>}
-                            </div>
+                    {Object.entries(DECK_CONFIG).map(([deckId, deck]) => (
+                        <motion.div key={deckId} variants={itemVariants}>
+                            <MemoryDeck
+                                deckId={deckId}
+                                label={deck.label}
+                                images={deck.images}
+                            />
                         </motion.div>
                     ))}
                 </motion.div>
 
+                {/* Vibe Stream - Full Bleed Marquee */}
                 <motion.div
-                    className="gallery-actions"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    className="vibe-stream-container"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.4 }}
+                    transition={{ delay: 0.4, duration: 0.6 }}
                 >
-                    {data.photos.length > 8 && (
-                        <button className="gallery-view-all" onClick={() => openLightbox(0)}>
-                            View All {data.photos.length} Photos
-                        </button>
-                    )}
+                    <VibeStream images={SLIDER_IMAGES} />
+                </motion.div>
 
-                    {data.downloadLink && (
+                {/* Download Action */}
+                {data.downloadLink && (
+                    <motion.div
+                        className="gallery-actions"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.6 }}
+                    >
                         <a href={data.downloadLink} className="gallery-download" download>
                             <Download size={16} style={{ marginRight: 8, verticalAlign: 'middle' }} />
                             Download High-Res (ZIP)
                         </a>
-                    )}
-                </motion.div>
-
-                {/* Lightbox */}
-                <AnimatePresence>
-                    {lightboxOpen && (
-                        <motion.div
-                            className="lightbox-overlay"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={closeLightbox}
-                            style={{
-                                position: 'fixed',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                background: 'rgba(0, 0, 0, 0.95)',
-                                zIndex: 2000,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                padding: 20,
-                            }}
-                        >
-                            <button
-                                onClick={closeLightbox}
-                                style={{
-                                    position: 'absolute',
-                                    top: 20,
-                                    right: 20,
-                                    background: 'rgba(255, 255, 255, 0.1)',
-                                    border: 'none',
-                                    borderRadius: '50%',
-                                    width: 48,
-                                    height: 48,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    color: '#fff',
-                                }}
-                            >
-                                <X size={24} />
-                            </button>
-
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    navigateLightbox('prev')
-                                }}
-                                style={{
-                                    position: 'absolute',
-                                    left: 20,
-                                    background: 'rgba(255, 255, 255, 0.1)',
-                                    border: 'none',
-                                    borderRadius: '50%',
-                                    width: 48,
-                                    height: 48,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    color: '#fff',
-                                }}
-                            >
-                                <ChevronLeft size={24} />
-                            </button>
-
-                            <motion.div
-                                key={lightboxIndex}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0 }}
-                                onClick={(e) => e.stopPropagation()}
-                                style={{ maxWidth: '90%', maxHeight: '90%' }}
-                            >
-                                <img
-                                    src={data.photos[lightboxIndex].url}
-                                    alt={data.photos[lightboxIndex].caption}
-                                    style={{
-                                        maxWidth: '100%',
-                                        maxHeight: '80vh',
-                                        borderRadius: 12,
-                                    }}
-                                />
-                                <p
-                                    style={{
-                                        textAlign: 'center',
-                                        color: '#fff',
-                                        marginTop: 16,
-                                        fontSize: 16,
-                                    }}
-                                >
-                                    {data.photos[lightboxIndex].caption}
-                                </p>
-                            </motion.div>
-
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    navigateLightbox('next')
-                                }}
-                                style={{
-                                    position: 'absolute',
-                                    right: 20,
-                                    background: 'rgba(255, 255, 255, 0.1)',
-                                    border: 'none',
-                                    borderRadius: '50%',
-                                    width: 48,
-                                    height: 48,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    color: '#fff',
-                                }}
-                            >
-                                <ChevronRight size={24} />
-                            </button>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                    </motion.div>
+                )}
             </section>
         )
     }
@@ -274,42 +195,6 @@ export function GallerySection({ data, status, city }: GallerySectionProps) {
                     </p>
                 </div>
             </motion.div>
-
-            <div className="gallery-teaser">
-                <p className="teaser-label">From EKATVA Hyderabad 2025:</p>
-                {/* Teaser would show Hyderabad photos */}
-                <motion.div
-                    className="gallery-grid"
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    style={{ opacity: 0.7 }}
-                >
-                    {[1, 2, 3, 4].map((i) => (
-                        <motion.div
-                            key={i}
-                            className="gallery-item"
-                            variants={itemVariants}
-                            style={{ background: 'rgba(255, 255, 255, 0.03)' }}
-                        >
-                            <div
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: 'rgba(255, 255, 255, 0.3)',
-                                    fontSize: 48,
-                                }}
-                            >
-                                📷
-                            </div>
-                        </motion.div>
-                    ))}
-                </motion.div>
-            </div>
         </section>
     )
 }

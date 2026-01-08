@@ -72,7 +72,7 @@ export function HeroSection({ data, status }: HeroSectionProps) {
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] }
+            transition: { duration: 0.6, ease: 'easeOut' as const }
         }
     }
 
@@ -81,7 +81,7 @@ export function HeroSection({ data, status }: HeroSectionProps) {
         visible: {
             opacity: 1,
             scale: 1,
-            transition: { duration: 0.8, delay: 0.5, ease: [0.4, 0, 0.2, 1] }
+            transition: { duration: 0.8, delay: 0.5, ease: 'easeOut' as const }
         }
     }
 

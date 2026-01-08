@@ -1590,6 +1590,294 @@ section {
 }
 
 /* ============================================
+   SECTION 3: GALLERY - HYBRID SHUFFLE SYSTEM
+   "Every Moment, Every Memory"
+   ============================================ */
+
+.gallery-section--hybrid {
+    background-color: #050505;
+    padding: 80px 0;
+}
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding: 0 24px;
+}
+
+.gallery-subheadline {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 8px;
+}
+
+.text-gold {
+    color: #FFCF96;
+}
+
+/* Memory Deck Grid - 3x2 Desktop */
+.memory-deck-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* --------------------------------
+   MEMORY DECK COMPONENT
+   -------------------------------- */
+.memory-deck {
+    position: relative;
+    width: 100%;
+}
+
+.memory-deck-stack {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 16px;
+    overflow: visible;
+}
+
+/* Card Base Styles */
+.memory-card {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #333;
+    background-color: #0E2F36;
+    box-shadow: 0 4px 20px rgba(92, 230, 201, 0.1);
+}
+
+/* Card Layers */
+.memory-card--shadow {
+    z-index: 1;
+}
+
+.memory-card--back {
+    z-index: 2;
+}
+
+.memory-card--top {
+    z-index: 3;
+}
+
+/* Film Grain Overlay */
+.memory-card-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.08;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 5;
+    border-radius: 16px;
+}
+
+/* Category Label - Glass Pill */
+.memory-deck-label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 6px 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 20px;
+    z-index: 10;
+}
+
+/* Shuffle Button - 56px Circle */
+.shuffle-btn {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #5CE6C9;
+    color: #050505;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(92, 230, 201, 0.4);
+    z-index: 20;
+    transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shuffle-btn:hover {
+    background: #3FD4B6;
+}
+
+.shuffle-btn:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+/* --------------------------------
+   VIBE STREAM (MARQUEE)
+   -------------------------------- */
+.vibe-stream-container {
+    margin-top: 100px;
+    margin-bottom: 40px;
+}
+
+.vibe-stream {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    height: 240px;
+    overflow: hidden;
+    cursor: grab;
+}
+
+.vibe-stream:active {
+    cursor: grabbing;
+}
+
+.vibe-stream-track {
+    display: flex;
+    gap: 16px;
+    height: 100%;
+    will-change: transform;
+}
+
+.vibe-item {
+    position: relative;
+    flex-shrink: 0;
+    height: 100%;
+    width: auto;
+    border-radius: 12px;
+    overflow: hidden;
+    filter: grayscale(80%) sepia(10%);
+    transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.vibe-item img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+}
+
+/* Unity Gold Overlay for monochrome state */
+.vibe-item-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 207, 150, 0.08);
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.vibe-item:hover {
+    filter: grayscale(0%) sepia(0%);
+    transform: scale(1.05);
+}
+
+.vibe-item:hover .vibe-item-overlay {
+    opacity: 0;
+}
+
+/* Film Grain on Vibe Stream */
+.vibe-stream-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.1;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Gallery Actions */
+.gallery-actions {
+    display: flex;
+    justify-content: center;
+    padding: 40px 24px;
+}
+
+.gallery-download {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 28px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.gallery-download:hover {
+    background: rgba(92, 230, 201, 0.1);
+    border-color: #5CE6C9;
+    color: #5CE6C9;
+}
+
+/* --------------------------------
+   RESPONSIVE: TABLET (2x3 Grid)
+   -------------------------------- */
+@media (max-width: 1024px) {
+    .memory-deck-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .shuffle-btn {
+        opacity: 1 !important;
+        transform: translateX(-50%) translateY(0) !important;
+    }
+
+    .vibe-stream {
+        height: 200px;
+    }
+}
+
+/* --------------------------------
+   RESPONSIVE: MOBILE (1x6 Stack)
+   -------------------------------- */
+@media (max-width: 768px) {
+    .gallery-section--hybrid {
+        padding: 60px 0;
+    }
+
+    .memory-deck-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        max-width: 400px;
+    }
+
+    /* Reduce rotation on mobile to prevent overflow */
+    .memory-card--back,
+    .memory-card--shadow {
+        transform: rotate(0deg) scale(0.98) !important;
+    }
+
+    .vibe-stream {
+        height: 160px;
+        cursor: default;
+    }
+
+    .vibe-stream-container {
+        margin-top: 80px;
+    }
+}
+
+/* ============================================
    ACCESSIBILITY
    ============================================ */
 
