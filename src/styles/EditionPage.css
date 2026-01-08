@@ -1706,6 +1706,20 @@ section {
     box-shadow:
         0 4px 20px rgba(92, 230, 201, 0.1),
         0 20px 60px rgba(0, 0, 0, 0.6);
+
+    /* ITERATION 2: PHYSICS TRANSITIONS */
+    /* Smooth material response */
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ITERATION 2: HOVER STATE (Light Catch & Levitation Shadow) */
+.memory-deck:hover .memory-card {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow:
+        0 8px 30px rgba(92, 230, 201, 0.2),
+        0 30px 80px rgba(0, 0, 0, 0.8);
 }
 
 /* Card Layers */

@@ -213,9 +213,10 @@ export function MemoryDeck({
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{
                             opacity: 1,
-                            scale: 1,
+                            scale: isHovered ? 1.025 : 1, // Breath (Iter 2)
                             rotate: 0,
-                            x: 0
+                            x: 0,
+                            y: isHovered ? -6 : 0 // Levitation (Iter 2)
                         }}
                         exit={{
                             x: '25%',
