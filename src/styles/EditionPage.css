@@ -1756,22 +1756,30 @@ section {
     position: absolute;
     top: 12px;
     left: 12px;
-    padding: 6px 14px;
+    padding: 8px 16px 8px 14px;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: #fff;
-    /* ITERATION 1: ETCHED GLASS LABEL */
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 6px;
+
+    /* FIX: PREMIUM TAG - Dark frosted glass with teal accent */
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.65));
+    border: none;
+    border-left: 3px solid #5CE6C9;
+    /* Brand teal accent strip */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 4px;
+    /* Sharper corners for "tag" aesthetic */
     z-index: 10;
-    /* Slight shadow for separation */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+    /* Text legibility insurance */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+
+    /* Physical depth */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* Shuffle Button - Progressive Reveal Design */
