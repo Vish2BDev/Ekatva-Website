@@ -1702,9 +1702,11 @@ section {
     background-color: transparent;
     /* Let stack's #020202 show through */
 
-    /* Enhanced physical depth */
+    /* Enhanced physical depth + LETTERBOX VISIBILITY FIX */
     box-shadow:
-        0 4px 20px rgba(92, 230, 201, 0.1),
+        0 0 40px rgba(92, 230, 201, 0.15),
+        /* Outer teal glow for visibility */
+        0 4px 20px rgba(92, 230, 201, 0.15),
         0 20px 60px rgba(0, 0, 0, 0.6);
 
     /* ITERATION 2: PHYSICS TRANSITIONS */
@@ -1718,7 +1720,9 @@ section {
 .memory-deck:hover .memory-card {
     border-color: rgba(255, 255, 255, 0.4);
     box-shadow:
-        0 8px 30px rgba(92, 230, 201, 0.2),
+        0 0 60px rgba(92, 230, 201, 0.25),
+        /* Enhanced outer glow on hover */
+        0 8px 30px rgba(92, 230, 201, 0.25),
         0 30px 80px rgba(0, 0, 0, 0.8);
 }
 
@@ -2047,9 +2051,11 @@ section {
 
 .lightbox-content {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    /* FIX: Use inset + margin auto instead of transform (FM overrides transform) */
+    inset: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
     z-index: 101;
     max-width: 90vw;
     max-height: 90vh;
