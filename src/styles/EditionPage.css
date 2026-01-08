@@ -1625,15 +1625,33 @@ section {
     margin-top: 8px;
 }
 
+/* Fix D: Instructional Badge - Elevated affordance */
+.gallery-instruction-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(92, 230, 201, 0.08);
+    border: 1px solid rgba(92, 230, 201, 0.25);
+    border-radius: 24px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5CE6C9;
+    margin-top: 16px;
+}
+
 .text-gold {
     color: #FFCF96;
 }
 
 /* Memory Deck Grid - 3x2 Desktop */
+/* Fix C: Increased gap for visual breathing room */
 .memory-deck-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 40px;
+    /* Increased from 24px to accommodate button zone */
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 24px;
@@ -1641,32 +1659,41 @@ section {
 
 /* --------------------------------
    MEMORY DECK COMPONENT
+   Fix A: Padding reservation for button overflow
    -------------------------------- */
 .memory-deck {
     position: relative;
     width: 100%;
+    padding-bottom: 36px;
+    /* Reserve space for button */
 }
 
+/* Intelligent Containment: 16:10 ratio + contain for full image visibility */
 .memory-deck-stack {
     position: relative;
     width: 100%;
-    /* WORLD-CLASS: Adaptive aspect ratio - content-aware framing */
-    aspect-ratio: auto;
-    min-height: 320px;
-    max-height: 480px;
+    aspect-ratio: 16 / 10;
+    /* Wide container accommodates all orientations */
+    background-color: #050505;
+    /* Seamless letterbox blends with page */
     border-radius: 16px;
-    overflow: visible;
+    overflow: hidden;
+    /* Clip to rounded corners */
 }
 
-/* Card Base Styles */
+/* Card Base Styles - Flex centering for natural image sizing */
 .memory-card {
     position: absolute;
     inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid #333;
-    background-color: #0E2F36;
-    /* WORLD-CLASS: Enhanced physical depth */
+    background-color: transparent;
+    /* Let stack's #050505 show through */
+    /* Enhanced physical depth */
     box-shadow:
         0 4px 20px rgba(92, 230, 201, 0.15),
         0 20px 60px rgba(0, 0, 0, 0.5);
@@ -1719,16 +1746,18 @@ section {
 /* Shuffle Button - Progressive Reveal Design */
 /* Base: 56px circle with icon */
 /* Hover: Expands to pill with "Shuffle" text */
+/* Fix A: Repositioned inside padding zone (no overflow) */
 .shuffle-btn {
     position: absolute;
-    bottom: -28px;
+    bottom: 8px;
+    /* Inside padding zone - was -28px (overflow) */
     left: 50%;
     transform: translateX(-50%);
-    height: 56px;
-    min-width: 56px;
-    padding: 0 16px;
-    border-radius: 28px;
-    /* Pill shape when expanded */
+    height: 48px;
+    /* Slightly smaller for better fit */
+    min-width: 48px;
+    padding: 0 14px;
+    border-radius: 24px;
     background: #5CE6C9;
     color: #050505;
     border: none;

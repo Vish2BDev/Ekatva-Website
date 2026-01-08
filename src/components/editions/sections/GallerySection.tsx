@@ -17,7 +17,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import { Download } from 'lucide-react'
+import { Download, Shuffle } from 'lucide-react'
 import { MemoryDeck } from './MemoryDeck'
 import { VibeStream } from './VibeStream'
 import { PhotoLightbox } from './PhotoLightbox'
@@ -161,9 +161,11 @@ export function GallerySection({ data, status, city }: GallerySectionProps) {
                         <h2 className="section-headline">
                             Every Moment, <span className="text-gold">Every Memory</span>
                         </h2>
-                        <p className="gallery-subheadline">
-                            Tap <span style={{ color: '#5CE6C9' }}>↻</span> on any deck to explore more photos
-                        </p>
+                        {/* Fix D: Instruction badge - elevated affordance */}
+                        <div className="gallery-instruction-badge">
+                            <Shuffle size={14} />
+                            <span>Tap any deck to explore</span>
+                        </div>
                     </motion.div>
 
                     {/* Shuffle Deck Grid - 3x2 on Desktop - WITH PARALLAX */}
