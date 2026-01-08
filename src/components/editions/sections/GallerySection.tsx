@@ -63,6 +63,14 @@ const DECK_CONFIG = {
             '/images/gallery/dj-night/dance.png',
             '/images/gallery/dj-night/dj.png'
         ]
+    },
+    'ekatva-family': {
+        label: 'Ekatva Family',
+        images: [
+            '/images/gallery/ekatva-family/family-1.png',
+            '/images/gallery/ekatva-family/family-2.jpg',
+            '/images/gallery/ekatva-family/family-3.png'
+        ]
     }
 }
 
