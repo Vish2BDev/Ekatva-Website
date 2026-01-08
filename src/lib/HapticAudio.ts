@@ -138,7 +138,7 @@ let shuffleSound: HapticAudio | null = null
  */
 export function getShuffleSound(): HapticAudio {
     if (!shuffleSound) {
-        shuffleSound = new HapticAudio('/sounds/card-slide.mp3')
+        shuffleSound = new HapticAudio('/sounds/card-shuffle.wav')
     }
     return shuffleSound
 }
