@@ -1668,41 +1668,44 @@ section {
     /* Reserve space for button */
 }
 
-/* Intelligent Containment: 4:3 ratio (Portrait Lock) for minimal letterboxing */
+/* Intelligent Containment: 16:10 ratio + contain for full image visibility */
 .memory-deck-stack {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 3;
-    /* 4:3 Compromise: Less letterboxing than 16:10, still uniform */
-    background-color: #050505;
-    /* Seamless letterbox blends with page */
+    aspect-ratio: 16 / 10;
+    /* Wide container accommodates all orientations */
+    background-color: #020202;
+    /* Deepest Obsidian Black */
     border-radius: 16px;
     overflow: hidden;
     /* Clip to rounded corners */
+
+    /* ITERATION 1: OBSIDIAN VIGNETTE */
+    /* Inner shadow creates illusion of deep space behind the image */
+    box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.9);
 }
 
-/* Card Base Styles - Flex centering with top bias for faces */
+/* Card Base Styles - Flex centering for natural image sizing */
 .memory-card {
     position: absolute;
     inset: 0;
     display: flex;
-    align-items: flex-start;
-    /* Align to top to reduce head cropping */
+    align-items: center;
     justify-content: center;
     border-radius: 16px;
     overflow: hidden;
-    border: 1px solid #333;
+
+    /* ITERATION 1: GLASS BEZEL */
+    /* Replaces flat border with light-reactive edge */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
     background-color: transparent;
-    /* Let stack's #050505 show through */
+    /* Let stack's #020202 show through */
+
     /* Enhanced physical depth */
     box-shadow:
-        0 4px 20px rgba(92, 230, 201, 0.15),
-        0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-.memory-card>div {
-    /* If using background-image on div, ensure it respects container */
-    background-position: center top !important;
+        0 4px 20px rgba(92, 230, 201, 0.1),
+        0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 /* Card Layers */
@@ -1723,8 +1726,8 @@ section {
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.08;
-    mix-blend-mode: overlay;
+    opacity: 0.04;
+    /* Removed blend-mode to ensure texture is visible on black void */
     pointer-events: none;
     z-index: 5;
     border-radius: 16px;
@@ -1742,11 +1745,15 @@ section {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: #fff;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 20px;
+    /* ITERATION 1: ETCHED GLASS LABEL */
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 6px;
     z-index: 10;
+    /* Slight shadow for separation */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /* Shuffle Button - Progressive Reveal Design */
