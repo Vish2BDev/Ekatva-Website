@@ -1595,8 +1595,22 @@ section {
    ============================================ */
 
 .gallery-section--hybrid {
+    position: relative;
     background-color: #050505;
     padding: 80px 0;
+}
+
+/* Section Entry Ceremony - Teal Gradient Divider */
+.gallery-section--hybrid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #5CE6C9, transparent);
+    opacity: 0.8;
 }
 
 .gallery-header {
@@ -1636,7 +1650,10 @@ section {
 .memory-deck-stack {
     position: relative;
     width: 100%;
-    aspect-ratio: 3 / 4;
+    /* WORLD-CLASS: Adaptive aspect ratio - content-aware framing */
+    aspect-ratio: auto;
+    min-height: 320px;
+    max-height: 480px;
     border-radius: 16px;
     overflow: visible;
 }
@@ -1649,7 +1666,10 @@ section {
     overflow: hidden;
     border: 1px solid #333;
     background-color: #0E2F36;
-    box-shadow: 0 4px 20px rgba(92, 230, 201, 0.1);
+    /* WORLD-CLASS: Enhanced physical depth */
+    box-shadow:
+        0 4px 20px rgba(92, 230, 201, 0.15),
+        0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 /* Card Layers */
@@ -1732,6 +1752,16 @@ section {
 .vibe-stream-container {
     margin-top: 100px;
     margin-bottom: 40px;
+}
+
+/* Vibe Stream Caption - Anchoring Element */
+.vibe-stream-caption {
+    text-align: center;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+    margin-top: 20px;
+    letter-spacing: 0.02em;
 }
 
 .vibe-stream {

@@ -152,6 +152,9 @@ export function GallerySection({ data, status, city }: GallerySectionProps) {
                     transition={{ delay: 0.4, duration: 0.6 }}
                 >
                     <VibeStream images={SLIDER_IMAGES} />
+                    <p className="vibe-stream-caption">
+                        Moments that made Ekatva unforgettable
+                    </p>
                 </motion.div>
 
                 {/* Download Action */}

@@ -172,8 +172,9 @@ export function MemoryDeck({ deckId, label, images, className = '' }: MemoryDeck
                 onClick={handleShuffle}
                 disabled={isLocked}
                 animate={{
-                    opacity: isHovered || isMobile ? 1 : 0,
-                    y: isHovered || isMobile ? 0 : 10
+                    opacity: isHovered || isMobile ? 1 : 0.6,
+                    y: 0,
+                    scale: 1
                 }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
