@@ -6,6 +6,8 @@
  * Hybrid architecture:
  * - 6 Interactive Shuffle Decks (3x2 grid)
  * - 1 Infinite Vibe Stream (full-bleed marquee)
+ * - Parallax depth on scroll
+ * - FLIP Lightbox for fullscreen view
  * 
  * Implements Iceberg Loading:
  * - Phase 1: Top cards only (LCP priority)
@@ -13,10 +15,12 @@
  * - Phase 3: n+2 on interaction
  */
 
-import { motion } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Download } from 'lucide-react'
 import { MemoryDeck } from './MemoryDeck'
 import { VibeStream } from './VibeStream'
+import { PhotoLightbox } from './PhotoLightbox'
 import type { GalleryData, EditionStatus } from '@/types/edition'
 
 interface GallerySectionProps {
@@ -103,76 +107,129 @@ const itemVariants = {
     },
 }
 
+// Type for active photo in lightbox
+interface ActivePhoto {
+    src: string
+    alt: string
+    layoutId: string
+}
+
 export function GallerySection({ data, status, city }: GallerySectionProps) {
+    // Lightbox state
+    const [activePhoto, setActivePhoto] = useState<ActivePhoto | null>(null)
+
+    // Parallax ref and scroll tracking
+    const sectionRef = useRef<HTMLElement>(null)
+    const { scrollYProgress } = useScroll({
+        target: sectionRef,
+        offset: ["start end", "end start"]
+    })
+
+    // Check for mobile (disable parallax on small screens)
+    const [isMobile, setIsMobile] = useState(false)
+    useEffect(() => {
+        const check = () => setIsMobile(window.innerWidth < 768)
+        check()
+        window.addEventListener('resize', check)
+        return () => window.removeEventListener('resize', check)
+    }, [])
+
+    // Subtle parallax: ±30px offset (disabled on mobile)
+    const gridY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [30, -30])
+
+    // Handler for opening lightbox
+    const handlePhotoClick = (src: string, alt: string, layoutId: string) => {
+        setActivePhoto({ src, alt, layoutId })
+    }
+
     // For completed editions with shuffle decks
     if (status === 'completed') {
         return (
-            <section className="gallery-section gallery-section--hybrid">
-                {/* Section Header */}
-                <motion.div
-                    className="gallery-header"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+            <>
+                <section
+                    ref={sectionRef}
+                    className="gallery-section gallery-section--hybrid"
                 >
-                    <h2 className="section-headline">
-                        Every Moment, <span className="text-gold">Every Memory</span>
-                    </h2>
-                    <p className="gallery-subheadline">
-                        Click to shuffle through the highlights
-                    </p>
-                </motion.div>
-
-                {/* Shuffle Deck Grid - 3x2 on Desktop */}
-                <motion.div
-                    className="memory-deck-grid"
-                    variants={containerVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                >
-                    {Object.entries(DECK_CONFIG).map(([deckId, deck]) => (
-                        <motion.div key={deckId} variants={itemVariants}>
-                            <MemoryDeck
-                                deckId={deckId}
-                                label={deck.label}
-                                images={deck.images}
-                            />
-                        </motion.div>
-                    ))}
-                </motion.div>
-
-                {/* Vibe Stream - Full Bleed Marquee */}
-                <motion.div
-                    className="vibe-stream-container"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
-                >
-                    <VibeStream images={SLIDER_IMAGES} />
-                    <p className="vibe-stream-caption">
-                        Moments that made Ekatva unforgettable
-                    </p>
-                </motion.div>
-
-                {/* Download Action */}
-                {data.downloadLink && (
+                    {/* Section Header */}
                     <motion.div
-                        className="gallery-actions"
+                        className="gallery-header"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.6 }}
+                        transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
                     >
-                        <a href={data.downloadLink} className="gallery-download" download>
-                            <Download size={16} style={{ marginRight: 8, verticalAlign: 'middle' }} />
-                            Download High-Res (ZIP)
-                        </a>
+                        <h2 className="section-headline">
+                            Every Moment, <span className="text-gold">Every Memory</span>
+                        </h2>
+                        <p className="gallery-subheadline">
+                            Click to shuffle through the highlights
+                        </p>
                     </motion.div>
-                )}
-            </section>
+
+                    {/* Shuffle Deck Grid - 3x2 on Desktop - WITH PARALLAX */}
+                    <motion.div
+                        className="memory-deck-grid"
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        style={{ y: gridY }}
+                    >
+                        {Object.entries(DECK_CONFIG).map(([deckId, deck]) => (
+                            <motion.div key={deckId} variants={itemVariants}>
+                                <MemoryDeck
+                                    deckId={deckId}
+                                    label={deck.label}
+                                    images={deck.images}
+                                    onPhotoClick={handlePhotoClick}
+                                />
+                            </motion.div>
+                        ))}
+                    </motion.div>
+
+                    {/* Vibe Stream - Full Bleed Marquee */}
+                    <motion.div
+                        className="vibe-stream-container"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.4, duration: 0.6 }}
+                    >
+                        <VibeStream images={SLIDER_IMAGES} />
+                        <p className="vibe-stream-caption">
+                            Moments that made Ekatva unforgettable
+                        </p>
+                    </motion.div>
+
+                    {/* Download Action */}
+                    {data.downloadLink && (
+                        <motion.div
+                            className="gallery-actions"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.6 }}
+                        >
+                            <a href={data.downloadLink} className="gallery-download" download>
+                                <Download size={16} style={{ marginRight: 8, verticalAlign: 'middle' }} />
+                                Download High-Res (ZIP)
+                            </a>
+                        </motion.div>
+                    )}
+                </section>
+
+                {/* FLIP Lightbox */}
+                <AnimatePresence>
+                    {activePhoto && (
+                        <PhotoLightbox
+                            imageSrc={activePhoto.src}
+                            imageAlt={activePhoto.alt}
+                            layoutId={activePhoto.layoutId}
+                            onClose={() => setActivePhoto(null)}
+                        />
+                    )}
+                </AnimatePresence>
+            </>
         )
     }
 

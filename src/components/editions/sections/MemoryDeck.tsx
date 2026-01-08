@@ -5,7 +5,8 @@
  * 
  * Implements the "Digital Memory Box" metaphor:
  * - 3 stacked cards with subtle rotation
- * - Click to shuffle with elegant animation
+ * - Click to shuffle with elegant animation + haptic sound
+ * - Click card to open in lightbox (FLIP animation)
  * - Film grain overlay for nostalgia
  * - Category label with glass pill effect
  * 
@@ -15,18 +16,26 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { RefreshCw } from 'lucide-react'
+import { getShuffleSound } from '@/lib/HapticAudio'
 
 interface MemoryDeckProps {
     deckId: string
     label: string
     images: string[]
     className?: string
+    onPhotoClick?: (src: string, alt: string, layoutId: string) => void
 }
 
 // Random rotation between -2° and +2° (Ekatva brand: harmony, not chaos)
 const getRandomRotation = () => (Math.random() * 4 - 2)
 
-export function MemoryDeck({ deckId, label, images, className = '' }: MemoryDeckProps) {
+export function MemoryDeck({
+    deckId,
+    label,
+    images,
+    className = '',
+    onPhotoClick
+}: MemoryDeckProps) {
     const prefersReducedMotion = useReducedMotion()
 
     // Circular buffer state
@@ -63,9 +72,18 @@ export function MemoryDeck({ deckId, label, images, className = '' }: MemoryDeck
     const backIndex = (cursor + 1) % images.length
     const shadowIndex = (cursor + 2) % images.length
 
+    // Generate unique layoutId for FLIP animation
+    const currentLayoutId = `photo-${deckId}-${topIndex}`
+
     // Shuffle handler with lock to prevent animation overlap
-    const handleShuffle = useCallback(() => {
+    const handleShuffle = useCallback((e: React.MouseEvent) => {
+        // Prevent click from bubbling to card
+        e.stopPropagation()
+
         if (isLocked) return
+
+        // Play haptic sound - the magic touch! 🎯
+        getShuffleSound().play()
 
         if (prefersReducedMotion) {
             // For reduced motion, just swap instantly
@@ -90,6 +108,17 @@ export function MemoryDeck({ deckId, label, images, className = '' }: MemoryDeck
         }, 400)
     }, [isLocked, prefersReducedMotion])
 
+    // Handle card click for lightbox (not shuffle button)
+    const handleCardClick = useCallback(() => {
+        if (onPhotoClick) {
+            onPhotoClick(
+                images[topIndex],
+                `${label} - Photo ${topIndex + 1}`,
+                currentLayoutId
+            )
+        }
+    }, [onPhotoClick, images, topIndex, label, currentLayoutId])
+
     return (
         <div
             className={`memory-deck ${className}`}
@@ -97,7 +126,14 @@ export function MemoryDeck({ deckId, label, images, className = '' }: MemoryDeck
             onMouseLeave={() => setIsHovered(false)}
         >
             {/* Card Stack Container */}
-            <div className="memory-deck-stack">
+            <div
+                className="memory-deck-stack"
+                onClick={handleCardClick}
+                role={onPhotoClick ? "button" : undefined}
+                tabIndex={onPhotoClick ? 0 : undefined}
+                aria-label={onPhotoClick ? `View ${label} in full screen` : undefined}
+                style={{ cursor: onPhotoClick ? 'pointer' : 'default' }}
+            >
                 {/* Shadow Card (z-index: 1) */}
                 <motion.div
                     className="memory-card memory-card--shadow"
@@ -136,6 +172,7 @@ export function MemoryDeck({ deckId, label, images, className = '' }: MemoryDeck
                 <AnimatePresence mode="popLayout">
                     <motion.div
                         key={topIndex}
+                        layoutId={currentLayoutId}
                         className="memory-card memory-card--top"
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{
